@@ -1,0 +1,1113 @@
+INFO - [♥] Lovely 0.6.0
+INFO - [♥] Game directory is at "C:\\Users\\ramosalves\\Desktop\\laura\\Balatro"
+INFO - [♥] Writing logs to "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods"
+WARN - [♥] Unknown key `patches.15.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco-main\\lovely.toml", ignoring it
+WARN - [♥] Unknown key `patches.46.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\fixes.toml", ignoring it
+WARN - [♥] Unknown key `patches.3.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\rarity.toml", ignoring it
+INFO - [♥] Cleaning up dumps directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 2078ms
+WARN - [♥] Pattern 'G.ARGS.score_intensity.organ = G.video_organ or G.ARGS.score_intensity.required_score > 0 and math.max(math.min(0.4, 0.1*math.log(G.ARGS.score_intensity.earned_score/(G.ARGS.score_intensity.required_score+1), 5)),0.) or 0' on target 'main.lua' resulted in no matches
+WARN - [♥] Pattern 'if type(G.GAME.current_round.current_hand.chips) ~= \'number\' or type(G.GAME.current_round.current_hand.mult) ~= \'number\' then' on target 'main.lua' resulted in no matches
+WARN - [♥] Pattern 'modded and {' on target 'main.lua' resulted in no matches
+INFO - [♥] Applied 31 patches to 'main.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [♥] Applied 6 patches to 'engine/controller.lua'
+INFO - [♥] Applied 17 patches to 'back.lua'
+INFO - [♥] Applied 9 patches to 'tag.lua'
+INFO - [♥] Applied 3 patches to 'engine/node.lua'
+INFO - [♥] Applied 2 patches to 'engine/moveable.lua'
+INFO - [♥] Applied 2 patches to 'engine/sprite.lua'
+INFO - [♥] Applied 2 patches to 'engine/animatedsprite.lua'
+WARN - [♥] Pattern 'assembled_string = assembled_string..(type(subpart) == \'string\' and subpart or args.vars[tonumber(subpart[1])] or \'ERROR\')' on target 'functions/misc_functions.lua' resulted in no matches
+INFO - [♥] Applied 50 patches to 'functions/misc_functions.lua'
+INFO - [♥] Applied 64 patches to 'game.lua'
+INFO - [♥] Applied 4 patches to 'globals.lua'
+WARN - [♥] Pattern 'self.config.chosen = true' on target 'engine/ui.lua' resulted in no matches
+INFO - [♥] Applied 7 patches to 'engine/ui.lua'
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].chips, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}},' on target 'functions/UI_definitions.lua' resulted in no matches
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].mult, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}' on target 'functions/UI_definitions.lua' resulted in no matches
+INFO - [♥] Applied 91 patches to 'functions/UI_definitions.lua'
+WARN - [♥] Pattern 'reset_idol_card()\nreset_mail_rank()\nreset_ancient_card()\nreset_castle_card()\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '--calculate the card edition effects\nif effects[ii].edition then\n    hand_chips = mod_chips(hand_chips + (effects[ii].edition.chip_mod or 0))\n    mult = mult + (effects[ii].edition.mult_mod or 0)\n    mult = mod_mult(mult*(effects[ii].edition.x_mult_mod or 1))\n    update_hand_text({delay = 0}, {\n        chips = effects[ii].edition.chip_mod and hand_chips or nil,\n        mult = (effects[ii].edition.mult_mod or effects[ii].edition.x_mult_mod) and mult or nil,\n    })\n    card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, {\n        message = (effects[ii].edition.chip_mod and localize{type=\'variable\',key=\'a_chips\',vars={effects[ii].edition.chip_mod}}) or\n                (effects[ii].edition.mult_mod and localize{type=\'variable\',key=\'a_mult\',vars={effects[ii].edition.mult_mod}}) or\n                (effects[ii].edition.x_mult_mod and localize{type=\'variable\',key=\'a_xmult\',vars={effects[ii].edition.x_mult_mod}}),\n        chip_mod =  effects[ii].edition.chip_mod,\n        mult_mod =  effects[ii].edition.mult_mod,\n        x_mult_mod =  effects[ii].edition.x_mult_mod,\n        colour = G.C.DARK_EDITION,\n        edition = true})\nend\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '    scoring_hand[i].lucky_trigger = nil\n\n        for ii = 1, #effects do\n        --If chips added, do chip add event and add the chips to the total\n        if effects[ii].chips then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            hand_chips = mod_chips(hand_chips + effects[ii].chips)\n            update_hand_text({delay = 0}, {chips = hand_chips})\n            card_eval_status_text(scoring_hand[i], \'chips\', effects[ii].chips, percent)\n        end\n\n        --If mult added, do mult add event and add the mult to the total\n        if effects[ii].mult then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            mult = mod_mult(mult + effects[ii].mult)\n            update_hand_text({delay = 0}, {mult = mult})\n            card_eval_status_text(scoring_hand[i], \'mult\', effects[ii].mult, percent)\n        end\n\n        --If play dollars added, add dollars to total\n        if effects[ii].p_dollars then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            ease_dollars(effects[ii].p_dollars)\n            card_eval_status_text(scoring_hand[i], \'dollars\', effects[ii].p_dollars, percent)\n        end\n\n        --If dollars added, add dollars to total\n        if effects[ii].dollars then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            ease_dollars(effects[ii].dollars)\n            card_eval_status_text(scoring_hand[i], \'dollars\', effects[ii].dollars, percent)\n        end\n\n        --Any extra effects\n        if effects[ii].extra then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            local extras = {mult = false, hand_chips = false}\n            if effects[ii].extra.mult_mod then mult =mod_mult( mult + effects[ii].extra.mult_mod);extras.mult = true end\n            if effects[ii].extra.chip_mod then hand_chips = mod_chips(hand_chips + effects[ii].extra.chip_mod);extras.hand_chips = true end\n            if effects[ii].extra.swap then \n                local old_mult = mult\n                mult = mod_mult(hand_chips)\n                hand_chips = mod_chips(old_mult)\n                extras.hand_chips = true; extras.mult = true\n            end\n            if effects[ii].extra.func then effects[ii].extra.func() end\n            update_hand_text({delay = 0}, {chips = extras.hand_chips and hand_chips, mult = extras.mult and mult})\n            card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)\n        end\n\n        --If x_mult added, do mult add event and mult the mult to the total\n        if effects[ii].x_mult then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            mult = mod_mult(mult*effects[ii].x_mult)\n            update_hand_text({delay = 0}, {mult = mult})\n            card_eval_status_text(scoring_hand[i], \'x_mult\', effects[ii].x_mult, percent)\n        end\n\n\n        end\n    end\nend\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'local percent = (i-0.999)/(#G.hand.cards-0.998) + (j-1)*0.1' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].card then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects.jokers.Xmult_mod then mult = mod_mult(mult*effects.jokers.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effect.Xmult_mod then mult = mod_mult(mult*effect.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].message then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '--calculate the card edition effects' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].edition.p_dollars_mod then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if edition_effects.jokers.x_mult_mod then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'debuff\')' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'for j=1,#reps do' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'G.jokers.cards[i]:calculate_perishable()' on target 'functions/state_events.lua' resulted in no matches
+INFO - [♥] Applied 70 patches to 'functions/state_events.lua'
+WARN - [♥] Regex '(?<indent>[\\t ]*)if G\\.F_NO_ACHIEVEMENTS then return end\\n[\\s\\S][\\s\\S]{16}--\\|LOCAL SETTINGS FILE' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'info_queue[#info_queue + 1] = G.P_CENTERS[\'e_\'..v]' on target 'functions/common_events.lua' resulted in no matches
+INFO - [♥] Applied 130 patches to 'functions/common_events.lua'
+WARN - [♥] Pattern 'G.pack_cards:emplace(v)' on target 'functions/button_callbacks.lua' resulted in no matches
+WARN - [♥] Pattern 'G.jokers.cards[i]:calculate_joker({skip_blind = true})' on target 'functions/button_callbacks.lua' resulted in no matches
+INFO - [♥] Applied 59 patches to 'functions/button_callbacks.lua'
+WARN - [♥] Pattern 'if G.GAME.blind then G.E_MANAGER:add_event(Event({ func = function() G.GAME.blind:set_blind(nil, true, nil); return true end })) end' on target 'card.lua' resulted in no matches
+WARN - [♥] Pattern 'if (self.edition and (self.edition.negative or self.edition.cry_oversat)) or (self.ability.name == \'Antimatter\' and (self.config.center.discovered or self.bypass_discovery_center)) then' on target 'card.lua' resulted in no matches
+WARN - [♥] Regex '(?<indent>[\t ]*)for\\s+i\\s*=\\s*1,\\s*#G\\.jokers\\.cards\\s*do\\s*\\n[\\t ]*G\\.jokers\\.cards\\[i\\]:calculate_joker\\(\\{\\s*open_booster\\s*=\\s*true,\\s*card\\s*=\\s*self\\s*\\}\\)\\s*\\n[\\t ]*end' on target 'card.lua' resulted in no matches
+INFO - [♥] Applied 200 patches to 'card.lua'
+INFO - [♥] Applied 20 patches to 'cardarea.lua'
+INFO - [♥] Applied 33 patches to 'blind.lua'
+INFO - [♥] Applied 5 patches to 'engine/text.lua'
+INFO - [G] Totally applied 4 replacements to overrides.lua
+INFO - [G] Failed to connect to the debug server
+INFO - [G] 2025-01-20 10:27:51 :: DEBUG :: DebugConsole :: Steamodded Debug Socket started !
+INFO - [G] [Blueprint] Starting to load config
+INFO - [G] [Blueprint] Reading config file: 
+INFO - [G] [Blueprint] return {
+	["INTERNAL_debug"] = false,
+	["hello"] = true,
+}
+INFO - [♥] Applied 9 patches to 'engine/sound_manager.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [G] Loaded all Blueprint mod shaders successfully
+INFO - [G] {
+  [1] = table: 0x36c6b940   {
+     [1] = 0.99607843137255,
+     [2] = 0.37254901960784,
+     [3] = 0.33333333333333,
+     [4] = 1,
+   },
+  [2] = table: 0x36c6b9d8   {
+     [1] = 0,
+     [2] = 0.6156862745098,
+     [3] = 1,
+     [4] = 1,
+   },
+}
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): BBBalatro_code.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: BBBalatro
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): olympus.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: Olympus
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: blueprint
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Bunco.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: Bunco
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: cartomancer
+INFO - [G] 2025-01-20 10:27:54 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): TarotDx.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: JeffDeluxeConsumablesPack
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): datealive.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: datealive
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Distro.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: Distro
+INFO - [G] 2025-01-20 10:27:54 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): FloundersJokers.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: flounderjokers
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: Handy
+INFO - [G] 2025-01-20 10:27:54 :: WARN  :: Loader :: Found lone Lua file HoldForFinalHandScore.lua in Mods directory :: Please place the files for each mod in its own subdirectory.
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): HoldForFinalHandScore.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: HoldForFinalHandScore
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): IncreaseJokerCap.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: IncreaseJokerCap
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankChallenges.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: JankChallenges
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankJonklers.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: JankJonklersMod
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Aurinko.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: aurinko
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Incantation.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: incantation
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): JenLib.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: JenLib
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Loop.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: loop
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): Nopeus.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: nopeus
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: joker_evolution
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Processing Mod file (Legacy header): JokerDisplay.lua
+INFO - [G] 2025-01-20 10:27:54 :: TRACE :: Loader :: Saving Mod Info: JokerDisplay
+INFO - [G] 2025-01-20 10:27:55 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoreFluff.lua
+INFO - [G] 2025-01-20 10:27:55 :: TRACE :: Loader :: Saving Mod Info: MoreFluff
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoreJokerPacks.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: MoreJokerPacks
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): PampaJokers.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: mtl_jkr
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: sdm0sstuff
+INFO - [G] 2025-01-20 10:27:56 :: WARN  :: Loader :: Found lone Lua file ShopStake.lua in Mods directory :: Please place the files for each mod in its own subdirectory.
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): ShopStake.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: ShopStakeMod
+INFO - [G] 2025-01-20 10:27:56 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/SnoresvilleTurbulentJokers/SnoresvilleTurbulentJokers.json, ignoring: [SMODS _ "src/loader.lua"]:105: attempt to call method 'gmatch' (a nil value)
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): SnowMods.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: SnowHolidayJokers
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): Taikomochi.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: Taikomochi
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded_metadata.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: Talisman
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedDecks.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: ThemedDecks
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedJokers.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: ThemedJokers
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedTarots.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: ThemedTarots
+INFO - [G] 2025-01-20 10:27:56 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Themed.Jokers/manifest.json, ignoring: [SMODS _ "src/loader.lua"]:226: id
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Processing Mod file (Legacy header): MultiJokers.lua
+INFO - [G] 2025-01-20 10:27:56 :: TRACE :: Loader :: Saving Mod Info: MultiJokersMod
+INFO - [G] 2025-01-20 10:27:56 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/paperback-0.4.2/.vscode/settings.json, ignoring: [SMODS _ "src/loader.lua"]:226: id
+INFO - [G] 2025-01-20 10:27:57 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-20 10:27:57 :: TRACE :: Loader :: Processing Mod file (Legacy header): sevendeadlysins.lua
+INFO - [G] 2025-01-20 10:27:57 :: TRACE :: Loader :: Saving Mod Info: 7deadlysins
+INFO - [G] 2025-01-20 10:27:58 :: WARN  :: Challenge :: Detected duplicate register call on object c_mad_world_1
+INFO - [G] basepaul_card
+INFO - [G] clownfish
+INFO - [G] expansion_pack
+INFO - [G] hollow
+INFO - [G] jester
+INFO - [G] lollipop
+INFO - [G] luckycharm
+INFO - [G] monochrome
+INFO - [G] mspaint
+INFO - [G] simplified
+INFO - [G] spiral
+INFO - [G] treasuremap
+INFO - [G] philosophical
+INFO - [G] badlegaldefence
+INFO - [G] clipart
+INFO - [G] dropkick
+INFO - [G] bladedance
+INFO - [G] hyperbeam
+INFO - [G] blasphemy
+INFO - [G] dramaticentrance
+INFO - [G] coupon_catalogue
+INFO - [G] css
+INFO - [G] globe
+INFO - [G] goldencarrot
+INFO - [G] hallofmirrors
+INFO - [G] impostor
+INFO - [G] tonersoup
+INFO - [G] loadeddisk
+INFO - [G] stylemeter
+INFO - [G] teacup
+INFO - [G] recycling
+INFO - [G] virtual
+INFO - [G] bloodpact
+INFO - [G] bowlingball
+INFO - [G] cba
+INFO - [G] fleshprison
+INFO - [G] hugejoker
+INFO - [G] jankman
+INFO - [G] mashupalbum
+INFO - [G] pixeljoker
+INFO - [G] rainbowjoker
+INFO - [G] rosetinted
+INFO - [G] the_solo
+INFO - [G] triangle
+INFO - [G] colorem
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: calling_card
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: quick_fix
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: sacrificial_lamb
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: wish_you_were_here
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: stamp
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: solar_system
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: furioso
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: pride_flag
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: pool_table
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: summoning_circle
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: hole_in_one
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: derecho
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: skydiver
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: solemn_lament
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: ghost_cola
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: mismatched_sock
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: shopping_center
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: union_card
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: nachos
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: complete_breakfast
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: reference_card
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: crispy_taco
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: soft_taco
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: prince_of_darkness
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: emergency_broadcast
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: triple_moon_goddess
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: wild_prize
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: bicycle
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: grand_strategy
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: great_wave
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: let_it_happen
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: dreamsicle
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: popsicle_stick
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: cakepop
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: pop_stick
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: caramel_apple
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: pointy_stick
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: charred_marshmallow
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: sticky_stick
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: paranoia
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: subterfuge
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: unholy_alliance
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: cherry_blossoms
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: blue_bonnets
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: autumn_leaves
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: evergreens
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: river
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: moribund
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: jimbo_adventure
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: joker_cookie
+INFO - [G] 2025-01-20 10:27:58 :: DEBUG :: Paperback :: Loaded joker: jestrica
+INFO - [G] 2025-01-20 10:27:58 :: WARN  :: Atlas :: Detected duplicate register call on object ExtraCredit_ECjokers
+INFO - [G] 2025-01-20 10:27:58 :: INFO  :: DX :: Deluxe Consumables Cards Loaded
+INFO - [G] 2025-01-20 10:27:58 :: INFO  :: DX :: Bunco Loaded
+INFO - [G] 2025-01-20 10:27:58 :: INFO  :: TIMER :: [0000] Injected Language in 0.002 ms
+INFO - [G] 2025-01-20 10:27:58 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 17.976 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0163] Injected Atlas in 2723.992 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0019] Injected Sound in 287.201 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0012] Injected Stake in 1.758 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0005] Injected Rarity in 0.158 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0006] Injected ObjectType in 0.389 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0729] Injected Center in 22.531 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0009] Injected Undiscovered Sprite in 0.034 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0027] Injected Blind in 0.139 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0004] Injected Seal in 1.162 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0006] Injected Suit in 1.018 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0013] Injected Rank in 1.468 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0016] Injected DeckSkin in 0.266 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0017] Injected PokerHand in 0.912 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0027] Injected Challenge in 0.106 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0018] Injected Tag in 1.152 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0007] Injected Sticker in 1.572 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0004] Injected Shader in 320.521 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0001] Injected Keybind in 0.013 ms
+INFO - [G] 2025-01-20 10:28:01 :: INFO  :: TIMER :: [0006] Injected Achievement in 0.668 ms
+INFO - [G] 2025-01-20 10:28:02 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 201.995 ms
+INFO - [G] 2025-01-20 10:28:06 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:06 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] Distro :: Failed to connect to Discord IPC
+INFO - [G] LONG DT @ 20: 0.1
+INFO - [G] LONG DT @ 20: 0.08723478
+INFO - [G] LONG DT @ 20: 0.076202324
+INFO - [G] LONG DT @ 21: 0.0684621192
+INFO - [G] LONG DT @ 21: 0.05739423536
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:22 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] ERROR LOADING GAME: Card area 'shop_jokers' not instantiated before load
+INFO - [G] ERROR LOADING GAME: Card area 'shop_vouchers' not instantiated before load
+INFO - [G] ERROR LOADING GAME: Card area 'shop_booster' not instantiated before load
+INFO - [G] 2025-01-20 10:28:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:25 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:28:40 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 51: 0.072310829628508
+INFO - [G] LONG DT @ 51: 0.061161423702807
+INFO - [G] LONG DT @ 51: 0.052853518962245
+INFO - [G] 2025-01-20 10:29:03 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:03 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:03 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:03 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:05 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:05 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 75: 0.052612136059367
+INFO - [G] LONG DT @ 103: 0.050709842820935
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] Distro :: Failed to connect to Discord IPC
+INFO - [G] 2025-01-20 10:29:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:52 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:57 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:29:57 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 50: 0.061806768680739
+INFO - [G] LONG DT @ 50: 0.053112614944592
+INFO - [G] LONG DT @ 79: 0.057994825645158
+INFO - [G] LONG DT @ 79: 0.081092180516127
+INFO - [G] LONG DT @ 79: 0.068168604412901
+INFO - [G] LONG DT @ 79: 0.061270983530322
+INFO - [G] LONG DT @ 79: 0.052255586824254
+INFO - [G] LONG DT @ 107: 0.063036068326023
+INFO - [G] LONG DT @ 107: 0.053343994660823
+INFO - [G] 2025-01-20 10:32:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:32:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:32:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:32:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 152: 0.052934120094129
+INFO - [G] LONG DT @ 152: 0.089458876075304
+INFO - [G] LONG DT @ 152: 0.074460320860242
+INFO - [G] LONG DT @ 152: 0.062852776688193
+INFO - [G] LONG DT @ 152: 0.053771861350552
+INFO - [G] LONG DT @ 187: 0.057619585910135
+INFO - [G] LONG DT @ 187: 0.050994728728111
+INFO - [G] 2025-01-20 10:33:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:33:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:33:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:33:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:33:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 253: 0.057448062542375
+INFO - [G] 2025-01-20 10:33:57 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:10 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 271: 0.05617663351081
+INFO - [G] 2025-01-20 10:34:14 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:27 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 298: 0.058037896750534
+INFO - [G] 2025-01-20 10:34:37 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:34:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 331: 0.059418724334352
+INFO - [G] LONG DT @ 331: 0.052292999467479
+INFO - [G] LONG DT @ 354: 0.053775972147607
+INFO - [G] LONG DT @ 369: 0.066039642365134
+INFO - [G] LONG DT @ 369: 0.057392453892107
+INFO - [G] 2025-01-20 10:36:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 423: 0.086613543605074
+INFO - [G] LONG DT @ 423: 0.1
+INFO - [G] LONG DT @ 423: 0.083087299999993
+INFO - [G] LONG DT @ 423: 0.069821779999988
+INFO - [G] LONG DT @ 423: 0.059328544000007
+INFO - [G] LONG DT @ 424: 0.050618895199998
+INFO - [G] 2025-01-20 10:36:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:53 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:36:53 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 435: 0.050384640809876
+INFO - [G] 2025-01-20 10:36:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:37:21 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:37:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:37:25 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:37:25 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 484: 0.067669243968171
+INFO - [G] LONG DT @ 484: 0.067103875174555
+INFO - [G] LONG DT @ 484: 0.1
+INFO - [G] LONG DT @ 484: 0.083846060000001
+INFO - [G] LONG DT @ 484: 0.070486588000007
+INFO - [G] LONG DT @ 484: 0.062212110400002
+INFO - [G] LONG DT @ 485: 0.055516768319993
+INFO - [G] LONG DT @ 524: 0.077421624024789
+INFO - [G] LONG DT @ 524: 0.065861039219836
+INFO - [G] LONG DT @ 524: 0.05889567137585
+INFO - [G] LONG DT @ 524: 0.051560697100683
+INFO - [G] 2025-01-20 10:38:28 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:38:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 535: 0.05593265777508
+INFO - [G] 2025-01-20 10:38:37 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:38:48 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 556: 0.063668508658594
+INFO - [G] LONG DT @ 556: 0.057038346926879
+INFO - [G] LONG DT @ 556: 0.050103777541498
+INFO - [G] 2025-01-20 10:38:57 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:38:58 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:38:58 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:39:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:39:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:39:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:39:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:39:25 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 590: 0.061571332458568
+INFO - [G] LONG DT @ 591: 0.053282285966871
+INFO - [G] LONG DT @ 700: 0.074546547322672
+INFO - [G] LONG DT @ 700: 0.063020757858149
+INFO - [G] LONG DT @ 700: 0.054568186286526
+INFO - [G] LONG DT @ 773: 0.1
+INFO - [G] LONG DT @ 773: 0.085875639999999
+INFO - [G] LONG DT @ 773: 0.073313431999999
+INFO - [G] LONG DT @ 773: 0.063877965600005
+INFO - [G] LONG DT @ 774: 0.055834852479988
+INFO - [G] LONG DT @ 774: 0.050160481983993
+INFO - [G] LONG DT @ 778: 0.050259195559694
+INFO - [G] 2025-01-20 10:43:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 848: 0.1
+INFO - [G] LONG DT @ 848: 0.082428980000013
+INFO - [G] LONG DT @ 848: 0.069283243999993
+INFO - [G] LONG DT @ 848: 0.059020595199993
+INFO - [G] LONG DT @ 848: 0.050502596160001
+INFO - [G] LONG DT @ 852: 0.055593481222113
+INFO - [G] LONG DT @ 909: 0.1
+INFO - [G] LONG DT @ 909: 0.082352959999962
+INFO - [G] LONG DT @ 909: 0.069270627999989
+INFO - [G] LONG DT @ 909: 0.058805402399973
+INFO - [G] LONG DT @ 909: 0.050280721919993
+INFO - [G] LONG DT @ 986: 0.1
+INFO - [G] LONG DT @ 986: 0.084899519999981
+INFO - [G] LONG DT @ 986: 0.075344495999992
+INFO - [G] LONG DT @ 986: 0.067809476799977
+INFO - [G] LONG DT @ 986: 0.061389001439998
+INFO - [G] LONG DT @ 986: 0.05331478115201
+INFO - [G] 2025-01-20 10:47:37 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:08 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:08 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:08 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:30 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:48:34 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1133: 0.077121304788913
+INFO - [G] LONG DT @ 1133: 0.1
+INFO - [G] LONG DT @ 1133: 0.082436780000016
+INFO - [G] LONG DT @ 1133: 0.069256244000002
+INFO - [G] LONG DT @ 1133: 0.05876065519999
+INFO - [G] LONG DT @ 1133: 0.050379964159993
+INFO - [G] LONG DT @ 1137: 0.056629446885517
+INFO - [G] LONG DT @ 1154: 0.053068814740971
+INFO - [G] LONG DT @ 1216: 0.1
+INFO - [G] LONG DT @ 1216: 0.084310039999973
+INFO - [G] LONG DT @ 1216: 0.071950232000003
+INFO - [G] LONG DT @ 1216: 0.063139805599983
+INFO - [G] LONG DT @ 1216: 0.054939584480014
+INFO - [G] 2025-01-20 10:50:06 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1237: 0.073386166410674
+INFO - [G] LONG DT @ 1237: 0.065587973128552
+INFO - [G] LONG DT @ 1237: 0.057306478502853
+INFO - [G] LONG DT @ 1237: 0.051524902802271
+INFO - [G] 2025-01-20 10:50:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:28 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:52 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:52 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:52 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:52 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:50:54 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:51:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:51:14 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1293: 0.060953868714299
+INFO - [G] LONG DT @ 1293: 0.1
+INFO - [G] LONG DT @ 1293: 0.084192640000019
+INFO - [G] LONG DT @ 1293: 0.071819731999989
+INFO - [G] LONG DT @ 1293: 0.061395785600003
+INFO - [G] LONG DT @ 1293: 0.052824448480002
+INFO - [G] LONG DT @ 1297: 0.059192191588247
+INFO - [G] LONG DT @ 1320: 0.059902692015836
+INFO - [G] LONG DT @ 1320: 0.051932633612703
+INFO - [G] LONG DT @ 1324: 0.053983622540121
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:52:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1347: 0.071613102350487
+INFO - [G] LONG DT @ 1347: 0.061199761880406
+INFO - [G] LONG DT @ 1347: 0.053081829504302
+INFO - [G] LONG DT @ 1376: 0.068127502468687
+INFO - [G] LONG DT @ 1376: 0.058496421974931
+INFO - [G] LONG DT @ 1376: 0.051384317579943
+INFO - [G] 2025-01-20 10:52:45 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:29 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1433: 0.1
+INFO - [G] LONG DT @ 1433: 0.08582645999998
+INFO - [G] LONG DT @ 1433: 0.075306807999972
+INFO - [G] LONG DT @ 1433: 0.0646323064
+INFO - [G] LONG DT @ 1434: 0.056153025119988
+INFO - [G] 2025-01-20 10:53:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:46 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:58 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:53:58 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:06 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:08 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:13 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:16 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1474: 0.079583998144029
+INFO - [G] LONG DT @ 1474: 0.0676100785152
+INFO - [G] LONG DT @ 1474: 0.058761822812174
+INFO - [G] LONG DT @ 1474: 0.05162269824972
+INFO - [G] 2025-01-20 10:54:21 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:24 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:28 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:54:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1505: 0.052642242841238
+INFO - [G] LONG DT @ 1505: 0.085413834272976
+INFO - [G] LONG DT @ 1505: 0.072521207418418
+INFO - [G] LONG DT @ 1505: 0.061095925934728
+INFO - [G] LONG DT @ 1505: 0.052013180747762
+INFO - [G] 2025-01-20 10:54:51 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1509: 0.056518670759765
+INFO - [G] LONG DT @ 1530: 0.061295236355265
+INFO - [G] LONG DT @ 1530: 0.054654129084214
+INFO - [G] 2025-01-20 10:55:35 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1554: 0.08319640360201
+INFO - [G] LONG DT @ 1554: 0.071792302881608
+INFO - [G] LONG DT @ 1555: 0.061938382305303
+INFO - [G] LONG DT @ 1555: 0.057017405844228
+INFO - [G] LONG DT @ 1555: 0.05009836467537
+INFO - [G] 2025-01-20 10:55:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:55:45 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:55:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1579: 0.056301749482748
+INFO - [G] 2025-01-20 10:56:03 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:56:07 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:56:07 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:56:07 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:56:16 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1604: 0.067043958575233
+INFO - [G] LONG DT @ 1604: 0.057237146860172
+INFO - [G] 2025-01-20 10:56:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:56:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1633: 0.062482700120509
+INFO - [G] LONG DT @ 1633: 0.054501020096425
+INFO - [G] 2025-01-20 10:57:00 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:19 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:19 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:57:20 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1689: 0.065277346106294
+INFO - [G] LONG DT @ 1689: 0.056503476885048
+INFO - [G] LONG DT @ 1690: 0.051198081508033
+INFO - [G] 2025-01-20 10:57:59 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1708: 0.051852134888728
+INFO - [G] 2025-01-20 10:58:10 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:24 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1722: 0.061502249734783
+INFO - [G] LONG DT @ 1722: 0.0547194997878
+INFO - [G] 2025-01-20 10:58:26 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:37 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:43 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:58:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1756: 0.062734423870442
+INFO - [G] LONG DT @ 1756: 0.055708879096349
+INFO - [G] 2025-01-20 10:59:01 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1771: 0.062962294560668
+INFO - [G] LONG DT @ 1771: 0.056110915648541
+INFO - [G] LONG DT @ 1771: 0.050019832518805
+INFO - [G] 2025-01-20 10:59:47 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 10:59:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1825: 0.053161737740156
+INFO - [G] LONG DT @ 1825: 0.062625850192138
+INFO - [G] LONG DT @ 1825: 0.1
+INFO - [G] LONG DT @ 1825: 0.084658340000015
+INFO - [G] LONG DT @ 1825: 0.071830011999995
+INFO - [G] LONG DT @ 1825: 0.062235209600001
+INFO - [G] LONG DT @ 1825: 0.054893267680038
+INFO - [G] 2025-01-20 11:00:12 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:00:13 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:00:19 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 1839: 0.068340972011824
+INFO - [G] LONG DT @ 1839: 0.060545137609471
+INFO - [G] LONG DT @ 1839: 0.054442410087567
+INFO - [G] LONG DT @ 1997: 0.1
+INFO - [G] LONG DT @ 1997: 0.082317399999993
+INFO - [G] LONG DT @ 1997: 0.068017619999977
+INFO - [G] LONG DT @ 1997: 0.057636816000012
+INFO - [G] LONG DT @ 2001: 0.060557416225965
+INFO - [G] LONG DT @ 2001: 0.052812812980769
+INFO - [G] LONG DT @ 2073: 0.057384011680392
+INFO - [G] LONG DT @ 2073: 0.052781129344312
+INFO - [G] LONG DT @ 2073: 0.07356348347546
+INFO - [G] LONG DT @ 2073: 0.1
+INFO - [G] LONG DT @ 2073: 0.08313812000004
+INFO - [G] LONG DT @ 2073: 0.069887996000019
+INFO - [G] LONG DT @ 2073: 0.059310776800055
+INFO - [G] LONG DT @ 2073: 0.052023841440014
+INFO - [G] 2025-01-20 11:04:18 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:04:18 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:04:18 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:04:18 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2077: 0.059086995816952
+INFO - [G] 2025-01-20 11:04:35 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:04:36 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:04:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:05:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2157: 0.1
+INFO - [G] LONG DT @ 2157: 0.083494500000033
+INFO - [G] LONG DT @ 2157: 0.070040060000068
+INFO - [G] LONG DT @ 2157: 0.059386667999991
+INFO - [G] LONG DT @ 2157: 0.05112593439998
+INFO - [G] 2025-01-20 11:05:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:33 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:33 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:42 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:42 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:06:55 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:07:07 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:07:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:07:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2265: 0.050015371580224
+INFO - [G] LONG DT @ 2265: 0.065332577264139
+INFO - [G] LONG DT @ 2265: 0.069688141811362
+INFO - [G] LONG DT @ 2265: 0.1
+INFO - [G] LONG DT @ 2265: 0.082759979999973
+INFO - [G] LONG DT @ 2266: 0.069507143999985
+INFO - [G] LONG DT @ 2266: 0.058944335199965
+INFO - [G] LONG DT @ 2266: 0.050569868159991
+INFO - [G] LONG DT @ 2295: 0.059775548582129
+INFO - [G] LONG DT @ 2295: 0.053345478865678
+INFO - [G] LONG DT @ 2316: 0.074864361643332
+INFO - [G] LONG DT @ 2316: 0.065990029314705
+INFO - [G] LONG DT @ 2316: 0.057677683451709
+INFO - [G] LONG DT @ 2316: 0.05110714676136
+INFO - [G] 2025-01-20 11:08:23 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:09:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2389: 0.058489161517769
+INFO - [G] LONG DT @ 2389: 0.069638789214264
+INFO - [G] LONG DT @ 2389: 0.078457651371409
+INFO - [G] LONG DT @ 2389: 0.081545221097065
+INFO - [G] LONG DT @ 2389: 0.1
+INFO - [G] LONG DT @ 2389: 0.083186279999954
+INFO - [G] LONG DT @ 2389: 0.070709584
+INFO - [G] LONG DT @ 2389: 0.059796107200021
+INFO - [G] LONG DT @ 2389: 0.051180705760026
+INFO - [G] 2025-01-20 11:09:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:09:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:09:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:09:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:09:49 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2406: 0.079389958602185
+INFO - [G] LONG DT @ 2406: 0.069102746881805
+INFO - [G] LONG DT @ 2406: 0.060331617505421
+INFO - [G] LONG DT @ 2406: 0.052228014004318
+INFO - [G] 2025-01-20 11:10:10 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2429: 0.0735757752569
+INFO - [G] LONG DT @ 2429: 0.064070100205551
+INFO - [G] LONG DT @ 2429: 0.056302860164416
+INFO - [G] LONG DT @ 2429: 0.052175448131545
+INFO - [G] 2025-01-20 11:10:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:15 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:29 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:29 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:36 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:10:36 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2455: 0.050308812019588
+INFO - [G] LONG DT @ 2455: 0.086015189615688
+INFO - [G] LONG DT @ 2455: 0.073490051692484
+INFO - [G] LONG DT @ 2455: 0.063425081354031
+INFO - [G] LONG DT @ 2455: 0.054701105083238
+INFO - [G] LONG DT @ 2487: 0.078863621449102
+INFO - [G] LONG DT @ 2488: 0.067958517159286
+INFO - [G] LONG DT @ 2488: 0.058234013727397
+INFO - [G] LONG DT @ 2488: 0.050980410981967
+INFO - [G] LONG DT @ 2508: 0.069685991139053
+INFO - [G] LONG DT @ 2508: 0.060549132911171
+INFO - [G] LONG DT @ 2508: 0.055008146328937
+INFO - [G] LONG DT @ 2537: 0.069374850867502
+INFO - [G] LONG DT @ 2537: 0.061598400693979
+INFO - [G] LONG DT @ 2537: 0.053921020555161
+INFO - [G] LONG DT @ 2563: 0.06682142924633
+INFO - [G] LONG DT @ 2563: 0.058303843397117
+INFO - [G] LONG DT @ 2563: 0.050917594717638
+INFO - [G] 2025-01-20 11:12:28 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:28 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:31 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:32 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:33 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:33 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:38 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:39 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:40 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:12:40 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:13:41 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:14:04 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:14:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:14:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:14:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:14:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2686: 0.054093462567527
+INFO - [G] LONG DT @ 2763: 0.060381225297874
+INFO - [G] LONG DT @ 2763: 0.050444000238349
+INFO - [G] 2025-01-20 11:16:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:16:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:16:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:16:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:16:09 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2883: 0.052011815771596
+INFO - [G] LONG DT @ 2883: 0.086816612617249
+INFO - [G] LONG DT @ 2883: 0.071779350093795
+INFO - [G] LONG DT @ 2883: 0.060272600075101
+INFO - [G] LONG DT @ 2883: 0.051510800060071
+INFO - [G] 2025-01-20 11:17:58 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:02 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:04 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:04 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:04 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:04 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 2924: 0.06628316902233
+INFO - [G] LONG DT @ 2924: 0.055362515217907
+INFO - [G] LONG DT @ 2945: 0.071174037628876
+INFO - [G] LONG DT @ 2946: 0.060502010103094
+INFO - [G] LONG DT @ 2946: 0.052687208082478
+INFO - [G] 2025-01-20 11:18:50 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-20 11:18:56 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 3006: 0.082500239977772
+INFO - [G] LONG DT @ 3006: 0.071821751982222
+INFO - [G] LONG DT @ 3007: 0.1
+INFO - [G] LONG DT @ 3007: 0.085165740000029
+INFO - [G] LONG DT @ 3007: 0.1
+INFO - [G] LONG DT @ 3007: 0.1
+INFO - [G] LONG DT @ 3007: 0.082784399999928
+INFO - [G] LONG DT @ 3007: 0.069614099999948
+INFO - [G] LONG DT @ 3007: 0.059027359999967
+INFO - [G] LONG DT @ 3007: 0.050618847999982
+INFO - [G] LONG DT @ 3011: 0.085258056896081
+INFO - [G] LONG DT @ 3011: 0.070006445516868
+INFO - [G] LONG DT @ 3011: 0.058483776413459
+INFO - [G] LONG DT @ 3019: 0.067263228603227
+INFO - [G] LONG DT @ 3019: 0.057407342882564
+INFO - [G] LONG DT @ 3019: 0.050986914306015
+INFO - [G] LONG DT @ 3029: 0.054050669513722
+INFO - [G] LONG DT @ 3053: 0.051534858695335
+INFO - [G] 2025-01-20 11:20:40 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 3061: 0.065412320656602
+INFO - [G] LONG DT @ 3061: 0.055712076525284
+INFO - [G] LONG DT @ 3084: 0.072550812470527
+INFO - [G] LONG DT @ 3084: 0.061302529976412
+INFO - [G] LONG DT @ 3084: 0.053707103981125
+INFO - [G] 2025-01-20 11:21:11 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] LONG DT @ 3222: 0.1
+INFO - [G] LONG DT @ 3223: 0.081479840000047
+INFO - [G] LONG DT @ 3223: 0.068349112000036
+INFO - [G] LONG DT @ 3223: 0.057836909600031

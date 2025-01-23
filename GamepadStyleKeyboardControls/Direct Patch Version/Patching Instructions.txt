@@ -1,0 +1,20 @@
+This is a version of the mod designed to be patched directly to the base game EXE so that no mod loader is required.
+Be aware that if the game gets updated, these changes will be lost, so you will need to repeat this process.
+
+Step 1: Navigate to the game folder.
+On Steam, you can get there by right clicking Balatro in your library and going to "Manage > Browse local files."
+
+Step 2: Copy Balatro.exe as a backup before making any changes.
+
+Step 3: Open Balatro.exe as an archive.
+You can do this using 7-Zip: Open 7-Zip, browse to the Balatro folder, then right click on Balatro.exe and choose "Open inside."
+(Alternatively, if you temporarily change the file extension to .7z, you may be able to browse it in the file explorer.
+If you do this, be sure to change the extension back to .exe after making changes.)
+
+Step 4: Extract main.lua from the base directory inside Balatro.exe.
+Open it with a text editor and append the contents of KeyboardControlsPatch.lua to the end of it.
+Be sure to configure keys and other settings at the top of this section.
+Once done, replace the main.lua in Balatro.exe with your new version.
+
+Step 5: Unless you've disabled the changeButtonIconsToKeys setting, drag in the included "resources" folder to merge with the one inside Balatro.exe.
+This should put keyboard_icons.png (at both 1x and 2x scale) in the proper places.

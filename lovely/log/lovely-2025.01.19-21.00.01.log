@@ -1,0 +1,465 @@
+INFO - [♥] Lovely 0.6.0
+INFO - [♥] Game directory is at "C:\\Users\\ramosalves\\Desktop\\laura\\Balatro"
+INFO - [♥] Writing logs to "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods"
+WARN - [♥] Unknown key `patches.15.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco-main\\lovely.toml", ignoring it
+WARN - [♥] Unknown key `patches.46.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\fixes.toml", ignoring it
+WARN - [♥] Unknown key `patches.3.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\rarity.toml", ignoring it
+INFO - [♥] Cleaning up dumps directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 60ms
+WARN - [♥] Pattern 'G.ARGS.score_intensity.organ = G.video_organ or G.ARGS.score_intensity.required_score > 0 and math.max(math.min(0.4, 0.1*math.log(G.ARGS.score_intensity.earned_score/(G.ARGS.score_intensity.required_score+1), 5)),0.) or 0' on target 'main.lua' resulted in no matches
+WARN - [♥] Pattern 'if type(G.GAME.current_round.current_hand.chips) ~= \'number\' or type(G.GAME.current_round.current_hand.mult) ~= \'number\' then' on target 'main.lua' resulted in no matches
+WARN - [♥] Pattern 'modded and {' on target 'main.lua' resulted in no matches
+INFO - [♥] Applied 31 patches to 'main.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [♥] Applied 6 patches to 'engine/controller.lua'
+INFO - [♥] Applied 17 patches to 'back.lua'
+INFO - [♥] Applied 9 patches to 'tag.lua'
+INFO - [♥] Applied 3 patches to 'engine/node.lua'
+INFO - [♥] Applied 2 patches to 'engine/moveable.lua'
+INFO - [♥] Applied 4 patches to 'engine/sprite.lua'
+INFO - [♥] Applied 2 patches to 'engine/animatedsprite.lua'
+WARN - [♥] Pattern 'assembled_string = assembled_string..(type(subpart) == \'string\' and subpart or args.vars[tonumber(subpart[1])])' on target 'functions/misc_functions.lua' resulted in no matches
+WARN - [♥] Pattern 'assembled_string = assembled_string..(type(subpart) == \'string\' and subpart or args.vars[tonumber(subpart[1])] or \'ERROR\')' on target 'functions/misc_functions.lua' resulted in no matches
+INFO - [♥] Applied 50 patches to 'functions/misc_functions.lua'
+INFO - [♥] Applied 70 patches to 'game.lua'
+INFO - [♥] Applied 4 patches to 'globals.lua'
+WARN - [♥] Pattern 'self.config.chosen = true' on target 'engine/ui.lua' resulted in no matches
+INFO - [♥] Applied 7 patches to 'engine/ui.lua'
+WARN - [♥] Pattern 'if (v.type == \'Base\' or v.type == \'Enhanced\') and G.GAME.used_vouchers[\"v_illusion\"] and pseudorandom(pseudoseed(\'illusion\')) > 0.8 then nope' on target 'functions/UI_definitions.lua' resulted in no matches
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].chips, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}},' on target 'functions/UI_definitions.lua' resulted in no matches
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].mult, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}' on target 'functions/UI_definitions.lua' resulted in no matches
+INFO - [♥] Applied 93 patches to 'functions/UI_definitions.lua'
+WARN - [♥] Pattern 'if game_over then nope' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if next(eval) then nope' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'reset_idol_card()\nreset_mail_rank()\nreset_ancient_card()\nreset_castle_card()\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '--calculate the card edition effects\nif effects[ii].edition then\n    hand_chips = mod_chips(hand_chips + (effects[ii].edition.chip_mod or 0))\n    mult = mult + (effects[ii].edition.mult_mod or 0)\n    mult = mod_mult(mult*(effects[ii].edition.x_mult_mod or 1))\n    update_hand_text({delay = 0}, {\n        chips = effects[ii].edition.chip_mod and hand_chips or nil,\n        mult = (effects[ii].edition.mult_mod or effects[ii].edition.x_mult_mod) and mult or nil,\n    })\n    card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, {\n        message = (effects[ii].edition.chip_mod and localize{type=\'variable\',key=\'a_chips\',vars={effects[ii].edition.chip_mod}}) or\n                (effects[ii].edition.mult_mod and localize{type=\'variable\',key=\'a_mult\',vars={effects[ii].edition.mult_mod}}) or\n                (effects[ii].edition.x_mult_mod and localize{type=\'variable\',key=\'a_xmult\',vars={effects[ii].edition.x_mult_mod}}),\n        chip_mod =  effects[ii].edition.chip_mod,\n        mult_mod =  effects[ii].edition.mult_mod,\n        x_mult_mod =  effects[ii].edition.x_mult_mod,\n        colour = G.C.DARK_EDITION,\n        edition = true})\nend\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '    scoring_hand[i].lucky_trigger = nil\n\n        for ii = 1, #effects do\n        --If chips added, do chip add event and add the chips to the total\n        if effects[ii].chips then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            hand_chips = mod_chips(hand_chips + effects[ii].chips)\n            update_hand_text({delay = 0}, {chips = hand_chips})\n            card_eval_status_text(scoring_hand[i], \'chips\', effects[ii].chips, percent)\n        end\n\n        --If mult added, do mult add event and add the mult to the total\n        if effects[ii].mult then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            mult = mod_mult(mult + effects[ii].mult)\n            update_hand_text({delay = 0}, {mult = mult})\n            card_eval_status_text(scoring_hand[i], \'mult\', effects[ii].mult, percent)\n        end\n\n        --If play dollars added, add dollars to total\n        if effects[ii].p_dollars then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            ease_dollars(effects[ii].p_dollars)\n            card_eval_status_text(scoring_hand[i], \'dollars\', effects[ii].p_dollars, percent)\n        end\n\n        --If dollars added, add dollars to total\n        if effects[ii].dollars then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            ease_dollars(effects[ii].dollars)\n            card_eval_status_text(scoring_hand[i], \'dollars\', effects[ii].dollars, percent)\n        end\n\n        --Any extra effects\n        if effects[ii].extra then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            local extras = {mult = false, hand_chips = false}\n            if effects[ii].extra.mult_mod then mult =mod_mult( mult + effects[ii].extra.mult_mod);extras.mult = true end\n            if effects[ii].extra.chip_mod then hand_chips = mod_chips(hand_chips + effects[ii].extra.chip_mod);extras.hand_chips = true end\n            if effects[ii].extra.swap then \n                local old_mult = mult\n                mult = mod_mult(hand_chips)\n                hand_chips = mod_chips(old_mult)\n                extras.hand_chips = true; extras.mult = true\n            end\n            if effects[ii].extra.func then effects[ii].extra.func() end\n            update_hand_text({delay = 0}, {chips = extras.hand_chips and hand_chips, mult = extras.mult and mult})\n            card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)\n        end\n\n        --If x_mult added, do mult add event and mult the mult to the total\n        if effects[ii].x_mult then \n            if effects[ii].card then juice_card(effects[ii].card) end\n            mult = mod_mult(mult*effects[ii].x_mult)\n            update_hand_text({delay = 0}, {mult = mult})\n            card_eval_status_text(scoring_hand[i], \'x_mult\', effects[ii].x_mult, percent)\n        end\n\n\n        end\n    end\nend\n' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'local percent = (i-0.999)/(#G.hand.cards-0.998) + (j-1)*0.1' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].card then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects.jokers.Xmult_mod then mult = mod_mult(mult*effects.jokers.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effect.Xmult_mod then mult = mod_mult(mult*effect.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].message then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern '--calculate the card edition effects' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].edition.p_dollars_mod then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if edition_effects.jokers.x_mult_mod then' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'debuff\')' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'for j=1,#reps do' on target 'functions/state_events.lua' resulted in no matches
+WARN - [♥] Pattern 'G.jokers.cards[i]:calculate_perishable()' on target 'functions/state_events.lua' resulted in no matches
+INFO - [♥] Applied 75 patches to 'functions/state_events.lua'
+WARN - [♥] Regex '(?<indent>[\\t ]*)if G\\.F_NO_ACHIEVEMENTS then return end\\n[\\s\\S][\\s\\S]{16}--\\|LOCAL SETTINGS FILE' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if context.cardarea == G.play then\n    local chips = card:get_chip_bonus()\n    if chips > 0 then \n        ret.chips = chips\n    end\n\n    local mult = card:get_chip_mult()\n    if mult > 0 then \n        ret.mult = mult\n    end\n\n    local x_mult = card:get_chip_x_mult(context)\n    if x_mult > 0 then \n        ret.x_mult = x_mult\n    end\n\n    local p_dollars = card:get_p_dollars()\n    if p_dollars > 0 then \n        ret.p_dollars = p_dollars\n    end\n\n    local jokers = card:calculate_joker(context)\n    if jokers then \n        ret.jokers = jokers\n    end\n\n    local edition = card:get_edition(context)\n    if edition then \n        ret.edition = edition\n    end\nend\n' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'if context.cardarea == G.hand then\n    local h_mult = card:get_chip_h_mult()\n    if h_mult > 0 then \n        ret.h_mult = h_mult\n    end\n\n    local h_x_mult = card:get_chip_h_x_mult()\n    if h_x_mult > 0 then \n        ret.x_mult = h_x_mult\n    end\n' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)' on target 'functions/common_events.lua' resulted in no matches
+WARN - [♥] Pattern 'info_queue[#info_queue + 1] = G.P_CENTERS[\'e_\'..v]' on target 'functions/common_events.lua' resulted in no matches
+INFO - [♥] Applied 138 patches to 'functions/common_events.lua'
+WARN - [♥] Pattern 'G.pack_cards:emplace(v)' on target 'functions/button_callbacks.lua' resulted in no matches
+WARN - [♥] Pattern 'if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK*' on target 'functions/button_callbacks.lua' resulted in no matches
+WARN - [♥] Pattern 'if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK*' on target 'functions/button_callbacks.lua' resulted in no matches
+WARN - [♥] Pattern 'G.jokers.cards[i]:calculate_joker({skip_blind = true})' on target 'functions/button_callbacks.lua' resulted in no matches
+INFO - [♥] Applied 67 patches to 'functions/button_callbacks.lua'
+WARN - [♥] Pattern 'if not self.no_shadow and G.SETTINGS.GRAPHICS.shadows == \'On\' and((layer == \'shadow\' or layer == \'both\') and (self.ability.effect ~= \'Glass Card\' and not self.greyed) and ((self.area and self.area ~= G.discard and self.area.config.type ~= \'deck\') or not self.area or self.states.drag.is)) then' on target 'card.lua' resulted in no matches
+WARN - [♥] Pattern 'if G.GAME.blind then G.E_MANAGER:add_event(Event({ func = function() G.GAME.blind:set_blind(nil, true, nil); return true end })) end' on target 'card.lua' resulted in no matches
+WARN - [♥] Pattern 'if (self.edition and (self.edition.negative or self.edition.cry_oversat)) or (self.ability.name == \'Antimatter\' and (self.config.center.discovered or self.bypass_discovery_center)) then' on target 'card.lua' resulted in no matches
+WARN - [♥] Regex '(?<indent>[\t ]*)for\\s+i\\s*=\\s*1,\\s*#G\\.jokers\\.cards\\s*do\\s*\\n[\\t ]*G\\.jokers\\.cards\\[i\\]:calculate_joker\\(\\{\\s*open_booster\\s*=\\s*true,\\s*card\\s*=\\s*self\\s*\\}\\)\\s*\\n[\\t ]*end' on target 'card.lua' resulted in no matches
+INFO - [♥] Applied 204 patches to 'card.lua'
+INFO - [♥] Applied 21 patches to 'cardarea.lua'
+INFO - [♥] Applied 34 patches to 'blind.lua'
+INFO - [♥] Applied 5 patches to 'engine/text.lua'
+INFO - [G] Totally applied 4 replacements to overrides.lua
+INFO - [G] Failed to connect to the debug server
+INFO - [G] 2025-01-19 21:00:07 :: DEBUG :: DebugConsole :: Steamodded Debug Socket started !
+INFO - [G] [Blueprint] Starting to load config
+INFO - [G] [Blueprint] Reading config file: 
+INFO - [G] [Blueprint] return {
+	["INTERNAL_debug"] = false,
+	["hello"] = true,
+}
+INFO - [♥] Applied 9 patches to 'engine/sound_manager.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [G] Loaded all Blueprint mod shaders successfully
+INFO - [G] {
+  [1] = table: 0x0a197428   {
+     [1] = 0.99607843137255,
+     [2] = 0.37254901960784,
+     [3] = 0.33333333333333,
+     [4] = 1,
+   },
+  [2] = table: 0x0a1974c0   {
+     [1] = 0,
+     [2] = 0.6156862745098,
+     [3] = 1,
+     [4] = 1,
+   },
+}
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): BBBalatro_code.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BBBalatro
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): olympus.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Olympus
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: blueprint
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Bunco.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Bunco
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: cartomancer
+INFO - [G] 2025-01-19 21:00:09 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): TarotDx.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: JeffDeluxeConsumablesPack
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): datealive.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: datealive
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Distro.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Distro
+INFO - [G] 2025-01-19 21:00:09 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): FloundersJokers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: flounderjokers
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Handy
+INFO - [G] 2025-01-19 21:00:09 :: WARN  :: Loader :: Found lone Lua file HoldForFinalHandScore.lua in Mods directory :: Please place the files for each mod in its own subdirectory.
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): HoldForFinalHandScore.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: HoldForFinalHandScore
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): HouseRules.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: HouseRules
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): IncreaseJokerCap.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: IncreaseJokerCap
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankChallenges.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: JankChallenges
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankJonklers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: JankJonklersMod
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: joker_evolution
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): JokerDisplay.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: JokerDisplay
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): MathBlinds.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: MathBlinds
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoreFluff.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: MoreFluff
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoreJokerPacks.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: MoreJokerPacks
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): MystBlinds.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: MystBlinds
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): PampaJokers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: mtl_jkr
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: sdm0sstuff
+INFO - [G] 2025-01-19 21:00:09 :: WARN  :: Loader :: Found lone Lua file ShopStake.lua in Mods directory :: Please place the files for each mod in its own subdirectory.
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): ShopStake.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: ShopStakeMod
+INFO - [G] 2025-01-19 21:00:09 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/SnoresvilleTurbulentJokers/SnoresvilleTurbulentJokers.json, ignoring: [SMODS _ "src/loader.lua"]:105: attempt to call method 'gmatch' (a nil value)
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): SnowMods.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: SnowHolidayJokers
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: LeSpectrals
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Taikomochi.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Taikomochi
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded_metadata.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: Talisman
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedDecks.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: ThemedDecks
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedJokers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: ThemedJokers
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedTarots.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: ThemedTarots
+INFO - [G] 2025-01-19 21:00:09 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Themed.Jokers/manifest.json, ignoring: [SMODS _ "src/loader.lua"]:226: id
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): 5_legendary_challenges.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: legendaryChallenges
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Betmma_Jokers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BetmmaJokers
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Betmma_Spells.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BetmmaSpells
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Betmma_Voucher_Pack.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BetmmaVoucherPack
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): Betmma_Vouchers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BetmmaVouchers
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): better_vouchers_this_run_ui.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: BetterVouchersThisRunUI
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): MultiJokers.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: MultiJokersMod
+INFO - [G] 2025-01-19 21:00:09 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/paperback-0.4.2/.vscode/settings.json, ignoring: [SMODS _ "src/loader.lua"]:226: id
+INFO - [G] 2025-01-19 21:00:09 :: INFO  :: DefaultLogger :: Valid JSON file found
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Processing Mod file (Legacy header): sevendeadlysins.lua
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Saving Mod Info: 7deadlysins
+INFO - [G] betmma config not found
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Mod BetmmaSpells was unable to load: Missing Dependencies: 1: BetmmaAbilities>=1.0.3
+
+
+INFO - [G] 2025-01-19 21:00:09 :: WARN  :: Challenge :: Detected duplicate register call on object c_mad_world_1
+INFO - [G] 2025-01-19 21:00:09 :: DEBUG :: DefaultLogger :: Loaded HouseRules~
+INFO - [G] 2025-01-19 21:00:09 :: TRACE :: Loader :: Mod LeSpectrals was unable to load: Missing Dependencies: 1: malverk
+
+
+INFO - [G] basepaul_card
+INFO - [G] clownfish
+INFO - [G] expansion_pack
+INFO - [G] hollow
+INFO - [G] jester
+INFO - [G] lollipop
+INFO - [G] luckycharm
+INFO - [G] monochrome
+INFO - [G] mspaint
+INFO - [G] simplified
+INFO - [G] spiral
+INFO - [G] treasuremap
+INFO - [G] philosophical
+INFO - [G] badlegaldefence
+INFO - [G] clipart
+INFO - [G] dropkick
+INFO - [G] bladedance
+INFO - [G] hyperbeam
+INFO - [G] blasphemy
+INFO - [G] dramaticentrance
+INFO - [G] coupon_catalogue
+INFO - [G] css
+INFO - [G] globe
+INFO - [G] goldencarrot
+INFO - [G] hallofmirrors
+INFO - [G] impostor
+INFO - [G] tonersoup
+INFO - [G] loadeddisk
+INFO - [G] stylemeter
+INFO - [G] teacup
+INFO - [G] recycling
+INFO - [G] virtual
+INFO - [G] bloodpact
+INFO - [G] bowlingball
+INFO - [G] cba
+INFO - [G] fleshprison
+INFO - [G] hugejoker
+INFO - [G] jankman
+INFO - [G] mashupalbum
+INFO - [G] pixeljoker
+INFO - [G] rainbowjoker
+INFO - [G] rosetinted
+INFO - [G] the_solo
+INFO - [G] triangle
+INFO - [G] colorem
+INFO - [G] 2025-01-19 21:00:09 :: INFO  :: DefaultLogger :: Loaded MystBlinds~
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: calling_card
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: quick_fix
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: sacrificial_lamb
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: wish_you_were_here
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: stamp
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: solar_system
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: furioso
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: pride_flag
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: pool_table
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: summoning_circle
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: hole_in_one
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: derecho
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: skydiver
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: solemn_lament
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: ghost_cola
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: mismatched_sock
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: shopping_center
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: union_card
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: nachos
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: complete_breakfast
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: reference_card
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: crispy_taco
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: soft_taco
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: prince_of_darkness
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: emergency_broadcast
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: triple_moon_goddess
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: wild_prize
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: bicycle
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: grand_strategy
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: great_wave
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: let_it_happen
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: dreamsicle
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: popsicle_stick
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: cakepop
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: pop_stick
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: caramel_apple
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: pointy_stick
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: charred_marshmallow
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: sticky_stick
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: paranoia
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: subterfuge
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: unholy_alliance
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: cherry_blossoms
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: blue_bonnets
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: autumn_leaves
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: evergreens
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: river
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: moribund
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: jimbo_adventure
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: joker_cookie
+INFO - [G] 2025-01-19 21:00:10 :: DEBUG :: Paperback :: Loaded joker: jestrica
+INFO - [G] 2025-01-19 21:00:10 :: WARN  :: Atlas :: Detected duplicate register call on object ExtraCredit_ECjokers
+INFO - [G] 2025-01-19 21:00:10 :: INFO  :: DX :: Deluxe Consumables Cards Loaded
+INFO - [G] 2025-01-19 21:00:10 :: INFO  :: DX :: Bunco Loaded
+INFO - [G] 2025-01-19 21:00:10 :: INFO  :: TIMER :: [0000] Injected Language in 0.001 ms
+INFO - [G] 2025-01-19 21:00:10 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 2.438 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0258] Injected Atlas in 2136.957 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0019] Injected Sound in 15.215 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0012] Injected Stake in 2.791 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0005] Injected Rarity in 0.478 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0006] Injected ObjectType in 0.419 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0821] Injected Center in 14.124 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0009] Injected Undiscovered Sprite in 0.023 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0056] Injected Blind in 0.277 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0004] Injected Seal in 0.902 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0006] Injected Suit in 1.382 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0013] Injected Rank in 0.937 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0008] Injected DeckSkin in 0.165 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0017] Injected PokerHand in 0.852 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0027] Injected Challenge in 0.068 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0018] Injected Tag in 0.353 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0007] Injected Sticker in 1.031 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0004] Injected Shader in 93.097 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0001] Injected Keybind in 0.012 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0006] Injected Achievement in 1.174 ms
+INFO - [G] 2025-01-19 21:00:12 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 43.861 ms
+INFO - [G] Distro :: Failed to connect to Discord IPC
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:17 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:18 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:19 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] 2025-01-19 21:00:19 :: DEBUG :: DefaultLogger :: remove from deck
+INFO - [G] line not found
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] 2025-01-19 21:00:24 :: ERROR :: StackTrace :: Oops! The game crashed
+main.lua:4154: [SMODS _ "src/utils.lua"]:1111: attempt to index local 'effect' (a number value)
+Stack Traceback
+===============
+(1) Lua local 'handler' at file 'main.lua:756'
+	Local variables:
+	 msg = string: "main.lua:4154: [SMODS _ \"src/utils.lua\"]:1111: attempt to index local 'effect' (a number value)"
+	 (*temporary) = Lua function '?' (defined at line 31 of chunk [SMODS _ "src/logging.lua"])
+	 (*temporary) = string: "Oops! The game crashed\
+"
+(2) LÖVE function at file 'boot.lua:352' (best guess)
+	Local variables:
+	 errhand = Lua function '?' (defined at line 742 of chunk main.lua)
+	 handler = Lua function '?' (defined at line 742 of chunk main.lua)
+(3) global C function 'error'
+(4) Lua upvalue 'gfep' at file 'main.lua:4154'
+	Local variables:
+	 success = boolean: false
+	 err = string: "[SMODS _ \"src/utils.lua\"]:1111: attempt to index local 'effect' (a number value)"
+(5) Lua field 'evaluate_play' at file 'main.lua:4271'
+	Local variables:
+	 e = nil
+(6) Lua field 'func' at file 'functions/state_events.lua:717'
+(7) Lua method 'handle' at file 'engine/event.lua:99'
+	Local variables:
+	 self = table: 0x0b4b0888  {start_timer:true, timer:TOTAL, blockable:true, trigger:immediate, func:function: 0x0b4b0868 (more...)}
+	 _results = table: 0x0b03e8b8  {blocking:true, pause_skip:false, time_done:false, completed:false}
+(8) Lua method 'update' at file 'engine/event.lua:182'
+	Local variables:
+	 self = table: 0x0a6cbd50  {queue_last_processed:11.5, queues:table: 0x0a6cbd78, queue_dt:0.016666666666667 (more...)}
+	 dt = number: 0.016699
+	 forced = nil
+	 (for generator) = C function: next
+	 (for state) = table: 0x0a6cbd78  {unlock:table: 0x0a6cbda0, other:table: 0x0a6cc218, tutorial:table: 0x0a6cbdf0 (more...)}
+	 (for control) = number: nan
+	 k = string: "base"
+	 v = table: 0x0a6cbdc8  {1:table: 0x0c322378, 2:table: 0x0cbb8f20, 3:table: 0x0b4b0888, 4:table: 0x0b4b0d18 (more...)}
+	 blocked = boolean: false
+	 i = number: 3
+	 results = table: 0x0b03e8b8  {blocking:true, pause_skip:false, time_done:false, completed:false}
+(9) Lua upvalue 'gameUpdateRef' at file 'game.lua:2679'
+	Local variables:
+	 self = table: 0x09f8f5b8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x0c63c898 (more...)}
+	 dt = number: 0.016699
+	 http_resp = nil
+(10) Lua upvalue 'upd' at Steamodded file 'src/ui.lua:81' 
+	Local variables:
+	 self = table: 0x09f8f5b8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x0c63c898 (more...)}
+	 dt = number: 0.016699
+(11) Lua upvalue 'original_game_update' at file 'main.lua:4134'
+	Local variables:
+	 self = table: 0x09f8f5b8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x0c63c898 (more...)}
+	 dt = number: 0.016699
+(12) Lua upvalue 'game_updateref' at file 'Bunco.lua:590' (from mod with id Bunco)
+	Local variables:
+	 self = table: 0x09f8f5b8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x0c63c898 (more...)}
+	 dt = number: 0.016699
+(13) Lua method 'update' at file 'other/colours.lua:1025' (from mod with id MoreFluff)
+	Local variables:
+	 self = table: 0x09f8f5b8  {F_GUIDE:false, F_CRASH_REPORTS:false, F_QUIT_BUTTON:true, HUD_tags:table: 0x0c63c898 (more...)}
+	 dt = number: 0.016699
+(14) Lua upvalue 'love_update_ref' at file 'main.lua:1139'
+	Local variables:
+	 dt = number: 0.016699
+(15) Lua upvalue 'oldupd' at file 'main.lua:3063'
+	Local variables:
+	 dt = number: 0.016699
+(16) Lua field 'update' at file 'main.lua:4161'
+	Local variables:
+	 dt = number: 0.016699
+(17) Lua function '?' at file 'main.lua:1075' (best guess)
+(18) global C function 'xpcall'
+(19) LÖVE function at file 'boot.lua:377' (best guess)
+	Local variables:
+	 func = Lua function '?' (defined at line 1046 of chunk main.lua)
+	 inerror = boolean: true
+	 deferErrhand = Lua function '(LÖVE Function)' (defined at line 348 of chunk [love "boot.lua"])
+	 earlyinit = Lua function '(LÖVE Function)' (defined at line 355 of chunk [love "boot.lua"])
+
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] 2025-01-19 21:00:24 :: INFO  :: StackTrace :: Additional Context:
+Balatro Version: 1.0.1m-FULL
+Modded Version: 1.0.0~ALPHA-1319c-STEAMODDED
+LÖVE Version: 11.5.0
+Lovely Version: 0.6.0
+Platform: Windows
+Steamodded Mods:
+    1: SDM_0's Stuff by SDM_0 [ID: sdm0sstuff, Version: 1.6.4i, Uses Lovely]
+    2: Hold For Final Hand Score by Wiwiweb [ID: HoldForFinalHandScore]
+    3: More Joker Packs by Samario [ID: MoreJokerPacks, Priority: 10000, Version: 0.0.2]
+    4: Taikomochi by Amvoled [ID: Taikomochi]
+    5: Distro by DVRP [ID: Distro, Version: 1.0.0, Uses Lovely]
+    6: Cosmos by Cosmos [ID: Cosmos, Version: 1.0.0, Uses Lovely]
+    7: Joker Evolution by SDM_0 [ID: joker_evolution, Priority: -1000, Version: 1.2.1c, Uses Lovely]
+    8: 7 Deadly Sins by Alex Davies [ID: 7deadlysins]
+    9: Pampa Joker Pack by Matelote [ID: mtl_jkr]
+    10: Add +1 Shop to Stakes by Encarvlucas [ID: ShopStakeMod]
+    11: Betmma Jokers by Betmma [ID: BetmmaJokers]
+    12: Jank Challenges by Lyman [ID: JankChallenges]
+    13: Better Vouchers This Run UI by Betmma [ID: BetterVouchersThisRunUI]
+    14: JokerDisplay by nh6574 [ID: JokerDisplay, Priority: -100000, Version: 1.7.4]
+    15: Olympus by AbhinavR314 [ID: Olympus]
+    16: More Fluff by notmario [ID: MoreFluff, Version: 1.0.2-ja, Uses Lovely]
+    17: JankJonklersMod by Lyman [ID: JankJonklersMod]
+    18: Myst's Boss Blinds by Mysthaps [ID: MystBlinds, Version: 1.2.6]
+    19: House Rules by Mysthaps [ID: HouseRules, Version: 1.4.2]
+    20: Flounder's Jokers by Flounder [ID: flounderjokers]
+    21: Paperback by PaperMoon, Nether, OppositeWolf770, B, srockw [ID: paperback, Version: 0.4.2]
+    22: Betmma Vouchers by Betmma [ID: BetmmaVouchers, Priority: -1, Version: 3.0.0(20241017)]
+    23: Handy by SleepyG11 [ID: Handy, Version: 1.1.6a, Uses Lovely]
+    24: Betmma Voucher Pack by Betmma, nicholassam6425 [ID: BetmmaVoucherPack]
+    25: 5 legendary challenges by Betmma [ID: legendaryChallenges]
+    26: Themed Decks by Blizzow [ID: ThemedDecks]
+    27: Bunco by Firch, RENREN, Peas, minichibis, J.D., Guwahavel, Ciirulean, ejwu [ID: Bunco, Version: 5.0, Uses Lovely]
+    28: Themed Tarots by Blizzow [ID: ThemedTarots]
+    29: Math Blinds by Bazinga_9000, tauttie [ID: MathBlinds, Version: 1.2.3, Uses Lovely]
+    30: Themed Jokers by Blizzow [ID: ThemedJokers]
+    31: Cartomancer by stupxd aka stupid [ID: cartomancer, Priority: 69, Version: 4.10, Uses Lovely]
+    32: Talisman by MathIsFun_, Mathguy24, jenwalter666, cg-223 [ID: Talisman, Version: 2.0.2, Uses Lovely]
+        Break Infinity: omeganum
+    33: Blueprint by stupxd aka stupid, Jonathan [ID: blueprint, Priority: 69, Version: 3.2, Uses Lovely]
+    34: ExtraCredit by CampfireCollective [ID: extracredit, Priority: 1, Version: 1.1.0, Uses Lovely]
+    35: Snow's Holiday Jokers by RattlingSnow353 [ID: SnowHolidayJokers, Version: 0.2.0]
+    36: MultiJokersMod by John Maged, Multi, GoldenEpsilon [ID: MultiJokersMod]
+    37: IncreaseJokerCap by Akita Attribute [ID: IncreaseJokerCap]
+    38: Deluxe Consumables by JeffVi [ID: JeffDeluxeConsumablesPack, Priority: 1000, Version: 1.0.1, Uses Lovely]
+    39: BBBalatro by B [ID: BBBalatro]
+    40: datealive by sishui [ID: datealive]
+Lovely Mods:
+    1: betmma_mods
+    2: Trance
+    3: victory_royale

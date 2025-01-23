@@ -1,0 +1,8 @@
+{
+  "liveServer.settings.port": 42070,
+  "Lua.diagnostics.globals": [
+    "get_rank"
+  ],
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+}
