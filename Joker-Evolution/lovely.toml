@@ -1,0 +1,117 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Add amount tooltip to joker
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "local loc_vars = {}"
+position = "before"
+payload = """
+if has_evo(_c) and Evolution_tooltip_object and not Evolution_tooltip_object.infinifusion then info_queue[#info_queue + 1] = set_evo_tooltip(_c) end
+"""
+match_indent = true
+
+
+# Add evolution attributes
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.added_to_deck = true"
+position = "after"
+payload = """
+evo = get_card_evolution(self)
+if self.ability.set == "Joker" and evo then
+	self.ability.can_evolve = false
+    self.ability.amount = evo.amount
+end
+"""
+match_indent = true
+
+
+# Add mod name badge to evolved Joker
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "if AUT.badges then"
+position = "before"
+payload = """
+if obj and (obj.mod and obj.mod.id and not obj.mod.id == "joker_evolution") and is_evo(obj) then
+    local len = string.len("Joker Evolution")
+    local size = 0.9 - (len > 6 and 0.02*(len-6) or 0)
+    badges[#badges + 1] = create_badge("Joker Evolution", HEX("18cadc"), nil, size)
+end
+"""
+match_indent = true
+
+
+# Superstar main_end text
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.name == 'Joker' then loc_vars = {self.ability.mult}"
+position = "after"
+payload = """
+evo = get_card_evolution(self)
+elseif self.ability.name == "Superstar" then
+	local has_message= (G.GAME and self.area and (self.area == G.jokers))
+    if has_message then
+        local disableable = G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss'))
+        main_end = {
+            {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
+                {n=G.UIT.C, config={ref_table = self, align = "m", colour = disableable and G.C.GREEN or G.C.RED, r = 0.05, padding = 0.06}, nodes={
+                    {n=G.UIT.T, config={text = ' '..localize(disableable and 'k_active' or 'ph_no_boss_active')..' ',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.9}},
+                }}
+            }}
+        }
+    end
+"""
+match_indent = true
+
+
+# Pre_reroll context
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "ease_dollars(-G.GAME.current_round.reroll_cost)"
+position = "after"
+payload = """
+for i = 1, #G.jokers.cards do
+    G.jokers.cards[i]:calculate_joker({je_prereroll_shop = true})
+end
+"""
+match_indent = true
+
+
+# "Ripple" joker scoring
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "scoring_hand[i] = G.play.cards[i]"
+position = "after"
+payload = """
+        elseif next(find_joker('Ripple')) then
+            scoring_hand[i] = G.play.cards[i]
+"""
+match_indent = false
+
+# Pre-evo removed from pool if its evolution exists
+[[patches]]
+[patches.regex]
+target = "functions/common_events.lua"
+pattern = '''else\n\s*add = true\n\s*end'''
+position = "after"
+payload = """
+
+if v.set == "Joker" and JokerEvolution_Config.enable_pool_restriction then
+    for _, joker in ipairs(JokerEvolution.evolutions) do
+        if v.key == joker.key and next(SMODS.find_card(joker.evo)) then
+            add = false
+            break
+        end
+    end
+end
+"""
+line_prepend = '$indent'

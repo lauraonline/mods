@@ -1,0 +1,154 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Change SPLASH_LOGO
+[[patches]]
+[patches.regex]
+target = "game.lua"
+pattern = '''[ \t]*G\.SPLASH_LOGO = Sprite\(0, 0, 
+[ \t]*13\*SC_scale, 
+[ \t]*13\*SC_scale\*\(G.ASSET_ATLAS\["balatro"\]\.py/G.ASSET_ATLAS\["balatro"\]\.px\),
+[ \t]*G\.ASSET_ATLAS\["balatro"\], \{x=0,y=0\}\)'''
+position = "at"
+payload = '''
+local key = "balatro"
+if BalatroPlus.config.replace_splash_logo then
+  key = "bplus_balatro_plus"
+end
+
+G.SPLASH_LOGO = Sprite(
+  0,
+  0, 
+  13 * SC_scale, 
+  13 * SC_scale * (G.ASSET_ATLAS[key].py / G.ASSET_ATLAS[key].px),
+  G.ASSET_ATLAS[key],
+  { x = 0, y = 0 }
+)
+'''
+
+# Add some colors to loc_colour function
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = "G.ARGS.LOC_COLOURS = G.ARGS.LOC_COLOURS or {"
+position = "after"
+match_indent = true
+payload = """
+  eternal = G.C.ETERNAL,
+  rental = G.C.RENTAL,
+  bplus_sigil = G.C.SET.sigil,
+"""
+
+# Add 'enhance' context for Joker trigger
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "local old_center = self.config.center"
+position = "before"
+match_indent = true
+payload = """
+if not initial then
+  if G.jokers and not self._bplus_copying_card and self.config.card.name and center ~= G.P_CENTERS.c_base then
+    for _, joker in ipairs(G.jokers.cards) do
+      joker:calculate_joker { enhance = true, other_card = self, from = self.config.center, to = center }
+    end
+  end
+end
+
+"""
+
+# Prevent copy_card to triggering 'enhance' context for joker trigger
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "new_card:set_ability(other.config.center)"
+position = "at"
+match_indent = true
+payload = """
+new_card._bplus_copying_card = true
+new_card:set_ability(other.config.center)
+new_card._bplus_copying_card = nil
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if amt > 0 or amt < 0 then"
+position = "before"
+match_indent = true
+payload = """
+if extra and extra.message then
+  text = extra.message
+end
+"""
+
+# Modify probabilities logic
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''G.GAME.probabilities\.(?<key>[a-zA-Z0-9_]+)'''
+position = "at"
+payload = '''probability("$key")'''
+[[patches]]
+[patches.regex]
+target = "blind.lua"
+pattern = '''G.GAME.probabilities\.(?<key>[a-zA-Z0-9_]+)'''
+position = "at"
+payload = '''probability("$key")'''
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = '''G.GAME.probabilities\.(?<key>[a-zA-Z0-9_]+)'''
+position = "at"
+payload = '''probability("$key")'''
+[[patches]]
+[patches.regex]
+target = "functions/button_callbacks.lua"
+pattern = '''G.GAME.probabilities\.(?<key>[a-zA-Z0-9_]+)'''
+position = "at"
+payload = '''probability("$key")'''
+[[patches]]
+[patches.regex]
+target = "functions/common_events.lua"
+pattern = '''G.GAME.probabilities\.(?<key>[a-zA-Z0-9_]+)'''
+position = "at"
+payload = '''probability("$key")'''
+
+# Add extra argument for pool function
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function get_current_pool(_type, _rarity, _legendary, _append)"
+position = "at"
+match_indent = true
+payload = "function get_current_pool(_type, _rarity, _legendary, _append, opt)"
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "for k, v in ipairs(_starting_pool) do"
+position = "before"
+match_indent = true
+payload = """
+if opt and opt.forced_rarity then
+  _starting_pool, _pool_key = G.P_JOKER_RARITY_POOLS[opt.forced_rarity], 'Joker' .. opt.forced_rarity .. _append
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)"
+position = "at"
+match_indent = true
+payload = "function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append, opt)"
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "local _pool, _pool_key = get_current_pool(_type, _rarity, legendary, key_append)"
+position = "at"
+match_indent = true
+payload = "local _pool, _pool_key = get_current_pool(_type, _rarity, legendary, key_append, opt)"

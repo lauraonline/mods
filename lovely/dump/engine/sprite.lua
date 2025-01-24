@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '3d0395906e098682391897a81b05df12cd2dc6e39322ebd87a281c6c9d1caebc'
+LOVELY_INTEGRITY = 'f75885ff3557a13bc9214c747b3919f84c148b8eb3cce9ec0a08562aacae949f'
 
 --Class
 Sprite = Moveable:extend()
@@ -84,7 +84,9 @@ function Sprite:draw_shader(_shader, _shadow_height, _send, _no_tilt, other_obj,
     if custom_shader then 
         if _send then 
             for k, v in ipairs(_send) do
-                G.SHADERS[_shader]:send(v.name, v.val or (v.func and v.func()) or v.ref_table[v.ref_value])
+                if v.val or (v.func and v.func()) or v.ref_table[v.ref_value] then
+                    G.SHADERS[_shader]:send(v.name, v.val or (v.func and v.func()) or v.ref_table[v.ref_value])
+                end
             end
         end
     elseif _shader == 'vortex' then 
@@ -186,6 +188,12 @@ function Sprite:draw(overlay)
     end
     
     add_to_drawhash(self)
+    if self.soul then
+        local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+        self.soul:draw_shader('dissolve',0, nil, nil, self, scale_mod, rotate_mod,nil, 0.05 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+        self.soul:draw_shader('dissolve', nil, nil, nil, self, scale_mod, rotate_mod,nil, -0.05)
+    end
     for k, v in pairs(self.children) do
         if k ~= 'h_popup' then v:draw() end
     end

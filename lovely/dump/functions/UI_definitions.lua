@@ -1,10 +1,12 @@
-LOVELY_INTEGRITY = '98cd4b85d311c28239b8ec0d91dba94b1d083af43d6f8c7f23b58181866f423e'
+LOVELY_INTEGRITY = '8f3f40fcf9d629d0ec5c685bc72e3befa9fcf48332c4091e0f21c1de2381f5f6'
 
 --Create a global UIDEF that contains all UI definition functions\
 --As a rule, these contain functions that return a table T representing the definition for a UIBox
 G.UIDEF = {}
 
 function create_UIBox_debug_tools()
+local debugplus = require("debugplus.core")
+debugplus.registerButtons()
   G.debug_tool_config = G.debug_tool_config or {}
   G.FUNCS.DT_add_money = function() if G.STAGE == G.STAGES.RUN then ease_dollars(10) end end
   G.FUNCS.DT_add_round = function() if G.STAGE == G.STAGES.RUN then  ease_round(1) end end
@@ -94,7 +96,40 @@ function create_UIBox_debug_tools()
           {n=G.UIT.T, config={text = "Hover over any Joker/Playing card", scale = 0.25, colour = G.C.WHITE, shadow = true}}
         }},
         {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
-          {n=G.UIT.T, config={text = "and press [Q] to cycle Edition", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+              {n=G.UIT.T, config={text = "hold [" .. require("debugplus.util").ctrlText .. "] (togglable in config)", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "and press [Q] to cycle Edition", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }}, 
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [W] to cycle Enhancement", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [E] to cycle Seal", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [A/S/D] to toggle Eternal/Perishable/Rental", scale = 0.2, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [F] to toggle Coupon (make free)", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [R/C] to destroy/copy card", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [M] to reload atlases", scale = 0.25, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [UP/DOWN] to cycle rank", scale = 0.2, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.00}, nodes={
+              {n=G.UIT.T, config={text = "press [RIGHT/LEFT] to cycle suit", scale = 0.2, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
+              {n=G.UIT.T, config={text = "press [z] plus [1-3] to save a save state", scale = 0.2, colour = G.C.WHITE, shadow = true}}
+          }},
+          {n=G.UIT.R, config={align = "cm", padding = 0.00}, nodes={
+              {n=G.UIT.T, config={text = "press [x] plus [1-3] to load a save state", scale = 0.2, colour = G.C.WHITE, shadow = true}}
         }},
       }},
       {n=G.UIT.R, config={align = "cm", padding = 0.05}, nodes={
@@ -126,6 +161,8 @@ function create_UIBox_debug_tools()
           UIBox_button{ label = {"+1 Discard"}, button = "DT_add_discard", minw = 1.7, minh = 0.4, scale = 0.35},
           UIBox_button{ label = {"Boss Reroll"}, button = "DT_reroll_boss", minw = 1.7, minh = 0.4, scale = 0.35},
           UIBox_button{ label = {"Background"}, button = "DT_toggle_background", minw = 1.7, minh = 0.4, scale = 0.35},
+          UIBox_button{ label = {"Win Blind"}, button = "DT_win_blind", minw = 1.7, minh = 0.4, scale = 0.35},
+          UIBox_button{ label = {"Double Tag"}, button = "DT_double_tag", minw = 1.7, minh = 0.4, scale = 0.35},
         }},
         {n=G.UIT.C, config={align = "cm", padding = 0.15}, nodes={
           UIBox_button{ label = {"+10 chips"}, button = "DT_add_chips", minw = 1.7, minh = 0.4, scale = 0.35},
@@ -164,7 +201,9 @@ function create_UIBox_notify_alert(_achievement, _type)
   local subtext = _type == 'achievement' and localize(G.F_TROPHIES and 'k_trophy' or 'k_achievement') or
     _type == 'Joker' and localize('k_joker') or 
     _type == 'Voucher' and localize('k_voucher') or
-    _type == 'Back' and localize('k_deck') or 'ERROR'
+    _type == 'Back' and localize('k_deck') or
+    _c.set and localize('k_' .. _c.set:lower()) or
+    'ERROR'
 
   if _achievement == 'b_challenge' then subtext = localize('k_challenges') end
   local name = _type == 'achievement' and localize(_achievement, 'achievement_names') or 'ERROR'
@@ -265,6 +304,7 @@ end
             {n=G.UIT.T, config={text = localize('b_sell'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
           }},
           {n=G.UIT.R, config={align = "cm"}, nodes={
+            (card and card.sell_cost or args.card.sell_cost) < 0 and {n=G.UIT.T, config={text = '-',colour = G.C.WHITE, scale = 0.4, shadow = true}} or {n=G.UIT.R},
             {n=G.UIT.T, config={text = localize('$'),colour = G.C.WHITE, scale = 0.4, shadow = true}},
             {n=G.UIT.T, config={ref_table = card, ref_value = 'sell_cost_label',colour = G.C.WHITE, scale = 0.55, shadow = true}}
           }}
@@ -407,6 +447,7 @@ function G.UIDEF.card_focus_button(args)
         {n=G.UIT.T, config={text = localize('b_sell'),colour = G.C.UI.TEXT_LIGHT, scale = 0.4, shadow = true}}
       }},
       {n=G.UIT.R, config={align = "cl"}, nodes={
+        (card and card.sell_cost or args.card.sell_cost) < 0 and {n=G.UIT.T, config={text = '-',colour = G.C.WHITE, scale = 0.4, shadow = true}} or {n=G.UIT.R},
         {n=G.UIT.T, config={text = localize('$'),colour = G.C.WHITE, scale = 0.4, shadow = true}},
         {n=G.UIT.T, config={ref_table = args.card, ref_value = 'sell_cost_label',colour = G.C.WHITE, scale = 0.55, shadow = true}}
       }}
@@ -653,10 +694,12 @@ function create_UIBox_character_button(args)
 end
   
 function G.UIDEF.shop()
+HeyListen.reset_listening("shop_buy")
+HeyListen.reset_listening("shop_reroll")
     G.shop_jokers = CardArea(
       G.hand.T.x+0,
       G.hand.T.y+G.ROOM.T.y + 9,
-      G.GAME.shop.joker_max*1.02*G.CARD_W,
+      math.min(G.GAME.shop.joker_max*1.02*G.CARD_W,4.08*G.CARD_W),
       1.05*G.CARD_H, 
       {card_limit = G.GAME.shop.joker_max, type = 'shop', highlight_limit = 1})
 
@@ -768,6 +811,16 @@ end
         create_shop_card_ui(card)
         return card
       else
+        for k, v in ipairs(G.jokers.cards) do
+            local card = v:calculate_joker{
+                store_card_create = true,
+                area = area
+            }
+            
+            if card then
+                return card
+            end
+        end
         local forced_tag = nil
         for k, v in ipairs(G.GAME.tags) do
           if not forced_tag then
@@ -801,7 +854,7 @@ end
           end
           for _, v in ipairs(rates) do
             if polled_rate > check_rate and polled_rate <= check_rate + v.val then
-              local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')
+              local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho', { for_shop = true })
               create_shop_card_ui(card, v.type, area)
               G.E_MANAGER:add_event(Event({
                   func = (function()
@@ -1119,6 +1172,9 @@ end
       local card_type = localize('k_'..string.lower(AUT.card_type))
 
       if AUT.card_type == 'Joker' or (AUT.badges and AUT.badges.force_rarity) then card_type = SMODS.Rarity:get_rarity_badge(card.config.center.rarity) end
+      if AUT.card_type == 'Joker' and card.config.center.rarity == (CURSERARITY) then
+          card_type = localize('k_' .. CURSERARITY) 
+      end
       if AUT.card_type == 'Enhanced' then card_type = localize{type = 'name_text', key = card.config.center.key, set = 'Enhanced'} end
       card_type = (debuffed and AUT.card_type ~= 'Enhanced') and localize('k_debuffed') or card_type
 
@@ -1144,6 +1200,11 @@ end
       end
       if obj and obj.set_badges and type(obj.set_badges) == 'function' then
           obj:set_badges(card, badges)
+      end
+      if obj and (obj.mod and obj.mod.id and not obj.mod.id == "joker_evolution") and is_evo(obj) then
+          local len = string.len("Joker Evolution")
+          local size = 0.9 - (len > 6 and 0.02*(len-6) or 0)
+          badges[#badges + 1] = create_badge("Joker Evolution", HEX("18cadc"), nil, size)
       end
       if AUT.badges then
         for k, v in ipairs(AUT.badges) do
@@ -1202,6 +1263,7 @@ end
             {n=G.UIT.R, config={align = "cm", padding = 0.07, r = 0.1, colour = adjust_alpha(card_type_background, 0.8)}, nodes={
               name_from_rows(AUT.name, is_playing_card and G.C.WHITE or nil),
               desc_from_rows(AUT.main),
+              AUT.mythos and desc_from_rows(AUT.mythos) or nil,
               badges[1] and {n=G.UIT.R, config={align = "cm", padding = 0.03}, nodes=badges} or nil,
             }}
           }}
@@ -1358,6 +1420,9 @@ end
   
   G.GAME.tags[#G.GAME.tags+1] = _tag
   _tag.HUD_tag = G.HUD_tags[#G.HUD_tags]
+  if _tag.key ~= "tag_bplus_recycle" then
+    G.GAME.bplus_recycle_tag_last_tag = _tag.key
+  end
 end
 
 function create_UIBox_HUD()
@@ -1556,6 +1621,7 @@ function create_UIBox_blind_tag(blind_choice, run_info)
   G.GAME.round_resets.blind_tags = G.GAME.round_resets.blind_tags or {}
   if not G.GAME.round_resets.blind_tags[blind_choice] then return nil end
   local _tag = Tag(G.GAME.round_resets.blind_tags[blind_choice], nil, blind_choice)
+  _tag:set_ability()
   local _tag_ui, _tag_sprite = _tag:generate_UI()
   _tag_sprite.states.collide.can = not not run_info
   return 
@@ -1597,6 +1663,22 @@ function create_UIBox_blind_choice(type, run_info)
   local extras = nil
   local stake_sprite = get_stake_sprite(G.GAME.stake or 1, 0.5)
 
+  G.GAME.zodiac_choices = G.GAME.zodiac_choices or {}
+  G.GAME.zodiac_choices[G.GAME.round_resets.ante] = G.GAME.zodiac_choices[G.GAME.round_resets.ante] or {}
+  
+  if not G.GAME.zodiac_choices[G.GAME.round_resets.ante][type] then 
+      local _poker_hands = {}
+      for k, _ in pairs(G.ZODIACS) do
+          _poker_hands[#_poker_hands+1] = k
+      end
+  
+      local zodiac1 = pseudorandom_element(_poker_hands, pseudoseed('constellation_patch'))
+      local zodiac2 = pseudorandom_element(_poker_hands, pseudoseed('constellation_patch'))
+      while zodiac1 == zodiac2 do
+          zodiac2 = pseudorandom_element(_poker_hands, pseudoseed('constellation_patch'))
+      end
+      G.GAME.zodiac_choices[G.GAME.round_resets.ante][type] = {zodiac1, zodiac2}
+  end
   G.GAME.orbital_choices = G.GAME.orbital_choices or {}
   G.GAME.orbital_choices[G.GAME.round_resets.ante] = G.GAME.orbital_choices[G.GAME.round_resets.ante] or {}
 
@@ -1640,8 +1722,10 @@ function create_UIBox_blind_choice(type, run_info)
          target.vars = {localize(G.GAME.current_round.most_played_poker_hand, 'poker_hands')}
   end
   local obj = blind_choice.config
+  local loc_key = obj.key
   if obj.loc_vars and _G['type'](obj.loc_vars) == 'function' then
       local res = obj:loc_vars() or {}
+      loc_key = res.key or obj.key
       target.vars = res.vars or target.vars
       target.key = res.key or target.key
   end
@@ -2418,6 +2502,12 @@ function create_UIBox_settings()
     tab_definition_function_args = 'Audio'
   }
 
+  if not require("debugplus.config").SMODSLoaded then
+      tabs[#tabs+1] = {
+          label = "DebugPlus",
+          tab_definition_function = require("debugplus.config").fakeConfigTab,
+      }
+  end
   local settings_icon = Cartomancer.add_settings_icon()
   if settings_icon then
       tabs[#tabs+1] = {
@@ -2439,7 +2529,9 @@ end
 function G.UIDEF.settings_tab(tab)
   if tab == 'Game' then
     return {n=G.UIT.ROOT, config={align = "cm", padding = 0.05, colour = G.C.CLEAR}, nodes={
-      create_option_cycle({label = localize('b_set_gamespeed'),scale = 0.8, options = {0.5, 1, 2, 4}, opt_callback = 'change_gamespeed', current_option = (G.SETTINGS.GAMESPEED == 0.5 and 1 or G.SETTINGS.GAMESPEED == 4 and 4 or G.SETTINGS.GAMESPEED + 1)}),
+      G.UIDEF.nopeus_options(),
+      G.UIDEF.nopeus_fastforward_options(),
+      G.UIDEF.nopeus_statustext_options(),
       create_option_cycle({w = 5, label = localize('b_set_play_discard_pos'),scale = 0.8, options = localize('ml_play_discard_pos_opt'), opt_callback = 'change_play_discard_position', current_option = (G.SETTINGS.play_button_pos)}),
       G.F_RUMBLE and create_toggle({label = localize('b_set_rumble'), ref_table = G.SETTINGS, ref_value = 'rumble'}) or nil,
       create_slider({label = localize('b_set_screenshake'),w = 4, h = 0.4, ref_table = G.SETTINGS, ref_value = 'screenshake', min = 0, max = 100}),
@@ -3194,6 +3286,7 @@ function create_UIBox_hand_tip(handname)
       if v[2] then card:juice_up(0.3, 0.2) end
       if k == 1 then play_sound('paper1',0.95 + math.random()*0.1, 0.3) end
       ease_value(card.T, 'scale',v[2] and 0.25 or -0.15,nil,'REAL',true,0.2)
+      if v[3] then card.ability.aikoyori_letters_stickers = v[3] else card.ability.aikoyori_letters_stickers = nil end
       cardarea:emplace(card)
   end
 
@@ -3958,6 +4051,7 @@ function create_UIBox_your_collection_vouchers(exit)
       local center = G.P_CENTER_POOLS["Voucher"][i+(j-1)*4]
       local card = Card(G.your_collection[j].T.x + G.your_collection[j].T.w/2, G.your_collection[j].T.y, G.CARD_W, G.CARD_H, nil, center)
       card.ability.order = i+(j-1)*4
+      card.sticker = get_voucher_win_sticker(center)
       card:start_materialize(nil, i>1 or j>1)
       G.your_collection[j]:emplace(card)
     end
@@ -4159,7 +4253,7 @@ function create_UIBox_your_collection_tags()
           local table_nodes = {}
           for i = 1, math.ceil(counter / 6) do
               table.insert(table_nodes, {n=G.UIT.R, config={align = "cm"}, nodes=tag_matrix[i]})
-          end  local t = create_UIBox_generic_options({ back_func = 'your_collection', contents = {
+          end  local t = create_UIBox_generic_options({ back_func = G.ACTIVE_MOD_UI and "openModUI_"..G.ACTIVE_MOD_UI.id or 'your_collection', contents = {
     {n=G.UIT.C, config={align = "cm", r = 0.1, colour = G.C.BLACK, padding = 0.1, emboss = 0.05}, nodes={
       {n=G.UIT.C, config={align = "cm"}, nodes={
         {n=G.UIT.R, config={align = "cm"}, nodes=table_nodes}
@@ -4323,8 +4417,10 @@ function create_UIBox_blind_popup(blind, discovered, vars)
   
   local _dollars = blind.dollars
   local target = {type = 'raw_descriptions', key = blind.key, set = 'Blind', vars = vars or blind.vars}
+  local loc_key = blind.key
   if blind.collection_loc_vars and type(blind.collection_loc_vars) == 'function' then
       local res = blind:collection_loc_vars() or {}
+      loc_key = res.key or blind.key
       target.vars = res.vars or target.vars
       target.key = res.key or target.key
   end
@@ -5273,8 +5369,9 @@ function G.UIDEF.run_setup(from_game_over)
             {
                 label = localize('b_new_run'),
                 chosen = (not _challenge_chosen) and (not _can_continue),
-                tab_definition_function = G.UIDEF.run_setup_option,
+                tab_definition_function = (Galdur.config.use and G.UIDEF.run_setup_option_new_model or G.UIDEF.run_setup_option),
                 tab_definition_function_args = 'New Run'
+                
             },
             G.STAGE == G.STAGES.MAIN_MENU and {
                 label = localize('b_continue'),

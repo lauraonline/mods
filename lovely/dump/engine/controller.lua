@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'b35096005020c493852e600a08694bdc7cda770055dc2a0751146bc7d2138326'
+LOVELY_INTEGRITY = '507b03647bbe501dd8d13b2057f5c7368f04cecedcd6a52fcd931157e7ac72ba'
 
 ---@class Controller
 Controller = Object:extend()
@@ -422,6 +422,8 @@ function Controller:update(dt)
     elseif self.hovering.prev_target then
         self.hovering.prev_target:stop_hover()
     end
+    if self.hovering.prev_target and self.hovering.prev_target.role and self.hovering.prev_target.role.major and self.hovering.prev_target.role.major.params and self.hovering.prev_target.role.major.params.stake_chip and self.hovering.target ~= self.hovering.prev_target then self.hovering.prev_target.role.major:stop_hover() end
+    if self.hovering.target and self.hovering.target.role and self.hovering.target.role.major and self.hovering.target.role.major.params and self.hovering.target.role.major.params.stake_chip and self.hovering.target ~= self.hovering.prev_target then self.hovering.target.role.major:hover() end
     if self.hovering.target and self.hovering.target == self.dragging.target and not self.HID.touch then
         self.hovering.target:stop_hover()
     end
@@ -774,6 +776,9 @@ function Controller:key_press_update(key, dt)
             Cartomancer.save_config()
         end
     end
+    if key == "escape" and G.ACTIVE_FLOWPOT_UI then
+        G.FUNCS.exit_mods()
+    end
     if key == "escape" and G.ACTIVE_MOD_UI then
         G.FUNCS.exit_mods()
     end
@@ -828,7 +833,7 @@ function Controller:key_press_update(key, dt)
             end
         end
     end
-    if not _RELEASE_MODE then
+    if not _RELEASE_MODE and require("debugplus.core").isOkayToHandleDebugForKey(key) then
         if key == 'tab' and not G.debug_tools then
             G.debug_tools = UIBox{
                 definition = create_UIBox_debug_tools(),
@@ -844,7 +849,7 @@ function Controller:key_press_update(key, dt)
         end
         if self.hovering.target and self.hovering.target:is(Card) then 
             local _card = self.hovering.target
-            if  G.OVERLAY_MENU then 
+            if G.OVERLAY_MENU or (_card and _card.area and _card.area.config and _card.area.config.collection) then
                 if key == "1"  then
                     unlock_card(_card.config.center)
                     _card:set_sprites(_card.config.center)
@@ -859,6 +864,8 @@ function Controller:key_press_update(key, dt)
                         add_joker(_card.config.center.key)
                         _card:set_sprites(_card.config.center)
                     end
+                    local debugplus = require("debugplus.core")
+                    debugplus.handleSpawn(self, _card)
                     if _card.ability.consumeable and G.consumeables and #G.consumeables.cards < G.consumeables.config.card_limit then
                         add_joker(_card.config.center.key)
                         _card:set_sprites(_card.config.center)
@@ -910,13 +917,17 @@ function Controller:key_press_update(key, dt)
       if key == "space" then
           live_test()
       end
+      local debugplus = require("debugplus.core")
+      debugplus.handleKeys(self, key, dt)
       if key == 'v' then
         if not G.prof then G.prof = require "engine/profile"; G.prof.start()
         else    G.prof:stop();
             print(G.prof.report()); G.prof = nil end
+            debugplus.profileMessage()
         end
        if key == "p" then
            G.SETTINGS.perf_mode = not G.SETTINGS.perf_mode
+           debugplus.togglePerfUI()
        end
     end
 end
@@ -986,7 +997,7 @@ for _, keybind in pairs(SMODS.Keybinds) do
 end
     if ((self.locked) and not G.SETTINGS.paused) or (self.locks.frame) or (self.frame_buttonpress) then return end
     self.frame_buttonpress = true
-    if key == "a" and self.held_keys["g"] and not _RELEASE_MODE then
+        if key == "a" and self.held_keys["g"] and not _RELEASE_MODE and not G.TMJUI then
         G.DEBUG = not(G.DEBUG)
     end
     if key == 'tab' and G.debug_tools then

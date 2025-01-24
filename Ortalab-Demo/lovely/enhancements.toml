@@ -1,0 +1,46 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+## Shop Card Area Width
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''G.GAME.shop.joker_max*1.02*G.CARD_W,'''
+position = 'at'
+match_indent = true
+payload = '''math.min(G.GAME.shop.joker_max*1.02*G.CARD_W,4.08*G.CARD_W),'''
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''G.shop_jokers.T.w = G.GAME.shop.joker_max*1.01*G.CARD_W'''
+position = 'at'
+match_indent = true
+payload = '''G.shop_jokers.T.w = math.min(G.GAME.shop.joker_max*1.02*G.CARD_W,4.08*G.CARD_W)'''
+# evaluate_play()
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''-- context.before calculations'''
+position = 'before'
+match_indent = true
+payload = '''G.GAME.ortalab.temp_levels = 0'''
+# IOU Card logic
+# evaluate_play()
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''mult, hand_chips, modded = G.GAME.blind:modify_hand(G.play.cards, poker_hands, text, mult, hand_chips)'''
+position = 'before'
+match_indent = true
+payload = '''
+local negative_temp_levels = G.GAME.ortalab.temp_levels < 0
+for i=1, math.max(G.GAME.ortalab.temp_levels, G.GAME.ortalab.temp_levels * -1) do
+    update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level=G.GAME.hands[text].level..(negative_temp_levels and '-' or '+')..i})
+    mult = mod_mult(math.max(0, mult+(negative_temp_levels and -1 * G.GAME.hands[text].l_mult or G.GAME.hands[text].l_mult)))
+    update_hand_text({delay = 0}, {mult = mult})
+    hand_chips = mod_chips(math.max(0, hand_chips+(negative_temp_levels and -1 * G.GAME.hands[text].l_chips or G.GAME.hands[text].l_chips)))
+    update_hand_text({delay = 0}, {chips = hand_chips})
+    delay(0.3)
+end'''

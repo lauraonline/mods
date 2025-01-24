@@ -1,0 +1,280 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Modify joker level_up effect
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "level_up_hand(G.jokers.cards[i], text)"
+position = "before"
+match_indent = true
+payload = """
+  local level = effects.jokers.level_up
+  if type(level) ~= "number" then
+    level = 1
+  end
+  level_up_hand(G.jokers.cards[i], text, nil, level)
+end
+if false then
+"""
+
+# Space Invader Joker ability
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and not self.ability.extra_enhancement then"
+position = "at"
+match_indent = true
+payload = """
+local has_space_invader = next(find_joker("j_bplus_space_invader"))
+if self.seal == 'Blue' and (
+  (#G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and not self.ability.extra_enhancement)
+  or has_space_invader
+) then
+  if has_space_invader then
+    G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+  end
+"""
+
+# Anonymous Mask Joker ability
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:set_debuff(should_debuff)"
+position = "after"
+match_indent = true
+payload = """
+if next(find_joker("j_bplus_anonymous_mask")) and self:is_face() then
+  should_debuff = false
+end
+"""
+
+# Stone Carving Joker ability
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:is_suit(suit, bypass_debuff, flush_calc)"
+position = "after"
+match_indent = true
+payload = """
+if flush_calc then
+  if self.ability.name == G.P_CENTERS.m_stone.name and not self.debuff and next(find_joker("j_bplus_stone_carving")) then
+    return G.GAME.current_round.bplus_stone_carving_card.suit == suit
+  end
+
+  if not self.debuff and next(find_joker("j_bplus_blured")) then
+    local blured_suit
+    local transform = G.GAME.current_round.bplus_blured_suit
+    if self.base.suit == transform.from then
+      blured_suit = transform.to
+    end
+    return self.base.suit == suit or blured_suit == suit
+  end
+else
+  if self.debuff and not bypass_debuff then return end
+
+  if self.ability.name == G.P_CENTERS.m_stone.name and next(find_joker("j_bplus_stone_carving")) then
+    return G.GAME.current_round.bplus_stone_carving_card.suit == suit
+  end
+  
+  if next(find_joker("j_bplus_blured")) then
+    local blured_suit
+    local transform = G.GAME.current_round.bplus_blured_suit
+    if self.base.suit == transform.from then
+      blured_suit = transform.to
+    end
+    return self.base.suit == suit or blured_suit == suit
+  end
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:get_id()"
+position = "after"
+match_indent = true
+payload = """
+if self.ability.name == G.P_CENTERS.m_stone.name and not self.debuff and next(find_joker("j_bplus_stone_carving")) then
+  return G.GAME.current_round.bplus_stone_carving_card.id
+end
+"""
+
+# Add Joker trigger context
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = '''[ \t]*G\.jokers\.cards\[i\]:calculate_joker\(\{setting_blind = true, blind = G\.GAME\.round_resets\.blind\}\)
+(?<indent>[ \t])*end'''
+position = "after"
+line_prepend = '$indent'
+payload = """
+
+for _, card in ipairs(G.jokers.cards) do
+  card:calculate_joker { post_setting_blind = true, blind = G.GAME.round_resets.blind }
+end
+"""
+
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = '''(?<indent>[ \t])*G\.E_MANAGER:add_event\(Event\(\{
+[ \t]*trigger = 'immediate',
+[ \t]*func = function\(\)
+[ \t]*G\.STATE = G\.STATES\.DRAW_TO_HAND
+'''
+line_prepend = "$indent"
+position = "before"
+payload = """
+local destroyed_jokers = {}
+for _, card in ipairs(G.jokers.cards) do
+  if bplus_is_getting_destroyed(card) then
+    destroyed_jokers[#destroyed_jokers + 1] = card
+  end
+end
+
+if next(destroyed_jokers) then
+  for _, card in ipairs(G.jokers.cards) do
+    card:calculate_joker { joker_destroyed = true, destroyed_cards = destroyed_jokers }
+  end
+end
+
+"""
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''(?<indent>[ \t])*G\.E_MANAGER:add_event\(Event\(\{trigger = 'before', delay = 0\.75, func = function\(\)
+[ \t]*for k, v in pairs\(deletable_jokers\) do
+'''
+line_prepend = "$indent"
+position = "before"
+payload = """
+bplus_joker_destroyed_trigger(deletable_jokers)
+
+"""
+
+[[patches]]
+[patches.regex]
+target = "card.lua"
+pattern = '''[ \t]*for k, v in pairs\(G\.jokers\.cards\) do
+[ \t]*if v ~= eligible_card and \(not v\.ability\.eternal\) then v:start_dissolve\(nil, _first_dissolve\);_first_dissolve = true end
+[ \t]*end
+'''
+position = "at"
+payload = """
+local destroyed_jokers = {}
+for k, v in pairs(G.jokers.cards) do
+  if v ~= eligible_card and (not v.ability.eternal) then
+    destroyed_jokers[#destroyed_jokers + 1] = v
+  end
+end
+
+bplus_joker_destroyed_trigger(destroyed_jokers)
+G.E_MANAGER:add_event(Event {
+  func = function()
+    for _, card in ipairs(destroyed_jokers) do
+      card:start_dissolve(nil, _first_dissolve)
+      _first_dissolve = true
+    end
+    return true
+  end
+})
+"""
+
+# Add retrigger context when discarding cards
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "for i=1, highlighted_count do"
+position = "at"
+match_indent = true
+payload = """
+for i = 1, highlighted_count do
+  local reps = {1}
+  for j = 1, #G.jokers.cards do
+    local eval = G.jokers.cards[j]:calculate_joker { discard_repetition = true, other_card = G.hand.highlighted[i], full_hand = G.hand.highlighted }
+    if eval and eval.repetitions then
+      if not eval.card then
+        eval.card = G.jokers.cards[j]
+      end
+      reps[#reps + 1] = eval
+    end
+  end
+
+  local removed = false
+  for j = 1, #reps do
+    if reps[j] ~= 1 then
+      if G.GAME.blind.name == "bl_bplus_lazy" and not G.GAME.blind.disabled then
+        local already = {}
+        for i = 2, #reps do
+          if not already[reps[i]] then
+            already[reps[i]] = true
+            bplus_bl_lazy_trigger((reps[i].jokers or reps[i].seals).card)
+          end
+        end
+        break
+      end
+
+      card_eval_status_text(reps[j].card, 'jokers', nil, nil, nil, reps[j])
+    end
+
+    G.hand.highlighted[i]:calculate_seal { discard = true }
+
+    local effects = {}
+    SMODS.calculate_context({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted}, nil, effects)
+    SMODS.trigger_effects(effects)
+    for _, eval in pairs(effects) do
+        if type(eval) == 'table' then
+            for key, eval2 in pairs(eval) do
+                if key == 'remove' or (type(eval2) == 'table' and eval2.remove) then removed = true end
+            end
+        end
+    end
+  end
+
+  cards[#cards + 1] = G.hand.highlighted[i]
+  if removed then
+    destroyed_cards[#destroyed_cards + 1] = G.hand.highlighted[i]
+    if G.hand.highlighted[i].ability.name ==  G.P_CENTERS.m_glass.name then
+      G.hand.highlighted[i]:shatter()
+    else
+      G.hand.highlighted[i]:start_dissolve()
+    end
+  else
+    G.hand.highlighted[i].ability.discarded = true
+    draw_card(G.hand, G.discard, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+  end
+end
+
+if false then
+"""
+
+# Joker Not Found make Common Jokers no longer appear
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho')"
+position = "at"
+match_indent = true
+payload = """
+local card = create_card(v.type, area, nil, nil, nil, nil, nil, 'sho', { for_shop = true })
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "_starting_pool, _pool_key = G.P_JOKER_RARITY_POOLS[rarity], 'Joker'..rarity..((not _legendary and _append) or '')"
+position = "before"
+match_indent = true
+payload = """
+if opt and opt.for_shop and rarity == 1 and next(find_joker("j_bplus_not_found")) then
+  rarity = bplus_poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''), {
+    filter = function(r)
+      return r.key ~= "Common"
+    end
+  })
+end
+"""

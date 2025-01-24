@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'a75d3a1f1fe832980d0787721f86f2c20af27f51aa5a38e59c05fff79f0edbb7'
+LOVELY_INTEGRITY = '47ab4a6a0a4d349645d7e0efbb341b157e2fa30d178df4a6c0692829f572c37b'
 
 VERSION = '1.0.1n'
 VERSION = VERSION..'-FULL'
@@ -162,6 +162,8 @@ function Game:set_globals()
         rumble = self.F_RUMBLE,
         play_button_pos = 2,
         GAMESPEED = 1,
+        FASTFORWARD = 0,
+        STATUSTEXT = 0,
         paused = false,
         SOUND = {
             volume = 50,

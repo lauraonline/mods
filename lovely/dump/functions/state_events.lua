@@ -1,8 +1,9 @@
-LOVELY_INTEGRITY = '5cb51a7f849eadcd54da71b0e0336b6be89a38f6f7cd517b54eb12969270f80c'
+LOVELY_INTEGRITY = '5fc838ab5ae12e9f492d086418a05b03d68b2fe758fc16bcbecbfe1ad816eb39'
 
 function win_game()
     if (not G.GAME.seeded and not G.GAME.challenge) or SMODS.config.seeded_unlocks then
         set_joker_win()
+        set_voucher_win()
         set_deck_win()
         
         check_and_set_high_score('win_streak', G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt+1)
@@ -123,6 +124,9 @@ end
             if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then
                 game_over = false
             end
+                        if G.GAME.aiko_puzzle_win then
+                            game_over = false
+                        end
             -- context.end_of_round calculations
             SMODS.saved = false
             SMODS.calculate_context({end_of_round = true, game_over = game_over })
@@ -141,6 +145,7 @@ end
                 G.FILE_HANDLER.force = true
                 G.STATE_COMPLETE = false
             else
+                G.GAME.unused_hands = (G.GAME.unused_hands or 0) + G.GAME.current_round.hands_left
                 G.GAME.unused_discards = (G.GAME.unused_discards or 0) + G.GAME.current_round.discards_left
                 if G.GAME.blind and G.GAME.blind.config.blind then 
                     discover_card(G.GAME.blind.config.blind)
@@ -221,19 +226,30 @@ end
                         end)
                     }))
                 end
-                for _,v in ipairs({
-                    G.hand,
-                    SMODS.optional_features.cardareas.deck and G.deck or {},
-                    SMODS.optional_features.cardareas.discard and G.discard or {},
-                    -- TARGET: add your own end_of_round cardareas here
-                }) do
-                    if next(v) then
-                        SMODS.calculate_end_of_round_effects({ cardarea = v, end_of_round = true })
-                    end
+                for _,v in ipairs(SMODS.get_card_areas('playing_cards', 'end_of_round')) do
+                    SMODS.calculate_end_of_round_effects({ cardarea = v, end_of_round = true })
                 end
 
 
 
+                for _, c in ipairs(G.consumeables.cards) do
+                  if c.ability.name == "c_bplus_sigil_blank" then
+                    c.ability.extra = math.max(c.ability.extra - 1, 1)
+                  end
+                end
+                
+                local destroyed_cards = {}
+                for _, c in ipairs(G.hand.cards) do
+                  if bplus_is_getting_destroyed(c) then
+                    destroyed_cards[#destroyed_cards + 1] = c
+                  end
+                end
+                if next(destroyed_cards) then
+                  for i = 1, #G.jokers.cards do
+                    G.jokers.cards[i]:calculate_joker({remove_playing_cards = true, removed = destroyed_cards})
+                  end
+                end
+                
                 G.FUNCS.draw_from_hand_to_discard()
                 if G.GAME.blind:get_type() == 'Boss' then
                     G.GAME.voucher_restock = nil
@@ -248,6 +264,7 @@ end
                     delay(0.4); ease_ante(1); delay(0.4); check_for_unlock({type = 'ante_up', ante = G.GAME.round_resets.ante + 1})
                 end
                 G.FUNCS.draw_from_discard_to_deck()
+                G.GAME.blinds_defeated = (G.GAME.blinds_defeated or 0) + 1
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     delay = 0.3,
@@ -259,8 +276,13 @@ end
                             G.GAME.round_resets.blind_states.Small = 'Defeated'
                         elseif G.GAME.round_resets.blind == G.P_BLINDS.bl_big then
                             G.GAME.round_resets.blind_states.Big = 'Defeated'
+                            elseif Ortalab_blinds.Small[G.GAME.round_resets.blind.key] then
+                                G.GAME.round_resets.blind_states.Small = 'Defeated'
+                            elseif Ortalab_blinds.Big[G.GAME.round_resets.blind.key] then
+                                G.GAME.round_resets.blind_states.Big = 'Defeated'
                         else
                             G.GAME.current_round.voucher = get_next_voucher_key()
+                            if G.GAME.used_vouchers['v_ortalab_ad_campaign'] then G.GAME.current_round.voucher_2 = get_next_voucher_key() end
                             G.GAME.round_resets.blind_states.Boss = 'Defeated'
                             for k, v in ipairs(G.playing_cards) do
                                 v.ability.played_this_ante = nil
@@ -269,7 +291,29 @@ end
 
                         if G.GAME.round_resets.temp_handsize then G.hand:change_size(-G.GAME.round_resets.temp_handsize); G.GAME.round_resets.temp_handsize = nil end
                         if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cost = nil; calculate_reroll_cost(true) end
+                        
+                        for _, joker in ipairs(G.jokers.cards) do
+                          local remaining = joker.ability.bplus_debuffed_by_sigil_froze
+                          if remaining then
+                            if remaining <= 1 then
+                              joker.ability.bplus_debuffed_by_sigil_froze = nil
+                              joker:set_debuff(false)
+                              joker:set_edition({ negative = true }, true)
+                            else
+                              joker.ability.bplus_debuffed_by_sigil_froze = remaining - 1
+                            end
+                          end
+                        end
 
+                        for _, joker in pairs(G.jokers.cards) do
+                            if joker.ability.shinku then
+                                G.E_MANAGER:add_event(Event({
+                                    func = function() 
+                                        joker:start_dissolve()
+                                        return true
+                                end}))   
+                            end
+                        end
                         reset_idol_card()
                         reset_mail_rank()
                         reset_ancient_card()
@@ -322,8 +366,10 @@ function new_round()
             G.GAME.last_deck_size = deck_size
             
             G.GAME.money_spend_this_round = 0
-            G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
-            G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+            if not G.GAME.selected_back.effect.config.static_plays or (G.GAME.round_resets.ante)%G.GAME.win_ante == 0 and G.GAME.round_resets.ante >= 2 then
+                G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+                G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+            end
             G.GAME.current_round.hands_played = 0
             G.GAME.current_round.discards_used = 0
             G.GAME.current_round.reroll_cost_increase = 0
@@ -338,7 +384,13 @@ function new_round()
             end
 
             local chaos = find_joker('Chaos the Clown')
-            G.GAME.current_round.free_rerolls = #chaos
+            G.GAME.current_round.free_rerolls = G.GAME.total_freerolls or 0
+            G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + (G.GAME.current_round.ortalab_rerolls or 0)
+            local glaceon = SMODS.find_card('j_poke_glaceon')
+            for k, v in pairs(glaceon) do
+              G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + v.ability.extra.rerolls
+              v.ability.extra.rerolls_used = 0
+            end
             calculate_reroll_cost(true)
 
             G.GAME.round_bonus.next_hands = 0
@@ -366,6 +418,19 @@ function new_round()
             -- TARGET: setting_blind effects
             delay(0.4)
 
+ local destroyed_jokers = {}
+ for _, card in ipairs(G.jokers.cards) do
+   if bplus_is_getting_destroyed(card) then
+     destroyed_jokers[#destroyed_jokers + 1] = card
+   end
+ end
+ 
+ if next(destroyed_jokers) then
+   for _, card in ipairs(G.jokers.cards) do
+     card:calculate_joker { joker_destroyed = true, destroyed_cards = destroyed_jokers }
+   end
+ end
+ 
             G.E_MANAGER:add_event(Event({
                 trigger = 'immediate',
                 func = function()
@@ -401,6 +466,10 @@ G.FUNCS.draw_from_deck_to_hand = function(e)
         end
         hand_space = n
     end
+    if G.GAME.blind.config.blind.key == 'bl_ortalab_ladder' and not G.GAME.blind.disabled then
+        G.GAME.blind.config.blind.config.extra.action_count = G.GAME.blind.config.blind.config.extra.action_count + 1
+        if G.GAME.blind.config.blind.config.extra.action_count < 2 then hand_space = 0 else G.GAME.blind.config.blind.config.extra.action_count = 0 end
+    end
     if G.GAME.blind.name == 'The Serpent' and
         not G.GAME.blind.disabled and
         (G.GAME.current_round.hands_played > 0 or
@@ -418,6 +487,26 @@ G.FUNCS.draw_from_deck_to_hand = function(e)
 end
 
 G.FUNCS.discard_cards_from_highlighted = function(e, hook)
+
+G.hand.crackers_highlighted = {}
+local crackers_in_hand = false
+
+for i = 1, #G.hand.cards do
+    if G.hand.cards[i] and G.hand.cards[i].highlighted
+    and G.hand.cards[i].config.center == G.P_CENTERS.m_bunc_cracker then
+        crackers_in_hand = true
+        break
+    end
+end
+
+for i = 1, #G.hand.cards do
+    if G.hand.cards[i] and G.hand.cards[i].highlighted
+    and ((G.hand.cards[i].config.center == G.P_CENTERS.m_bunc_cracker) or (crackers_in_hand and #SMODS.find_card('j_bunc_pica', false) > 0)) then
+        table.insert(G.hand.crackers_highlighted, G.hand.cards[i])
+        G.hand:remove_from_highlighted(G.hand.cards[i], true)
+    end
+end
+
 
 if G.GAME.blind and G.GAME.blind.name == 'bl_bunc_final_dagger' and not G.GAME.blind.disabled then
     G.GAME.blind:wiggle()
@@ -445,7 +534,82 @@ end
         -- TARGET: pre_discard
         local cards = {}
         local destroyed_cards = {}
-        for i=1, highlighted_count do
+        for i = 1, highlighted_count do
+          local reps = {1}
+          for j = 1, #G.jokers.cards do
+            local eval = G.jokers.cards[j]:calculate_joker { discard_repetition = true, other_card = G.hand.highlighted[i], full_hand = G.hand.highlighted }
+            if eval and eval.repetitions then
+              if not eval.card then
+                eval.card = G.jokers.cards[j]
+              end
+              reps[#reps + 1] = eval
+            end
+          end
+        
+          local removed = false
+          for j = 1, #reps do
+            if reps[j] ~= 1 then
+              if G.GAME.blind.name == "bl_bplus_lazy" and not G.GAME.blind.disabled then
+                local already = {}
+                for i = 2, #reps do
+                  if not already[reps[i]] then
+                    already[reps[i]] = true
+                    bplus_bl_lazy_trigger((reps[i].jokers or reps[i].seals).card)
+                  end
+                end
+                break
+              end
+        
+              card_eval_status_text(reps[j].card, 'jokers', nil, nil, nil, reps[j])
+            end
+        
+            G.hand.highlighted[i]:calculate_seal { discard = true }
+        
+            local effects = {}
+            SMODS.calculate_context({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted}, nil, effects)
+            SMODS.trigger_effects(effects)
+            for _, eval in pairs(effects) do
+                if type(eval) == 'table' then
+                    for key, eval2 in pairs(eval) do
+                        if key == 'remove' or (type(eval2) == 'table' and eval2.remove) then removed = true end
+                    end
+                end
+            end
+          end
+        
+          cards[#cards + 1] = G.hand.highlighted[i]
+          if removed then
+            destroyed_cards[#destroyed_cards + 1] = G.hand.highlighted[i]
+            if G.hand.highlighted[i].ability.name ==  G.P_CENTERS.m_glass.name then
+              G.hand.highlighted[i]:shatter()
+            else
+              G.hand.highlighted[i]:start_dissolve()
+            end
+          else
+            G.hand.highlighted[i].ability.discarded = true
+            
+            if G.hand.highlighted[i].config.center.discard_override and not G.hand.highlighted[i].debuff then
+            	G.hand.highlighted[i].config.center:discard_override(G.hand.highlighted[i], {delay = i*100/highlighted_count})
+            else
+                if G.hand.highlighted[i].corroded_discard or (G.GAME.blind.config.blind.key == 'bl_ortalab_oil' and not G.GAME.blind.disabled) then
+                    draw_card(G.hand, G.deck, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                    G.deck:shuffle()
+                else
+                    
+                    if G.GAME.blind and G.GAME.blind.name == 'bl_bunc_claw' and not G.GAME.blind.disabled then
+                        draw_card(G.hand, G.deck, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                        G.deck:shuffle('claw'..G.GAME.round_resets.ante)
+                    else
+                        draw_card(G.hand, G.discard, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                    end
+                    
+                end
+            end
+            
+          end
+        end
+        
+        if false then
             G.hand.highlighted[i]:calculate_seal({discard = true})
             local removed = false
             local effects = {}
@@ -469,11 +633,22 @@ end
             else 
                 G.hand.highlighted[i].ability.discarded = true
                 
-                if G.GAME.blind and G.GAME.blind.name == 'bl_bunc_claw' and not G.GAME.blind.disabled then
-                    draw_card(G.hand, G.deck, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
-                    G.deck:shuffle('claw'..G.GAME.round_resets.ante)
+                if G.hand.highlighted[i].config.center.discard_override and not G.hand.highlighted[i].debuff then
+                	G.hand.highlighted[i].config.center:discard_override(G.hand.highlighted[i], {delay = i*100/highlighted_count})
                 else
-                    draw_card(G.hand, G.discard, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                    if G.hand.highlighted[i].corroded_discard or (G.GAME.blind.config.blind.key == 'bl_ortalab_oil' and not G.GAME.blind.disabled) then
+                        draw_card(G.hand, G.deck, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                        G.deck:shuffle()
+                    else
+                        
+                        if G.GAME.blind and G.GAME.blind.name == 'bl_bunc_claw' and not G.GAME.blind.disabled then
+                            draw_card(G.hand, G.deck, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                            G.deck:shuffle('claw'..G.GAME.round_resets.ante)
+                        else
+                            draw_card(G.hand, G.discard, i*100/highlighted_count, 'down', false, G.hand.highlighted[i])
+                        end
+                        
+                    end
                 end
                 
             end
@@ -486,6 +661,9 @@ end
         
         -- TARGET: effects after cards destroyed in discard
 
+        if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+          G.GAME.current_round.bplus_the_brake_last_act = "discard"
+        end
         G.GAME.round_scores.cards_discarded.amt = G.GAME.round_scores.cards_discarded.amt + #cards
         check_for_unlock({type = 'discard_custom', cards = cards})
         if not hook then
@@ -494,6 +672,23 @@ end
             end
             ease_discard(-1)
             G.GAME.current_round.discards_used = G.GAME.current_round.discards_used + 1
+            
+            if G.hand.crackers_highlighted and #G.hand.crackers_highlighted >= 1 then
+                for i = 1, #G.hand.crackers_highlighted do
+                    if not G.hand.crackers_highlighted[i].highlighted then
+                        G.hand:add_to_highlighted(G.hand.crackers_highlighted[i], true)
+                    end
+                    G.hand.crackers_highlighted[i].marked_cracker = true
+                end
+            
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.ignore_hand_played = true
+                    G.FUNCS.play_cards_from_highlighted()
+                return true end}))
+            
+                return
+            end
+            
             
             if G.GAME.blind and G.GAME.blind.name == 'bl_bunc_swing' and not G.GAME.blind.disabled then
                 G.E_MANAGER:add_event(Event({ func = function()
@@ -543,9 +738,30 @@ if G.SCORING_COROUTINE then return false end
             }))
         end
     end
+if G.hand.crackers_highlighted and #G.hand.crackers_highlighted >= 1 then
+
+    ease_discard(-1)
+
+    for i = 1, #G.hand.crackers_highlighted do
+        if not G.hand.crackers_highlighted[i].highlighted then
+            G.hand:add_to_highlighted(G.hand.crackers_highlighted[i], true)
+        end
+        G.hand.crackers_highlighted[i].marked_cracker = true
+    end
+
+    G.E_MANAGER:add_event(Event({func = function()
+        G.GAME.ignore_hand_played = true
+        G.FUNCS.play_cards_from_highlighted()
+    return true end}))
+
+    return
+end
+
+
 end
   
 G.FUNCS.play_cards_from_highlighted = function(e)
+if HeyListen.on_hand_play(e) then return end
     if G.play and G.play.cards[1] then return end
     --check the hand first
     
@@ -667,11 +883,15 @@ G.FUNCS.play_cards_from_highlighted = function(e)
         end
     end
     
-    if G.GAME.blind.antiscore then
-        ease_discard(-1)
-        calculate_discard()
+    if not G.GAME.ignore_hand_played then
+        if G.GAME.blind.antiscore then
+            ease_discard(-1)
+            calculate_discard()
+        else
+            ease_hands_played(-1)
+        end
     else
-        ease_hands_played(-1)
+        G.GAME.ignore_hand_played = nil
     end
     
     delay(0.4)
@@ -708,12 +928,14 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                 G.E_MANAGER:add_event(Event({
                     trigger = 'immediate',
                     func = function()
+                        G.GAME.Ortalab_Scoring_Active = true
                         G.FUNCS.evaluate_play()
                         
                         if G.GAME.blind.antiscore then
                             G.GAME.blind.antiscore = false
                         end
                         
+                        G.GAME.Ortalab_Scoring_Active = false
                         return true
                     end
                 }))
@@ -727,6 +949,9 @@ G.FUNCS.play_cards_from_highlighted = function(e)
                         G.FUNCS.draw_from_play_to_discard()
                         G.GAME.hands_played = G.GAME.hands_played + 1
                         G.GAME.current_round.hands_played = G.GAME.current_round.hands_played + 1
+                        if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+                          G.GAME.current_round.bplus_the_brake_last_act = "play"
+                        end
                         return true
                     end
                 }))
@@ -778,6 +1003,7 @@ G.FUNCS.evaluate_play = function(e)
 
 local antiscore = G.GAME.blind.antiscore
 
+G.bplus_premium_card_dollars = bplus_calculate_premium_card_dollars()
     local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
     
     G.GAME.hands[text].played = G.GAME.hands[text].played + 1
@@ -798,8 +1024,22 @@ local antiscore = G.GAME.blind.antiscore
     --Add all the pure bonus cards to the scoring hand
     local pures = {}
     for i=1, #G.play.cards do
-        if next(find_joker('Splash')) then
-            scoring_hand[i] = G.play.cards[i]
+        if next(find_joker('Splash')) or next(find_joker('magikarp')) or next(find_joker('feebas')) then
+            local inside = false
+            for j=1, #scoring_hand do
+            	if scoring_hand[j] == G.play.cards[i] then
+            		inside = true
+            	end
+            end
+            if not inside then table.insert(pures, G.play.cards[i]) end
+        elseif next(find_joker('Ripple')) then
+            local inside = false
+            for j=1, #scoring_hand do
+            	if scoring_hand[j] == G.play.cards[i] then
+            		inside = true
+            	end
+            end
+            if not inside then table.insert(pures, G.play.cards[i]) end
         else
             if SMODS.always_scores(G.play.cards[i]) then
                 local inside = false
@@ -854,6 +1094,9 @@ local antiscore = G.GAME.blind.antiscore
         end
 
         local hand_text_set = false
+        G.GAME.selected_back:trigger_effect({context = 'before_hand'})
+        SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, kcv_forecast_event = true})
+        G.GAME.ortalab.temp_levels = 0
         -- context.before calculations
         SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
         
@@ -869,31 +1112,92 @@ local antiscore = G.GAME.blind.antiscore
         
         local modded = false
 
+        local negative_temp_levels = G.GAME.ortalab.temp_levels < 0
+        for i=1, math.max(G.GAME.ortalab.temp_levels, G.GAME.ortalab.temp_levels * -1) do
+            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level=G.GAME.hands[text].level..(negative_temp_levels and '-' or '+')..i})
+            mult = mod_mult(math.max(0, mult+(negative_temp_levels and -1 * G.GAME.hands[text].l_mult or G.GAME.hands[text].l_mult)))
+            update_hand_text({delay = 0}, {mult = mult})
+            hand_chips = mod_chips(math.max(0, hand_chips+(negative_temp_levels and -1 * G.GAME.hands[text].l_chips or G.GAME.hands[text].l_chips)))
+            update_hand_text({delay = 0}, {chips = hand_chips})
+            delay(0.3)
+        end
+        if G.zodiacs then
+            zodiac_effect = nil
+            zodiac_current = nil
+            for _, zodiac in pairs(G.zodiacs) do
+                if zodiac.config.extra.hand_type == text then
+                    zodiac_effect = G.ZODIACS[zodiac.key]
+                    zodiac_current = zodiac
+                    G.GAME.zodiacs_activated[zodiac.key] = true
+        
+                    -- Update Stargazing Jokers
+                    local stargazings = SMODS.find_card('j_ortalab_stargazing')
+                    for _, stargazing_card in pairs(stargazings) do
+                        stargazing_card.ability.extra.xmult = stargazing_card.ability.extra.xmult + stargazing_card.ability.extra.gain
+                        card_eval_status_text(stargazing_card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_xmult',vars={stargazing_card.ability.extra.gain}}, colour = G.C.RED})
+                    end
+        
+                    for i=1, zodiac_current.config.extra.temp_level do
+                        G.GAME.ortalab.temp_levels = G.GAME.ortalab.temp_levels + 1
+                            update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level=G.GAME.hands[text].level..'+'..G.GAME.ortalab.temp_levels})
+                            mult = mod_mult(mult+G.GAME.hands[text].l_mult)
+                            update_hand_text({delay = 0}, {mult = mult})
+                            hand_chips = mod_chips(hand_chips+G.GAME.hands[text].l_chips)
+                            update_hand_text({delay = 0}, {chips = hand_chips})
+                        if not Ortalab.config.zodiac_skip then
+                            delay(0.3)
+                        end
+                    end
+                end
+            end
+        
+            if zodiac_effect then
+                zodiac_text(localize({set='Tag',key=zodiac_current.key,type='name_text'})..localize('ortalab_zodiac_active'), zodiac_current.key)
+                if zodiac_effect.pre_trigger and type(zodiac_effect.pre_trigger) == 'function' then
+                    local triggered = false
+                    mult, hand_chips, modded, triggered = zodiac_effect:pre_trigger(zodiac_current, {full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hands = poker_hands, handname = text, mult = mult, chips = hand_chips})
+                    if modded then update_hand_text({sound = 'chips2', modded = modded}, {chips = hand_chips, mult = mult}) end
+                    
+                    for i=1, #G.play.cards do
+                        if G.play.cards[i].add_to_scoring then
+                            G.play.cards[i].add_to_scoring = nil
+                            table.insert(scoring_hand, G.play.cards[i])
+                        end
+                    end
+        
+                    for i=1, #scoring_hand do
+                        highlight_card(scoring_hand[i],(i-0.999)/5,'up')
+                        
+                        local played_rank = scoring_hand[i].base.value
+                        
+                        if G.GAME.played_ranks == nil then G.GAME.played_ranks = {} end
+                        
+                        if G.GAME.played_ranks[played_rank] then
+                            G.GAME.played_ranks[played_rank] = G.GAME.played_ranks[played_rank] + 1
+                        else
+                            G.GAME.played_ranks[played_rank] = 1
+                        end
+                        
+                    end            
+                end
+            end
+        end
         mult, hand_chips, modded = G.GAME.blind:modify_hand(G.play.cards, poker_hands, text, mult, hand_chips)
         mult, hand_chips = mod_mult(mult), mod_chips(hand_chips)
         if modded then update_hand_text({sound = 'chips2', modded = modded}, {chips = hand_chips, mult = mult}) end
-        delay(0.3)
-        for _, v in ipairs({
-            G.play,
-            G.hand,
-            SMODS.optional_features.cardareas.deck and G.deck or {},
-            SMODS.optional_features.cardareas.discard and G.discard or {},
-            -- TARGET: add your own main scoring card areas here
-        }) do
-            if next(v) then
-                SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
-                delay(0.3)
-            end
+        for i=1, #G.jokers.cards do
+            eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before_but_not_as_much = true})
         end
-        
+        delay(0.3)
+        for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do
+            SMODS.calculate_main_scoring({cardarea = v, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, v == G.play and scoring_hand or nil)
+            delay(0.3)
+        end
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         --Joker Effects
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         percent = percent + percent_delta
-        
-        for i=1, #G.jokers.cards + (BUNCOMOD and BUNCOMOD.vars and BUNCOMOD.vars.jokerlike_consumable_editions and #G.consumeables.cards or 0) do
-        
-            local _card = G.jokers.cards[i] or G.consumeables.cards[i - #G.jokers.cards]
+        for _, area in ipairs(SMODS.get_card_areas('jokers')) do for _, _card in ipairs(area.cards) do
             local effects = {}
             -- remove base game joker edition calc
             local eval = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true, pre_joker = true})
@@ -917,20 +1221,26 @@ local antiscore = G.GAME.blind.antiscore
             end
 
             -- Calculate context.other_joker effects
-            for k=1, #G.jokers.cards + #G.consumeables.cards do
-                local _joker = G.jokers.cards[k] or G.consumeables.cards[k - #G.jokers.cards]
-                local joker_eval,post = eval_card(_joker, {full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card.ability.set == 'Joker' and _card or false, other_consumeable = _card.ability.set ~= 'Joker' and _card or false})
-                if next(joker_eval) then
-                    if joker_eval.edition then joker_eval.edition = {} end
-                    joker_eval.jokers.juice_card = _joker
-                    table.insert(effects, joker_eval)
-                    for _, v in ipairs(post) do effects[#effects+1] = v end
-                    if joker_eval.retriggers then
-                        for rt = 1, #joker_eval.retriggers do
-                            local rt_eval, rt_post = eval_card(_card, {full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card.ability.set == 'Joker' and _card or false, other_consumeable = _card.ability.set ~= 'Joker' and _card or false, retrigger_joker = true})
-                            table.insert(effects, {joker_eval.retriggers[rt]})
-                            table.insert(effects, rt_eval)
-                            for _, v in ipairs(rt_post) do effects[#effects+1] = v end
+            for _, _area in ipairs(SMODS.get_card_areas('jokers')) do
+                for _, _joker in ipairs(_area.cards) do
+                    local other_key = 'other_unknown'
+                    if _card.ability.set == 'Joker' then other_key = 'other_joker' end
+                    if _card.ability.consumeable then other_key = 'other_consumeable' end
+                    if _card.ability.set == 'Voucher' then other_key = 'other_voucher' end
+                    -- TARGET: add context.other_something identifier to your cards
+                    local joker_eval,post = eval_card(_joker, {full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, [other_key] = _card })
+                    if next(joker_eval) then
+                        if joker_eval.edition then joker_eval.edition = {} end
+                        joker_eval.jokers.juice_card = _joker
+                        table.insert(effects, joker_eval)
+                        for _, v in ipairs(post) do effects[#effects+1] = v end
+                        if joker_eval.retriggers then
+                            for rt = 1, #joker_eval.retriggers do
+                                local rt_eval, rt_post = eval_card(_card, {full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, [other_key] = _card, retrigger_joker = true})
+                                table.insert(effects, {joker_eval.retriggers[rt]})
+                                table.insert(effects, rt_eval)
+                                for _, v in ipairs(rt_post) do effects[#effects+1] = v end
+                            end
                         end
                     end
                 end
@@ -939,16 +1249,48 @@ local antiscore = G.GAME.blind.antiscore
             -- calculate edition multipliers
             local eval = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true, post_joker = true})
             if eval.edition then effects[#effects+1] = eval end
-            
+
             SMODS.trigger_effects(effects, _card)
             local deck_effect = G.GAME.selected_back:trigger_effect({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card.ability.set == 'Joker' and _card or false, other_consumeable = _card.ability.set ~= 'Joker' and _card or false})
             if deck_effect then SMODS.calculate_effect(deck_effect, G.deck.cards[1] or G.deck) end
-        end
+        end end
 
         -- context.final_scoring_step calculations
         SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, final_scoring_step = true})
         
         -- TARGET: effects before deck final_scoring_step
+        if G.GAME.used_vouchers.v_ortalab_natal_sign then
+            for _, curr_zod in pairs(G.zodiacs) do
+                for i=1, math.floor(curr_zod.config.extra.temp_level / 4) do
+                    if not Ortalab.config.zodiac_skip then 
+                        G.E_MANAGER:add_event(Event({
+                            delay = 2/G.SETTINGS.GAMESPEED,
+                            trigger = 'after',
+                            func = (function()
+                                attention_text({
+                                    text = 'X'..G.GAME.natal_sign_rate,
+                                    colour = G.C.WHITE,
+                                    scale = 1, 
+                                    hold = 2/G.SETTINGS.GAMESPEED,
+                                    cover = curr_zod.HUD_zodiac,
+                                    cover_colour = G.C.RED,
+                                    align = 'cm',
+                                    })
+                                play_sound('multhit2', 0.7, 0.4)
+                                return true
+                            end)
+                        }))
+                    end
+                    mult = mod_mult(mult*G.GAME.natal_sign_rate)
+                    update_hand_text({delay = 0}, {mult = mult})
+                end
+            end
+        end
+        if G.GAME.blind.config.blind.key == 'bl_ortalab_steel' and not G.GAME.blind.disabled then
+            local min_value = G.GAME.blind.config.blind:update_score({chips = hand_chips, mult = mult})
+            mult = mod_mult(min_value)
+            hand_chips = mod_chips(min_value)
+        end
         
         for i=1, BUNCOMOD and BUNCOMOD.vars and BUNCOMOD.vars.jokerlike_consumable_editions and 0 or #G.consumeables.cards do
             local _card = G.consumeables.cards[i]
@@ -1009,16 +1351,23 @@ local antiscore = G.GAME.blind.antiscore
         hand_chips = mod_chips(nu_chip or hand_chips)
 
         local cards_destroyed = {}
-        for _,v in ipairs({
-            G.play,
-            G.hand,
-            SMODS.optional_features.cardareas.deck and G.deck or {},
-            SMODS.optional_features.cardareas.discard and G.discard or {},
-            -- TARGET: add your own destroying card card areas here
-        }) do
-            if next(v) then
-                SMODS.calculate_destroying_cards({ full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, cardarea = v }, cards_destroyed, v == G.play and scoring_hand or nil)
+        
+        if zodiac_effect and zodiac_effect.destroy and type(zodiac_effect.destroy) == 'function' then
+            for i=1, #G.hand.cards do
+                local destroyed = zodiac_effect:destroy(zodiac_current, {full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hands = poker_hands, handname = text, other_card = G.hand.cards[i]})
+                if destroyed then
+                    if G.hand.cards[i].ability.name == 'Glass Card' then 
+                        G.hand.cards[i].shattered = true
+                    else 
+                        G.hand.cards[i].destroyed = true
+                    end 
+                    cards_destroyed[#cards_destroyed+1] = G.hand.cards[i]
+                end
             end
+            zodiac_reduce_level(zodiac_current)
+        end
+        for _,v in ipairs(SMODS.get_card_areas('playing_cards', 'destroying_cards')) do
+            SMODS.calculate_destroying_cards({ full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, cardarea = v }, cards_destroyed, v == G.play and scoring_hand or nil)
         end
         
         -- context.remove_playing_cards calculations
@@ -1123,7 +1472,7 @@ local antiscore = G.GAME.blind.antiscore
       blocking = false,
       ref_table = G.GAME,
       ref_value = 'chips',
-      ease_to = G.GAME.chips + math.floor(hand_chips * mult) * (antiscore and -1 or 1),
+      ease_to = G.GAME.blind.config.blind.key == 'bl_ortalab_fork' and not G.GAME.blind.disabled and G.GAME.chips + math.min(math.floor(hand_chips*mult), G.GAME.blind.chips*G.GAME.blind.config.blind.config.extra.cap) or G.GAME.chips + math.floor(hand_chips*mult),
       delay =  0.5,
       func = (function(t) return math.floor(t) end)
     }))
@@ -1150,6 +1499,7 @@ local antiscore = G.GAME.blind.antiscore
     G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
         func = (function()     
+            G.bplus_premium_card_dollars = nil
             if G.GAME.modifiers.debuff_played_cards then 
                 for k, v in ipairs(scoring_hand) do v.ability.perma_debuff = true end
             end
@@ -1241,6 +1591,10 @@ G.FUNCS.evaluate_round = function()
 
     if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) then
         add_round_eval_row({dollars = G.GAME.blind.dollars, name='blind1', pitch = pitch})
+        if G.GAME.modifiers.frozen_deck then
+        add_round_eval_row({dollars = G.GAME.blind.dollars, bonus='true', name='joker_frozen_deck', card={config={center={set='Back', key='b_ortalab_frozen'}}, juice_up=function(self) end}, pitch = pitch})
+        G.GAME.blind.dollars = G.GAME.blind.dollars * 2
+        G.GAME.modifiers.frozen_deck = false end
         pitch = pitch + 0.06
         dollars = dollars + G.GAME.blind.dollars
     else
@@ -1275,17 +1629,18 @@ G.FUNCS.evaluate_round = function()
         pitch = pitch + 0.06
         dollars = dollars +  G.GAME.current_round.discards_left*(G.GAME.modifiers.money_per_discard)
     end
+    local i = 0
+    for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+            for _, _card in ipairs(area.cards) do
+            local ret = _card:calculate_dollar_bonus()
     
-    for i=1, #G.jokers.cards + (BUNCOMOD and BUNCOMOD.vars and BUNCOMOD.vars.jokerlike_consumable_editions and #G.consumeables.cards or 0) do
-    
-        local _card = G.jokers.cards[i] or G.consumeables.cards[i - #G.jokers.cards]
-        local ret = _card:calculate_dollar_bonus()
-    
-        -- TARGET: calc_dollar_bonus per card
-        if ret then
-            add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = G.jokers.cards[i]})
-            pitch = pitch + 0.06
-            dollars = dollars + ret
+            -- TARGET: calc_dollar_bonus per card
+            if ret then
+                i = i+1
+                add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = _card})
+                pitch = pitch + 0.06
+                dollars = dollars + ret
+            end
         end
     end
     for i = 1, #G.GAME.tags do

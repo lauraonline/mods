@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'ef73533032c16d01879d73e73bdcc90e741bb1700ec2bca3062b1741fed4db8d'
+LOVELY_INTEGRITY = '8b4c978c5dfcc3362919c7f26b93c16f49068b811ed8fa13ae81f8d8699f3709'
 
 --Class
 Game = Object:extend()
@@ -25,6 +25,7 @@ function Game:start_up()
                 love.filesystem.remove(i..'')
             end
             for k, v in pairs(settings_file) do
+            if k == 'FASTFORWARD' then v = math.min(3, v) end
                 self.SETTINGS[k] = v
             end
             self.SETTINGS.profile = 1
@@ -34,6 +35,7 @@ function Game:start_up()
                 settings_ver = settings_file.version
             end
             for k, v in pairs(settings_file) do
+            if k == 'FASTFORWARD' then v = math.min(3, v) end
                 self.SETTINGS[k] = v
             end
         end
@@ -315,11 +317,53 @@ function Game:start_up()
     initSteamodded()
 
     set_profile_progress()
+        aiko_mod_startup(self)
+    if SMODS and SMODS.ConsumableTypes then 
+    	for i, v in ipairs(SMODS.ConsumableType.obj_buffer) do
+    		if not FlowerPot.stat_groups[(v):lower():gsub("%s+", "_").."_usage"] then
+    			FlowerPot.stat_types["times_used"].valid_stat_groups[(v):lower():gsub("%s+", "_").."_usage"] = true
+    			FlowerPot.addStatGroup({
+    				key = (v):lower():gsub("%s+", "_").."_usage",
+    				folder_dir = {"Cards"},
+    				file_name = (v):lower():gsub("%s+", "_").."_usage",
+    				stat_set = v,
+    				create_data_table = function(self, format)
+    					local card_type_stats = copy_table(G.PROFILES[G.SETTINGS.profile]["consumeable_usage"])
+    
+    					if next(card_type_stats) then
+    						local data_table = {}
+    
+    						for k, v in pairs(card_type_stats) do
+    							if G.P_CENTERS[k] and (not self.stat_set or G.P_CENTERS[k].set == self.stat_set) then
+    								data_table[#data_table+1] = {key = k, name = localize{type = 'name_text', key = k, set = self.stat_set}, count = v.count}
+    							end
+    						end
+    						table.sort(data_table, function (a, b) return a.count > b.count end )
+    
+    						return data_table
+    					end
+    				end,
+    				compat = {
+    					CSV = {
+    						titles = {v, "Times Used"},
+    						data_order = {"name", "count"},
+    					}
+    				}
+    			})
+    		end
+    	end
+    end
     Cartomancer.load_mod_file('internal/localization.lua', 'localization')
     Blueprint.load_mod_file('internal/localization.lua', 'internal.localization')
     boot_timer('prep stage', 'splash prep',1)
     self:splash_screen()
     boot_timer('splash prep', 'end',1)
+    --Ortalab/Jokers/The Mysterium
+    if (SMODS.Mods['ortalab'] or {}).can_load then
+        for k, v in pairs(G.GAME.hands) do
+            if v.visible == false then G.P_CENTERS['j_ortalab_mysterium'].config.extra.secret_hand_list[#G.P_CENTERS['j_ortalab_mysterium'].config.extra.secret_hand_list+1] = k end
+        end
+    end
 end
 
 function Game:init_item_prototypes()
@@ -811,6 +855,10 @@ function Game:init_item_prototypes()
         undiscovered_tarot={pos = {x=6,y=3}},
     }
 
+    local exb_overrides = {'j_four_fingers', 'j_credit_card', 'j_chaos', 'j_delayed_grat', 'j_pareidolia', 'j_egg', 'j_splash', 'j_sixth_sense', 'j_shortcut', 'j_cloud_9', 'j_rocket', 'j_midas_mask', 'j_gift', 'j_turtle_bean', 'j_to_the_moon', 'j_juggler', 'j_drunkard', 'j_golden', 'j_trading', 'j_mr_bones', 'j_troubadour', 'j_smeared', 'j_ring_master', 'j_merry_andy', 'j_oops', 'j_invisible', 'j_satellite', 'j_astronomer', 'j_chicot'}
+    for i = 1, #exb_overrides do
+    	self.P_CENTERS[exb_overrides[i]].blueprint_compat = true
+    end
     self.P_CENTER_POOLS = {
         Booster = {},
         Default = {},
@@ -1063,6 +1111,7 @@ function Game:set_language()
 
         self.LANGUAGES = {
             ['en-us'] = {font = 1, label = "English", key = 'en-us', button = "Language Feedback", warning = {'This language is still in Beta. To help us','improve it, please click on the feedback button.', 'Click again to confirm'}},
+            ['en-mn'] = {font = 1, label = "MorJokers", key = 'en-mn', button = "Complainment", warning = {'This language is still in Beta. To help us','improve it, please click on the feedback button.', 'Click again to confirm'}},
             ['de'] = {font = 1, label = "Deutsch", key = 'de', beta = nil, button = "Feedback zur Übersetzung", warning = {'Diese Übersetzung ist noch im Beta-Stadium. Willst du uns helfen,','sie zu verbessern? Dann klicke bitte auf die Feedback-Taste.', "Zum Bestätigen erneut klicken"}},
             ['es_419'] = {font = 1, label = "Español (México)", key = 'es_419', beta = nil, button = "Sugerencias de idioma", warning = {'Este idioma todavía está en Beta. Pulsa el botón','de sugerencias para ayudarnos a mejorarlo.', "Haz clic de nuevo para confirmar"}},
             ['es_ES'] = {font = 1, label = "Español (España)", key = 'es_ES', beta = nil, button = "Sugerencias de idioma", warning = {'Este idioma todavía está en Beta. Pulsa el botón','de sugerencias para ayudarnos a mejorarlo.', "Haz clic de nuevo para confirmar"}},
@@ -1113,6 +1162,7 @@ function Game:set_language()
     local localization = love.filesystem.getInfo('localization/'..G.SETTINGS.language..'.lua') or love.filesystem.getInfo('localization/en-us.lua')
     if localization ~= nil then
       self.localization = assert(loadstring(love.filesystem.read('localization/'..G.SETTINGS.language..'.lua') or love.filesystem.read('localization/en-us.lua')))()
+      if not (SMODS and SMODS.can_load) then FlowerPot.load_localization() end
       self.localization.misc.dictionary.ph_you_win = "#1 VICTORY ROYALE!"
       init_localization()
     end
@@ -1267,6 +1317,12 @@ function Game:delete_run()
         if self.collection_alert then self.collection_alert:remove(); self.collection_alert = nil end
         if self.HUD then self.HUD:remove(); self.HUD = nil end
         if self.HUD_blind then self.HUD_blind:remove(); self.HUD_blind = nil end
+        if self.HUD_zodiacs then
+            for k, v in pairs(self.HUD_zodiacs) do
+                v:remove()
+            end
+            self.HUD_zodiacs = nil
+        end
         if self.HUD_tags then
             for k, v in pairs(self.HUD_tags) do
                 v:remove()
@@ -1536,6 +1592,17 @@ function Game:splash_screen()
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.2,func = (function()
                 local SC_scale = 1.2
                 SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
+                if pokermon_config.pokemon_splash then
+                  local pokemon = {}
+                  for k, v in pairs(G.P_CENTERS) do
+                    if v.set == 'Joker' and v.stage then
+                      table.insert(pokemon, v)
+                    end
+                  end
+                  local chosen = math.random(#pokemon)
+                  local chosencard = pokemon[chosen]
+                  SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, chosencard)
+                end
                 SC.T.y = G.ROOM.T.h/2 - SC_scale*G.CARD_H/2
                 SC.ambient_tilt = 1
                 SC.states.drag.can = false
@@ -1687,10 +1754,20 @@ function Game:main_menu(change_context) --True if main menu is accessed from the
         {card_limit = 1, type = 'title'})
 
     
-    G.SPLASH_LOGO = Sprite(0, 0, 
-        13*SC_scale, 
-        13*SC_scale*(G.ASSET_ATLAS["balatro"].py/G.ASSET_ATLAS["balatro"].px),
-        G.ASSET_ATLAS["balatro"], {x=0,y=0})
+local key = "balatro"
+if BalatroPlus.config.replace_splash_logo then
+  key = "bplus_balatro_plus"
+end
+
+G.SPLASH_LOGO = Sprite(
+  0,
+  0, 
+  13 * SC_scale, 
+  13 * SC_scale * (G.ASSET_ATLAS[key].py / G.ASSET_ATLAS[key].px),
+  G.ASSET_ATLAS[key],
+  { x = 0, y = 0 }
+)
+
 
     G.SPLASH_LOGO:set_alignment({
         major = G.title_top,
@@ -1870,10 +1947,20 @@ function Game:demo_cta() --True if main menu is accessed from the splash screen,
         {card_limit = 1, type = 'title'})
 
     
-    G.SPLASH_LOGO = Sprite(0, 0, 
-        13*SC_scale, 
-        13*SC_scale*(G.ASSET_ATLAS["balatro"].py/G.ASSET_ATLAS["balatro"].px),
-        G.ASSET_ATLAS["balatro"], {x=0,y=0})
+local key = "balatro"
+if BalatroPlus.config.replace_splash_logo then
+  key = "bplus_balatro_plus"
+end
+
+G.SPLASH_LOGO = Sprite(
+  0,
+  0, 
+  13 * SC_scale, 
+  13 * SC_scale * (G.ASSET_ATLAS[key].py / G.ASSET_ATLAS[key].px),
+  G.ASSET_ATLAS[key],
+  { x = 0, y = 0 }
+)
+
 
     G.SPLASH_LOGO:set_alignment({
         major = G.title_top,
@@ -2149,7 +2236,7 @@ function Game:start_run(args)
     if not saveTable then ease_background_colour_blind(G.STATE, 'Small Blind')
     else ease_background_colour_blind(G.STATE, saveTable.BLIND.name:gsub("%s+", "") ~= '' and saveTable.BLIND.name or 'Small Blind') end
 
-    local selected_back = saveTable and saveTable.BACK.name or (args.challenge and args.challenge.deck and args.challenge.deck.type) or (self.GAME.viewed_back and self.GAME.viewed_back.name) or self.GAME.selected_back and self.GAME.selected_back.name or 'Red Deck'
+    local selected_back = saveTable and saveTable.BACK.name or (args.challenge and args.challenge.deck and args.challenge.deck.type) or (args.deck and args.deck.name) or (self.GAME.viewed_back and self.GAME.viewed_back.name) or self.GAME.selected_back and self.GAME.selected_back.name or 'Red Deck'
     selected_back = get_deck_from_name(selected_back)
     self.GAME = saveTable and saveTable.GAME or self:init_game_object()
     if (not saveTable or not saveTable.GAME) and Talisman and Talisman.igo then self.GAME = Talisman.igo(self.GAME) end
@@ -2159,6 +2246,13 @@ function Game:start_run(args)
     self.GAME.STOP_USE = 0
     self.GAME.selected_back = Back(selected_back)
     self.GAME.selected_back_key = selected_back
+    
+    if not saveTable then
+        if args.seed then self.GAME.seeded = true end
+        self.GAME.pseudorandom.seed = args.seed or (not (G.SETTINGS.tutorial_complete or G.SETTINGS.tutorial_progress.completed_parts["big_blind"]) and "TUTORIAL") or generate_starting_seed()
+    end
+    for k, v in pairs(self.GAME.pseudorandom) do if v == 0 then self.GAME.pseudorandom[k] = pseudohash(k..self.GAME.pseudorandom.seed) end end
+    self.GAME.pseudorandom.hashed_seed = pseudohash(self.GAME.pseudorandom.seed)
 
     G.C.UI_CHIPS = copy_table(G.C.CHIPS)
     G.C.UI_MULT = copy_table(G.C.MULT)
@@ -2280,14 +2374,7 @@ function Game:start_run(args)
 
     G.GAME.chips_text = ''
 
-    if not saveTable then
-        if args.seed then self.GAME.seeded = true end
-        self.GAME.pseudorandom.seed = args.seed or (not (G.SETTINGS.tutorial_complete or G.SETTINGS.tutorial_progress.completed_parts['big_blind']) and "TUTORIAL") or generate_starting_seed()
-    end
-
-    for k, v in pairs(self.GAME.pseudorandom) do if v == 0 then self.GAME.pseudorandom[k] = pseudohash(k..self.GAME.pseudorandom.seed) end end
-    self.GAME.pseudorandom.hashed_seed = pseudohash(self.GAME.pseudorandom.seed)
-
+   
     G:save_settings()
 
     if not self.GAME.round_resets.blind_tags then
@@ -2369,6 +2456,11 @@ function Game:start_run(args)
         0, 0,
         CAI.discard_W,CAI.discard_H,
         {card_limit = 500, type = 'discard'})
+    self.vouchers = CardArea(
+        G.discard.T.x, G.discard.T.y,
+        G.discard.T.w, G.discard.T.h,
+        { type = "discard", card_limit = 1e308 }
+    )
     self.deck = CardArea(
         0, 0,
         CAI.deck_W,CAI.deck_H, 
@@ -2479,6 +2571,7 @@ function Game:start_run(args)
                     if _de.gold_seal then _g = _de.gold_seal end
                 end
 
+                if self.GAME.starting_params.blacklisted_ranks and self.GAME.starting_params.blacklisted_ranks[v.value] then keep = false end
                 if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = false end
                 
                 if keep then card_protos[#card_protos+1] = {s=_s,r=_r,e=_e,d=_d,g=_g} end
@@ -2496,6 +2589,15 @@ function Game:start_run(args)
             ((a.s or '')..(a.r or '')..(a.e or '')..(a.d or '')..(a.g or '')) < 
             ((b.s or '')..(b.r or '')..(b.e or '')..(b.d or '')..(b.g or '')) end)
 
+        card_protos = customDeckHooks(self,card_protos)
+        
+        if G.GAME.selected_back.name == "b_bplus_illusion" then
+          for i = 1, G.GAME.selected_back.effect.config.destroyed_cards do
+            local idx = pseudorandom("b_bplus_illusion_card_destroy", 1, #card_protos)
+            table.remove(card_protos, idx)
+          end
+        end
+        
         for k, v in ipairs(card_protos) do
             card_from_control(v)
         end
@@ -2554,6 +2656,16 @@ function Game:start_run(args)
         blind_spacer = self.HUD:get_UIE_by_ID('blind_spacer')
     }
 
+    if saveTable then 
+        self.zodiacs = {}
+        self.HUD_zodiac = {}
+        local zodiacs = saveTable.zodiacs or {}
+        for k, v in pairs(zodiacs) do
+            local _zodiac = Zodiac('zodiac_ortalab_scorpio')
+            _zodiac:load(v)
+            add_zodiac(_zodiac, true, true)
+        end
+    end
     check_and_set_high_score('most_money', G.GAME.dollars)
 
     if saveTable then 
@@ -2630,7 +2742,7 @@ end
     self.TIMERS.BACKGROUND = self.TIMERS.BACKGROUND + dt*(G.ARGS.spin and G.ARGS.spin.amount or 0)
     self.real_dt = dt
 
-    if self.real_dt > 0.05 then print('LONG DT @ '..math.floor(G.TIMERS.REAL)..': '..self.real_dt) end
+    if require('debugplus.config').getValue('enableLongDT') and self.real_dt > 0.05 then print('LONG DT @ '..math.floor(G.TIMERS.REAL)..': '..self.real_dt) end
     if not G.fbf or G.new_frame then
         G.new_frame = false
 
@@ -2682,7 +2794,7 @@ end
                     definition = 
                       {n=G.UIT.ROOT, config = {align = 'cm', colour = G.C.CLEAR, padding = 0.2}, nodes={
                         {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
-                            {n=G.UIT.O, config={object = DynaText({scale = 0.7, string = localize('ph_unscored_hand'), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
+                            {n=G.UIT.O, config={object = DynaText({scale = 0.7, string = localize(G.GAME.blind.config.blind.key == 'bl_ortalab_spike' and 'ortalab_spike_debuff' or G.GAME.blind.config.blind.key == 'bl_ortalab_fork' and 'ortalab_fork_cap' or 'ph_unscored_hand'), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
                         }},
                         {n=G.UIT.R, config = {align = 'cm', maxw = 1}, nodes={
                             {n=G.UIT.O, config={object = DynaText({scale = 0.6, string = G.GAME.blind:get_loc_debuff_text(), maxw = 9, colours = {G.C.WHITE},float = true, shadow = true, silent = true, pop_in = 0, pop_in_rate = 6})}},
@@ -2694,6 +2806,10 @@ end
                         major = G.play,
                       }
                   }
+                  if G.GAME.blind.name == 'The Unseen' then
+                      -- remove the first line of text
+                      self.boss_warning_text.definition.nodes[1].nodes[1].config.object:remove()
+                  end
                   self.boss_warning_text.attention_text = true
                   self.boss_warning_text.states.collide.can = false
                   G.GAME.blind.children.animatedSprite:juice_up(0.05, 0.02)
@@ -2803,6 +2919,78 @@ end
             v:update(dt*self.SPEEDFACTOR)
             v.states.collide.is = false
         end
+                    local function content_equal(one, two)
+                        if #one ~= #two then return false end
+                        for i = 1, #one do
+                            if one[i] ~= two[i] then return false end
+                        end
+                        return true
+                    end
+                    local fixingup = false
+                    if G.jokers then
+                    	G.joker_map = G.joker_map or {}
+                    	if not content_equal(G.jokers.cards, G.joker_map) then fixingup = true end
+                    	G.joker_map = {}
+                    	for i = 1, #G.jokers.cards do
+                    		table.insert(G.joker_map, G.jokers.cards[i])
+                    	end
+                    end
+                    
+                    if G.jokers and fixingup then
+                    	
+                    	for i = 1, #G.jokers.cards do
+                    		G.jokers.cards[i].dependent = G.jokers.cards[i].dependent or {cards = {}}
+                    		G.jokers.cards[i].dependent.new_cards = {}
+                    	end
+                    	
+                    	for i = 1, #G.jokers.cards do
+                    		if not G.jokers.cards[i].debuff then
+                    			local index = i
+                    			if G.jokers.cards[i].ability.name == 'Blueprint' then
+                    				index = i+1
+                    			elseif G.jokers.cards[i].ability.name == 'Brainstorm' then
+                    				index = 1
+                    			end
+                    			local change = i ~= index and index <= #G.jokers.cards
+                    			while change == true do
+                    				-- check indexes until it finds the end, or it finds itself
+                    				change = false
+                    				if G.jokers.cards[index].ability.name == 'Blueprint' then
+                    					index = index+1
+                    					change = true
+                    				elseif G.jokers.cards[index].ability.name == 'Brainstorm' then
+                    					index = 1
+                    					change = true
+                    				end
+                    				if (i == index) or (index > #G.jokers.cards) 
+                    				or (G.jokers.cards[index].debuff) 
+                    				or (index == 1 and G.jokers.cards[1].ability.name == 'Brainstorm') then 
+                    					break 
+                    				end
+                    			end
+                    			if i ~= index and index <= #G.jokers.cards and not G.jokers.cards[index].debuff then
+                    				table.insert(G.jokers.cards[index].dependent.new_cards, i)
+                    			end
+                    		end
+                    	end
+                    
+                    	for i = 1, #G.jokers.cards do
+                    		-- final loop? comparing and making changes
+                    		if G.jokers.cards[i].dependent then
+                    			local add = false
+                    			local diff = #G.jokers.cards[i].dependent.new_cards - #G.jokers.cards[i].dependent.cards
+                    			if diff > 0 then add = true else add = false end
+                    			for j = 1, math.abs(diff) do
+                    				if add then
+                    					G.jokers.cards[i]:soft_add_to_deck()
+                    				else
+                    					G.jokers.cards[i]:soft_remove_from_deck()
+                    				end
+                    			end
+                    			G.jokers.cards[i].dependent.cards = G.jokers.cards[i].dependent.new_cards
+                    		end
+                    	end
+                    end
                     timer_checkpoint('update', 'update')
     end
     
@@ -3180,11 +3368,23 @@ love.graphics.pop()
 
     timer_checkpoint('canvas', 'draw')
 
-    if not _RELEASE_MODE and G.DEBUG and not G.video_control and G.F_VERBOSE then 
+    if require("debugplus.config").getValue("showHUD") and not G.video_control and G.F_VERBOSE then
         love.graphics.push()
         love.graphics.setColor(0, 1, 1,1)
         local fps = love.timer.getFPS( )
-        love.graphics.print("Current FPS: "..fps, 10, 10)
+        do
+            local otherSize = 0
+            for k,v in pairs(G.E_MANAGER.queues or {}) do 
+                if k ~= 'base' then 
+                    otherSize = otherSize + #v
+                end
+            end
+            if otherSize ~= 0 then
+                love.graphics.print(string.format("Current FPS: %d\nBase event queue: %d\nOther event queues: %d", fps, #(G.E_MANAGER.queues and G.E_MANAGER.queues.base or {}), otherSize), 10, 10)
+            else
+                love.graphics.print(string.format("Current FPS: %d\nBase event queue: %d", fps, #(G.E_MANAGER.queues and G.E_MANAGER.queues.base or {})), 10, 10)
+            end
+        end
 
         if G.check and G.SETTINGS.perf_mode then
             local section_h = 30
@@ -3203,6 +3403,10 @@ love.graphics.pop()
                         end
                         love.graphics.rectangle('fill', 10+poll_w*kk,  20 + v_off, 5*poll_w, -(vv)*resolution)
                     end
+                    v_off = v_off + section_h
+                    end
+                    local v_off = v_off - section_h * #b.checkpoint_list
+                    for k, v in ipairs(b.checkpoint_list) do
                     love.graphics.setColor(a == 2 and 0.5 or 1, a == 2 and 1 or 0.5, 1,1)
                     love.graphics.print(v.label..': '..(string.format("%.2f",1000*(v.average or 0)))..'\n', 10, -section_h + 30 + v_off)
                     v_off = v_off + section_h
@@ -3343,13 +3547,24 @@ function Game:update_shop(dt)
                                         end
                                         G.load_shop_vouchers = nil
                                     else
+                                        if G.GAME.current_round.voucher_2 and G.P_CENTERS[G.GAME.current_round.voucher_2] and not G.GAME.used_vouchers[G.GAME.current_round.voucher_2] then
+                                            G.shop_vouchers.config.card_limit = 2
+                                            local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w / 2, G.shop_vouchers.T.y, G.CARD_W, G.CARD_H,
+                                                G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.voucher_2], {
+                                                    bypass_discovery_center = true,
+                                                    bypass_discovery_ui = true
+                                                })
+                                            create_shop_card_ui(card, 'Voucher', G.shop_vouchers)
+                                            G.shop_vouchers:emplace(card, 'front')
+                                        
+                                        end
                                         if G.GAME.current_round.voucher and G.P_CENTERS[G.GAME.current_round.voucher] then
                                             local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w/2,
                                             G.shop_vouchers.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[G.GAME.current_round.voucher],{bypass_discovery_center = true, bypass_discovery_ui = true})
                                             card.shop_voucher = true
                                             create_shop_card_ui(card, 'Voucher', G.shop_vouchers)
                                             card:start_materialize()
-                                            G.shop_vouchers:emplace(card)
+                                            G.shop_vouchers:emplace(card, 'front')
                                         end
                                     end
                                     
@@ -3363,7 +3578,8 @@ function Game:update_shop(dt)
                                         end
                                         G.load_shop_booster = nil
                                     else
-                                        for i = 1, G.GAME.shop.booster_max - #G.shop_booster.cards do
+                                        for i = 1, (G.GAME.modifiers.cry_booster_packs or G.GAME.modifiers.poke_booster_packs) or 2 do
+                                            if i == 1 and G.GAME.modifiers.ortalab_boosters then for _ = 1, G.GAME.modifiers.ortalab_boosters do Ortalab.spawn_booster() end end
                                             G.GAME.current_round.used_packs = G.GAME.current_round.used_packs or {}
                                             if not G.GAME.current_round.used_packs[i] then
                                                 G.GAME.current_round.used_packs[i] = get_pack('shop_pack').key
@@ -3417,7 +3633,12 @@ G.GAME.blind.chips = (G.GAME.blind.chips or math.huge)
             trigger = 'immediate',
             func = function()
         if to_big(G.GAME.chips) >= to_big(G.GAME.blind.chips) or G.GAME.current_round.hands_left < 1 then
-            G.STATE = G.STATES.NEW_ROUND
+            if  G.GAME.selected_back.effect.config.infinite_hands and not (G.GAME.chips >= G.GAME.blind.chips) then
+                ease_chips(0)
+                ease_hands_played(1)
+            else
+                G.STATE = G.STATES.NEW_ROUND
+            end
         else
             G.STATE = G.STATES.DRAW_TO_HAND
         end
@@ -3446,6 +3667,11 @@ function Game:update_draw_to_hand(dt)
                     return true
                 end
 
+                if G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 and G.GAME.facing_blind then
+                  for _, tag in ipairs(G.GAME.tags) do
+                    tag:apply_to_run { type = "first_hand_drawn" }
+                  end
+                end
                 
                 G.E_MANAGER:add_event(Event({func = function()
                 
@@ -3514,6 +3740,17 @@ function Game:update_blind_select(dt)
                 G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h
                 G.ROOM.jiggle = G.ROOM.jiggle + 3
                 G.blind_select.alignment.offset.x = 0
+                if G.GAME.selected_back and G.GAME.selected_back.name == "b_bplus_jokered" and G.GAME.selected_back.effect.open_pack then
+                  G.GAME.selected_back.effect.open_pack = nil
+                  G.E_MANAGER:add_event(Event{
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                      bplus_open_pack(G.P_CENTERS["b_bplus_jokered"].config.booster_pack)
+                      return true
+                    end,
+                  })
+                end
                 G.CONTROLLER.lock_input = false
                 for i = 1, #G.GAME.tags do
                     G.GAME.tags[i]:apply_to_run({type = 'immediate'})

@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '2b1dc6f09815af4aa926462f696327d5b96779ea5bcc751f47abc26713c30ccc'
+LOVELY_INTEGRITY = 'f02b31b0b99da0cc3319ddd8dddf5072a4ffcc8527357b3ef82f36fc5bb6adc1'
 
 --Moves the tutorial to the next step in queue
 --
@@ -55,7 +55,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.can_buy = function(e)
-    if (e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0) then
+    if (e.config.ref_table.cost > G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0) then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -77,7 +77,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.can_buy_and_use = function(e)
-    if (((e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0)) or (not e.config.ref_table:can_use_consumeable())) then
+    if (((e.config.ref_table.cost > G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0)) or (not e.config.ref_table:can_use_consumeable())) then
         e.UIBox.states.visible = false
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
@@ -96,7 +96,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.can_redeem = function(e)
-  if e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at then
+  if e.config.ref_table.cost > G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at then
       e.config.colour = G.C.UI.BACKGROUND_INACTIVE
       e.config.button = nil
   else
@@ -111,7 +111,7 @@ end
 ---@param e {}
 --**e** Is the UIE that called this function
 G.FUNCS.can_open = function(e)
-  if (e.config.ref_table.cost) > 0 and (e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at) then
+  if (e.config.ref_table.cost) > 0 and (e.config.ref_table.cost > G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at) then
       e.config.colour = G.C.UI.BACKGROUND_INACTIVE
       e.config.button = nil
   else
@@ -162,7 +162,7 @@ end
 G.FUNCS.HUD_blind_debuff_prefix = function(e)
   if (G.GAME.blind and G.GAME.blind.name == 'The Wheel' and not G.GAME.blind.disabled) or
     e.config.id == 'bl_wheel' then
-    e.config.ref_table.val = ''..G.GAME.probabilities.normal
+    e.config.ref_table.val = ''..probability("normal")
     e.config.scale = 0.32
   else
     e.config.ref_table.val = ''
@@ -718,7 +718,7 @@ G.FUNCS.your_collection_voucher_page = function(args)
     for j = 1, #G.your_collection do
       local center = G.P_CENTER_POOLS["Voucher"][i+(j-1)*4 + (8*(args.cycle_config.current_option - 1))]
       if not center then break end
-      local card = Card(G.your_collection[j].T.x + G.your_collection[j].T.w/2, G.your_collection[j].T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, center)
+      local card = Card(G.your_collection[j].T.x + G.your_collection[j].T.w/2, G.your_collection[j].T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, center)card.sticker = get_voucher_win_sticker(center)
       card:start_materialize(nil, i>1 or j>1)
       G.your_collection[j]:emplace(card)
     end
@@ -2046,19 +2046,7 @@ G.FUNCS.hand_text_UI_set = function(e)
 end
 
   G.FUNCS.can_play = function(e)
-    
-    local group_size = 0
-    
-    if G.hand and G.hand.highlighted then
-        for i = 1, #G.hand.highlighted do
-            if G.hand.highlighted[i].ability.group then
-                group_size = group_size + 1
-            end
-        end
-    end
-    
-    if #G.hand.highlighted <= (G.GAME.blind and G.GAME.blind.name == 'cry-Sapphire Stamp' and not G.GAME.blind.disabled and 1 or 0) or G.GAME.blind.block_play or (#G.hand.highlighted > G.hand.config.highlighted_limit and group_size <= G.hand.config.highlighted_limit) then
-    
+        if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > G.GAME.aiko_cards_playable then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -2086,7 +2074,7 @@ end
   end
 
   G.FUNCS.can_reroll = function(e)
-    if ((G.GAME.dollars-G.GAME.bankrupt_at) - G.GAME.current_round.reroll_cost < 0) and G.GAME.current_round.reroll_cost ~= 0 then 
+    if ((G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at) - G.GAME.current_round.reroll_cost < 0) and G.GAME.current_round.reroll_cost ~= 0 then 
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
         --e.children[1].children[1].config.shadow = false
@@ -2102,7 +2090,14 @@ end
   end
 
   G.FUNCS.can_discard = function(e)
-    if G.GAME.current_round.discards_left <= 0 or #G.hand.highlighted <= 0 or #G.hand.highlighted > G.hand.config.highlighted_limit then
+    local allowed = G.GAME.current_round.discards_left > 0 and #G.hand.highlighted > 0
+    
+    if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+      local last_act = G.GAME.current_round.bplus_the_brake_last_act
+      allowed = allowed and (last_act ~= "discard")
+    end
+    
+    if not allowed then
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     else
@@ -2225,8 +2220,13 @@ end
       })
     end
 
-    G.TAROT_INTERRUPT = G.STATE
-    if card.ability.set == 'Booster' then G.GAME.PACK_INTERRUPT = G.STATE end 
+    if G.TAROT_INTERRUPT == nil then
+        G.TAROT_INTERRUPT = G.STATE
+    end
+    
+    if card.ability.set == 'Booster' and G.GAME.PACK_INTERRUPT == nil then
+        G.GAME.PACK_INTERRUPT = G.STATE
+    end
     G.STATE = (G.STATE == G.STATES.TAROT_PACK and G.STATES.TAROT_PACK) or
       (G.STATE == G.STATES.PLANET_PACK and G.STATES.PLANET_PACK) or
       (G.STATE == G.STATES.SPECTRAL_PACK and G.STATES.SPECTRAL_PACK) or
@@ -2284,6 +2284,13 @@ end
       e.config.ref_table:use_consumeable(area)
       SMODS.calculate_context({using_consumeable = true, consumeable = card})
     elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' then 
+    if G.STATE == G.STATES.STANDARD_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED then
+    	local rank = card.base.value
+    	--Check if it's UnStable rank, if so then flips the flag
+    	if rank:find('unstb_') then
+    		setPoolRankFlagEnable(rank, true);
+    	end
+    end
       G.playing_card = (G.playing_card and G.playing_card + 1) or 1
       G.deck:emplace(card)
       play_sound('card1', 0.8, 0.6)
@@ -2676,6 +2683,9 @@ end
   end
 
   G.FUNCS.select_blind = function(e)
+  if HeyListen.on_blind_select(e) then return end
+  HeyListen.reset_listening("blind_select")
+  HeyListen.reset_listening("hand_play")
     stop_use()
     if G.blind_select then 
         G.GAME.facing_blind = true
@@ -2721,6 +2731,15 @@ end
   end
 
   G.FUNCS.skip_booster = function(e)
+  if HeyListen.on_booster_skip(e) then return end
+  HeyListen.reset_listening("booster_skip")
+  if G.GAME.used_vouchers.v_bplus_refund then
+    local dollars = G.GAME.pack_choices * G.P_CENTERS.v_bplus_refund.config.money
+    if dollars > 0 then
+      ease_dollars(dollars, true)
+    end
+  end
+  
     SMODS.calculate_context({skipping_booster = true})
     G.FUNCS.end_consumeable(e)
   end
@@ -2955,12 +2974,57 @@ end
           for i = 1, #G.GAME.tags do
             G.GAME.tags[i]:apply_to_run({type = 'immediate'})
           end
-          for i = 1, #G.GAME.tags do
-            if G.GAME.tags[i]:apply_to_run({type = 'new_blind_choice'}) then break end
+              for i = 1, #G.GAME.tags do
+                  if G.GAME.tags[i]:apply_to_run({type = 'new_blind_choice'}) then break end
+              end
+              G.E_MANAGER:add_event(Event({
+                  trigger = 'after',
+                  func = function()
+                      if G.GAME.used_vouchers['v_ortalab_home_delivery'] then
+                          if G.blind_select then 
+                              G.blind_select:remove()
+                              G.blind_prompt_box:remove()
+                              G.blind_select = nil
+                          end
+                          local prev_state = G.STATE
+                          G.GAME.current_round.jokers_purchased = 0
+                          G.GAME.current_round.used_packs = {}
+                          local chaos = find_joker('Chaos the Clown')
+                          G.GAME.current_round.free_rerolls = #chaos
+                          G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + (G.GAME.current_round.ortalab_rerolls or 0)
+                          G.GAME.round_resets.temp_reroll_cost = nils
+                          G.GAME.current_round.reroll_cost_increase = 0
+                          calculate_reroll_cost(true)
+                          G.E_MANAGER:add_event(Event({
+                              trigger = 'after',
+                              blocking = false,
+                              func = function()
+                              if #G.E_MANAGER.queues.base > 2 or G.GAME.PACK_INTERRUPT then return false end
+                                  
+                                  if G.GAME.Miser then
+                                      G.STATE = G.STATES.BLIND_SELECT
+                                      G.GAME.Miser = false
+                                  else
+                                      
+                                      if G.GAME.Trident and not next(find_joker('Chicot')) then
+                                          G.STATE = G.STATES.BLIND_SELECT
+                                      else
+                                          G.STATE = G.STATES.SHOP
+                                      end
+                                      
+                                  end
+                                  
+                                  G.STATE_COMPLETE = false
+                                  return true
+                              end
+                          }))
+                      end
+                      return true
+              end}))
+              return true
           end
-          return true
-        end
-      }))
+          }))
+
     end
   end
 
@@ -3004,7 +3068,7 @@ end
   end
   
   G.FUNCS.reroll_boss_button = function(e)
-    if ((G.GAME.dollars-G.GAME.bankrupt_at) - 10 >= 0) and
+    if ((G.GAME.dollars + (G.GAME.virtual_dollars or 0) - G.GAME.bankrupt_at) - 10 >= 0) and
       (G.GAME.used_vouchers["v_retcon"] or
       (G.GAME.used_vouchers["v_directors_cut"] and not G.GAME.round_resets.boss_rerolled)) then 
         e.config.colour = G.C.RED
@@ -3020,6 +3084,16 @@ end
   end
 
   G.FUNCS.reroll_boss = function(e) 
+  if not G.blind_select_opts then
+      G.GAME.round_resets.boss_rerolled = true
+      if not G.from_boss_tag then ease_dollars(-10) end
+      G.from_boss_tag = nil
+      G.GAME.round_resets.blind_choices.Boss = get_new_boss()
+      for i = 1, #G.GAME.tags do
+          if G.GAME.tags[i]:apply_to_run({type = 'new_blind_choice'}) then break end
+      end
+      return true
+  end
     stop_use()
     G.GAME.round_resets.boss_rerolled = true
     if not G.from_boss_tag then ease_dollars(-10) end
@@ -3075,6 +3149,7 @@ end
   end
 
   G.FUNCS.reroll_shop = function(e) 
+  if HeyListen.on_shop_reroll(e) then return end
     stop_use()
     G.CONTROLLER.locks.shop_reroll = true
     if G.CONTROLLER:save_cardarea_focus('shop_jokers') then G.CONTROLLER.interrupt.focus = true end
@@ -3082,6 +3157,9 @@ end
       inc_career_stat('c_shop_dollars_spent', G.GAME.current_round.reroll_cost)
       inc_career_stat('c_shop_rerolls', 1)
       ease_dollars(-G.GAME.current_round.reroll_cost)
+      for i = 1, #G.jokers.cards do
+          G.jokers.cards[i]:calculate_joker({je_prereroll_shop = true})
+      end
     end
     G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
@@ -3091,6 +3169,13 @@ end
           G.GAME.round_scores.times_rerolled.amt = G.GAME.round_scores.times_rerolled.amt + 1
 
           calculate_reroll_cost(final_free)
+          if G.GAME.selected_back.name == "b_bplus_purple" then
+            for i = #G.shop_booster.cards, 1, -1 do
+              local b = G.shop_booster:remove_card(G.shop_booster.cards[i])
+              b:remove()
+              b = nil
+            end
+          end
           for i = #G.shop_jokers.cards,1, -1 do
             local c = G.shop_jokers:remove_card(G.shop_jokers.cards[i])
             c:remove()
@@ -3102,6 +3187,23 @@ end
           play_sound('coin2')
           play_sound('other1')
           
+          if G.GAME.selected_back.name == "b_bplus_purple" then
+            for i = 1, 2 do
+              local card = Card(
+                G.shop_booster.T.x + G.shop_booster.T.w/2,
+                G.shop_booster.T.y,
+                G.CARD_W * 1.27,
+                G.CARD_H * 1.27,
+                G.P_CARDS.empty,
+                get_pack('shop_pack'),
+                { bypass_discovery_center = true, bypass_discovery_ui = true }
+              )
+              create_shop_card_ui(card, 'Booster', G.shop_booster)
+              card.ability.booster_pos = i
+              card:start_materialize()
+              G.shop_booster:emplace(card)
+            end
+          end
           for i = 1, G.GAME.shop.joker_max - #G.shop_jokers.cards do
             local new_shop_card = create_card_for_shop(G.shop_jokers)
             G.shop_jokers:emplace(new_shop_card)
@@ -3130,6 +3232,9 @@ end
   end
 
 G.FUNCS.cash_out = function(e)
+if G.GAME.selected_back.effect.config.money_mult then
+    G.GAME.current_round.dollars = math.ceil((G.GAME.current_round.dollars * G.GAME.selected_back.effect.config.money_mult + G.GAME.selected_back.effect.config.money_mult_min) * G.GAME.dollars) - G.GAME.dollars
+end
 if Handy.insta_cash_out.is_skipped and e.config.button then return end
     stop_use()
       if G.round_eval then  
@@ -3147,8 +3252,10 @@ if Handy.insta_cash_out.is_skipped and e.config.button then return end
                 G.round_eval = nil
               end
               G.GAME.current_round.jokers_purchased = 0
-              G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
-              G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+              if not G.GAME.selected_back.effect.config.static_plays or (G.GAME.round_resets.ante)%G.GAME.win_ante == 0 and G.GAME.round_resets.ante >= 2 then
+                  G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+                  G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+              end
               
               if G.GAME.Miser then
                   G.STATE = G.STATES.BLIND_SELECT
@@ -3216,6 +3323,8 @@ args = args or {}
 end
 
 G.FUNCS.go_to_menu = function(e)
+HeyListen.reset_listening()
+HeyListen.reset_listening_per_ante()
   G.SETTINGS.paused = true
   G.E_MANAGER:clear_queue()
   G.FUNCS.wipe_on()

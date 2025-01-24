@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '34236b8b91c27c5ddfa499f0afbaae85e5e1a908b9963db5318c720456e04af5'
+LOVELY_INTEGRITY = 'cabef184745f6f70b50b33bf09e47802b0af9e9575771c923aec064361a86070'
 
 --Class
 CardArea = Moveable:extend()
@@ -17,7 +17,7 @@ function CardArea:init(X, Y, W, H, config)
     self.cards = {}
     self.children = {}
     self.highlighted = {}
-    self.config.highlighted_limit = config.highlight_limit or 5
+        self.config.highlighted_limit = config.highlight_limit or G.GAME.aiko_cards_playable or 5
     self.config.card_limit = config.card_limit or 52
     self.config.temp_limit = self.config.card_limit
     self.config.card_count = 0
@@ -39,6 +39,7 @@ end
         self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) + card.edition.card_limit
         self.config.card_limit = math.max(0, self.config.real_card_limit)
     end
+    self.cards = self.cards or {}
     if location == 'front' or self.config.type == 'deck' then 
         table.insert(self.cards, 1, card)
     else
@@ -127,7 +128,7 @@ function CardArea:change_size(delta)
                 self.config.real_card_limit = (self.config.real_card_limit or self.config.card_limit) + delta
                 self.config.card_limit = math.max(0, self.config.real_card_limit)
                 if delta > 0 and self.config.real_card_limit > 1 and self == G.hand and self.cards[1] and (G.STATE == G.STATES.DRAW_TO_HAND or G.STATE == G.STATES.SELECTING_HAND) then 
-                    local card_count = math.abs(delta)
+                    local card_count = math.max(0, math.min(delta, self.config.card_limit - #G.hand.cards))
                     for i=1, card_count do
                         draw_card(G.deck,G.hand, i*100/card_count,nil, nil , nil, 0.07)
                         G.E_MANAGER:add_event(Event({func = function() self:sort() return true end}))
@@ -511,6 +512,7 @@ end
 
 function CardArea:align_cards()
     if (self == G.hand or self == G.deck or self == G.discard or self == G.play) and G.view_deck and G.view_deck[1] and G.view_deck[1].cards then return end
+    self.children = self.children or {}
     if self.config.type == 'deck' then
             local display_limit
             if not Cartomancer.SETTINGS.compact_deck_enabled then
@@ -583,6 +585,9 @@ function CardArea:align_cards()
 
                 local highlight_height = G.HIGHLIGHT_H
                 if not card.highlighted then highlight_height = 0 end
+                if card.celadon_disabled then
+                    highlight_height = G.HIGHLIGHT_H * -0.3
+                end
                 card.T.y = self.T.y + self.T.h/2 - card.T.h/2 - highlight_height + (G.SETTINGS.reduced_motion and 0 or 1)*0.03*math.sin(0.666*G.TIMERS.REAL+card.T.x) + math.abs(0.5*(-#self.cards/2 + k-0.5)/(#self.cards))-0.2
                 card.T.x = card.T.x + card.shadow_parrallax.x/30
             end
@@ -662,7 +667,9 @@ function CardArea:align_cards()
                 card.T.x = card.T.x + card.shadow_parrallax.x/30
             end
         end
+        if not exb_jokerlock() then
         table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*((a.pinned and not a.ignore_pinned) and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*((b.pinned and not b.ignore_pinned) and b.sort_id or 0) end)
+        end
     end   
     if self.config.type == 'consumeable'then
         for k, card in ipairs(self.cards) do

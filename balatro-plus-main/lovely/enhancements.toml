@@ -1,0 +1,60 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Store premium card dollars to global variable before evaluate play and reset after play
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.FUNCS.evaluate_play = function(e)"
+position = "after"
+match_indent = true
+payload = """
+G.bplus_premium_card_dollars = bplus_calculate_premium_card_dollars()
+"""
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.modifiers.debuff_played_cards then"
+position = "before"
+match_indent = true
+payload = """
+G.bplus_premium_card_dollars = nil
+"""
+
+# Add method for modify playing card effect
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "-- TARGET: main scoring on played cards"
+position = "after"
+match_indent = true
+payload = """
+
+if card.ability.set == "Enhanced" and type(card.config.center.modify_effect) == "function" and ret.playing_card then
+  card.config.center:modify_effect(card, context, ret.playing_card)
+end
+"""
+
+# Trigger effect when destroyed playing card on hand
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.FUNCS.draw_from_hand_to_discard()"
+position = "before"
+match_indent = true
+payload = """
+local destroyed_cards = {}
+for _, c in ipairs(G.hand.cards) do
+  if bplus_is_getting_destroyed(c) then
+    destroyed_cards[#destroyed_cards + 1] = c
+  end
+end
+if next(destroyed_cards) then
+  for i = 1, #G.jokers.cards do
+    G.jokers.cards[i]:calculate_joker({remove_playing_cards = true, removed = destroyed_cards})
+  end
+end
+
+"""

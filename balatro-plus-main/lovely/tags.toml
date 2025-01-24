@@ -1,0 +1,46 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Add Tag trigger context
+[[patches]]
+[patches.regex]
+target = "functions/state_events.lua"
+pattern = '''[ \t]*G\.jokers\.cards\[i\]:calculate_joker\(\{setting_blind = true, blind = G\.GAME\.round_resets\.blind\}\)
+(?<indent>[ \t])*end'''
+position = "after"
+line_prepend = '$indent'
+payload = """
+
+for _, t in ipairs(G.GAME.tags) do
+  t:apply_to_run { type = "setting_blind", blind = G.GAME.round_resets.blind }
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "if G.GAME.current_round.hands_played == 0 and"
+position = "before"
+match_indent = true
+payload = """
+if G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 and G.GAME.facing_blind then
+  for _, tag in ipairs(G.GAME.tags) do
+    tag:apply_to_run { type = "first_hand_drawn" }
+  end
+end
+"""
+
+# Add last tag for Recycle Tag
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "_tag.HUD_tag = G.HUD_tags[#G.HUD_tags]"
+position = "after"
+match_indent = true
+payload = """
+if _tag.key ~= "tag_bplus_recycle" then
+  G.GAME.bplus_recycle_tag_last_tag = _tag.key
+end
+"""

@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '2774a24114332371bc4208f854d32c6f93786326d6810fc4139b615d177277e3'
+LOVELY_INTEGRITY = 'ccb01fb0d9d6be4a0d16ece7fb67277b4258a31e46a515384a4cce2e03afaf13'
 
 ---@class Moveable: Node
 Moveable = Node:extend()
@@ -15,6 +15,7 @@ Moveable = Node:extend()
 function Moveable:init(X,Y,W,H)
     local args = (type(X) == 'table') and X or {T ={X or 0,Y or 0,W or 0,H or 0}}
     Node.init(self, args)
+    self.T_ref = copy_table(self.T)
 
     --The Visible transform is initally set to the same values as the transform T.
     --Note that the VT has an extra 'scale' factor, this is used to manipulate the center-adjusted

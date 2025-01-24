@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'd803a1c29aaf83339f07388af790944c98c8a07a92d37332e0a4ba4a21ce812e'
+LOVELY_INTEGRITY = '830182bca5a6d1be99c3ebc2fcf39e182bf83fde50b22277e039bfffe42df30d'
 
 --class
 Blind = Moveable:extend()
@@ -60,8 +60,10 @@ function Blind:set_text()
             end
             local target = {type = 'raw_descriptions', key = self.config.blind.key, set = 'Blind', vars = loc_vars or self.config.blind.vars}
             local obj = self.config.blind
+            local loc_key = obj.key
             if obj.loc_vars and type(obj.loc_vars) == 'function' then
                 local res = obj:loc_vars() or {}
+                loc_key = res.key or obj.key
                 target.vars = res.vars or target.vars
                 target.key = res.key or target.key
             end
@@ -293,7 +295,7 @@ function Blind:get_loc_debuff_text()
     if obj.get_loc_debuff_text and type(obj.get_loc_debuff_text) == 'function' then
         return obj:get_loc_debuff_text()
     end
-    local disp_text = (self.config.blind.name == 'The Wheel' and G.GAME.probabilities.normal or '')..self.loc_debuff_text
+    local disp_text = (self.config.blind.name == 'The Wheel' and probability("normal") or '')..self.loc_debuff_text
     if (self.config.blind.name == 'The Mouth') and self.only_hand then disp_text = disp_text..' ['..localize(self.only_hand, 'poker_hands')..']' end
     return disp_text
 end
@@ -718,19 +720,7 @@ function Blind:stay_flipped(area, card)
             return obj:stay_flipped(area, card)
         end
         if area == G.hand then
-            
-            if G.jokers ~= nil then
-                for _, v in ipairs(G.jokers.cards) do
-                    if v.config.center.key == 'j_bunc_vandalism' and not v.debuff then
-                        if (pseudorandom('vandalism'..G.SEED) < G.GAME.probabilities.normal / v.ability.extra.odds) and (G.STATE == G.STATES.SELECTING_HAND or G.STATE == G.STATES.DRAW_TO_HAND) then
-                            v:calculate_joker({stay_flipped = true})
-                            return true
-                        end
-                    end
-                end
-            end
-            
-            if self.name == 'The Wheel' and pseudorandom(pseudoseed('wheel')) < G.GAME.probabilities.normal/7 then
+            if self.name == 'The Wheel' and pseudorandom(pseudoseed('wheel')) < probability("normal")/7 then
                 return true
             end
             if self.name == 'The House' and G.GAME.current_round.hands_played == 0 and G.GAME.current_round.discards_used == 0 then
@@ -753,7 +743,9 @@ function Blind:debuff_card(card, from_blind)
             card:set_debuff(true)
             if card.debuff then card.debuffed_by_blind = true end
         else
-            card:set_debuff(false)
+            if not card.caged then
+                card:set_debuff(false)
+            end
         end
         return
     elseif not self.disabled and obj.debuff_card and type(obj.debuff_card) == 'function' then
@@ -762,6 +754,14 @@ function Blind:debuff_card(card, from_blind)
             card:set_debuff(true)
             if card.debuff then card.debuffed_by_blind = true end
         else
+            if not card.caged then
+                card:set_debuff(false)
+            end
+        end
+        return
+    end
+    if card.area ~= G.jokers and card.ability.name == 'Wild Card' then
+        if not card.caged then
             card:set_debuff(false)
         end
         return
@@ -801,7 +801,9 @@ function Blind:debuff_card(card, from_blind)
         end
     end
     if self.name == 'Verdant Leaf' and not self.disabled and card.area ~= G.jokers then card:set_debuff(true); if card.debuff then card.debuffed_by_blind = true end; return end
-    card:set_debuff(false)
+    if not card.caged then
+        card:set_debuff(false)
+    end
 end
 
 function Blind:move(dt)
@@ -852,6 +854,7 @@ function Blind:save()
         hands = self.hands,
         only_hand = self.only_hand,
         triggered = self.triggered
+        ,turn = self.turn
     }
 
     for k, v in pairs(G.P_BLINDS) do
@@ -881,6 +884,7 @@ function Blind:load(blindTable)
     self.hands = blindTable.hands
     self.only_hand = blindTable.only_hand
     self.triggered = blindTable.triggered
+    self.turn = blindTable.turn
 
     G.ARGS.spin.real = (G.SETTINGS.reduced_motion and 0 or 1)*(self.config.blind.boss and (self.config.blind.boss.showdown and 1 or 0.3) or 0)
 

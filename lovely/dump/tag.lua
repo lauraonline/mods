@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'f2682e0837abf8a6f18737890c6ae9c7e04a839cec2da3ac3a270da9f0c9a57e'
+LOVELY_INTEGRITY = '866433afdc840e06bf7da957edc49ff747aa1d51b3d50dfe16660bbb8a4b9cd1'
 
 --Class
 Tag = Object:extend()
@@ -9,6 +9,7 @@ function Tag:init(_tag, for_collection, _blind_type)
     local proto = G.P_TAGS[_tag] or G.tag_undiscovered
     self.config = copy_table(proto.config)
     self.pos = proto.pos
+    self.soul_pos = proto.soul_pos
     self.name = proto.name
     self.tally = G.GAME.tag_tally or 0
     self.triggered = false
@@ -16,6 +17,7 @@ function Tag:init(_tag, for_collection, _blind_type)
     self.ID = G.tagid
     G.tagid = G.tagid + 1
     self.ability = {
+        zodiac_hands = {'['..localize('k_poker_hand')..']', '['..localize('k_poker_hand')..']'},
         orbital_hand = '['..localize('k_poker_hand')..']',
         blind_type = _blind_type
     }
@@ -417,7 +419,7 @@ function Tag:apply_to_run(_context)
                     if _context.tag.ability and _context.tag.ability.orbital_hand then
                         G.orbital_hand = _context.tag.ability.orbital_hand
                     end
-                    add_tag(Tag(_context.tag.key))
+                    add_tag(Tag(_context.tag.key, false, _context.tag.ability.blind_type))
                     G.orbital_hand = nil
                     G.CONTROLLER.locks[lock] = nil
                     return true
@@ -573,6 +575,7 @@ function Tag:load(tag_savetable)
     local proto = G.P_TAGS[self.key] or G.tag_undiscovered
     self.config = copy_table(proto.config)
     self.pos = proto.pos
+    self.soul_pos = proto.soul_pos
     self.name = proto.name
     self.tally = tag_savetable.tally
     self.ability = tag_savetable.ability
@@ -589,6 +592,10 @@ function Tag:generate_UI(_size)
     local tag_sprite_tab = nil
 
     local tag_sprite = Sprite(0,0,_size*1,_size*1,G.ASSET_ATLAS[(not self.hide_ability) and G.P_TAGS[self.key].atlas or "tags"], (self.hide_ability) and G.tag_undiscovered.pos or self.pos)
+    if G.P_TAGS[self.key].soul_pos and G.P_TAGS[self.key].discovered then
+        tag_sprite.soul = Sprite(0,0,_size*1,_size*1, G.ASSET_ATLAS[G.P_TAGS[self.key].atlas], G.P_TAGS[self.key].soul_pos)
+    
+    end
     tag_sprite.T.scale = 1
     tag_sprite_tab = {n= G.UIT.C, config={align = "cm", ref_table = self, group = self.tally}, nodes={
         {n=G.UIT.O, config={w=_size*1,h=_size*1, colour = G.C.BLUE, object = tag_sprite, focus_with_object = true}},

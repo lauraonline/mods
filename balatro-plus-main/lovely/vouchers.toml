@@ -1,0 +1,47 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Trigger Refund Voucher ability
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.skip_booster = function(e)"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.used_vouchers.v_bplus_refund then
+  local dollars = G.GAME.pack_choices * G.P_CENTERS.v_bplus_refund.config.money
+  if dollars > 0 then
+    ease_dollars(dollars, true)
+  end
+end
+
+"""
+
+# Trigger Big Pack Voucher ability
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "G.GAME.pack_choices = self.config.center.config.choose or 1"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.used_vouchers.v_bplus_big_pack then
+  G.GAME.pack_size = math.min(G.GAME.pack_size + G.P_CENTERS.v_bplus_big_pack.config.choose, 5)
+  G.GAME.pack_choices = G.GAME.pack_choices + G.P_CENTERS.v_bplus_big_pack.config.extra
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "local _size = self.ability.extra"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.used_vouchers.v_bplus_big_pack then
+  _size = _size + G.P_CENTERS.v_bplus_big_pack.config.choose
+end
+"""

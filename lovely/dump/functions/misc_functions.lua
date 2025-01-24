@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = '69aff2d875aa44f6ecabaeb79c0c21e5ae7cec8bc4bf4d0a2bf87d12b76f4af1'
+LOVELY_INTEGRITY = 'af34a5fb99518108274cd7d170b19fc76cc6b507220e2aab4d07209f14c43746'
 
 --Updates all display information for all displays for a given screenmode. Returns the key for the resolution option cycle
 --
@@ -1017,6 +1017,14 @@ function alert_no_space(card, area)
 end
 
 function find_joker(name, non_debuff)
+  if name == "Shortcut" then
+    local asdf = find_joker("poke_Shortcut")
+    local fdsa = find_joker("rapidash")
+    return (next(asdf) and asdf) or (next(fdsa) and fdsa) or {}
+  end
+  if name == "poke_Shortcut" then
+    name = "Shortcut"
+  end
   local jokers = {}
   if not G.jokers or not G.jokers.cards then return {} end
   for k, v in pairs(G.jokers.cards) do
@@ -1370,6 +1378,21 @@ function set_consumeable_usage(card)
           end
         }))
       end
+      if card.config.center.set == 'Item' or card.config.center.set == 'Energy' then 
+        G.E_MANAGER:add_event(Event({
+          trigger = 'immediate',
+          func = function()
+            G.E_MANAGER:add_event(Event({
+              trigger = 'immediate',
+              func = function()
+                G.GAME.last_poke_item = card.config.center_key
+                  return true
+              end
+            }))
+              return true
+          end
+        }))
+      end
 
     end
     G:save_settings()
@@ -1459,6 +1482,12 @@ function set_discover_tallies()
   
   for _, v in pairs(G.P_CENTERS) do
     if not v.omit and not v.no_collection then
+      if v.set and v.set == 'Sleeve' then
+          G.DISCOVER_TALLIES.total.of = G.DISCOVER_TALLIES.total.of + 1
+          if v.unlocked then 
+              G.DISCOVER_TALLIES.total.tally = G.DISCOVER_TALLIES.total.tally + 1
+          end
+      end
       if v.set and ((v.set == 'Joker') or v.consumeable or (v.set == 'Edition') or (v.set == 'Voucher') or (v.set == 'Back') or (v.set == 'Booster')) then
         G.DISCOVER_TALLIES.total.of = G.DISCOVER_TALLIES.total.of+1
         if v.discovered then 
@@ -1611,8 +1640,18 @@ function save_run()
     end
   end
 
+  local zodiacs = {}
+  if G.zodiacs then
+      for k, v in pairs(G.zodiacs) do
+          if (type(v) == "table") and v.is and v:is(Zodiac) then 
+              local zodiacSer = v:save()
+              if zodiacSer then zodiacs[k] = zodiacSer end
+          end
+      end
+  end
   G.culled_table =  recursive_table_cull{
     cardAreas = cardAreas,
+    zodiacs = zodiacs,
     tags = tags,
     GAME = G.GAME,
     STATE = G.STATE,
@@ -1636,6 +1675,9 @@ end
 
 function loc_colour(_c, _default)
   G.ARGS.LOC_COLOURS = G.ARGS.LOC_COLOURS or {
+    eternal = G.C.ETERNAL,
+    rental = G.C.RENTAL,
+    bplus_sigil = G.C.SET.sigil,
     red = G.C.RED,
     mult = G.C.MULT,
     blue = G.C.BLUE,
@@ -1660,7 +1702,10 @@ function loc_colour(_c, _default)
     bunco_virtual = G.C.BUNCO_VIRTUAL,
     bunco_virtual_dark = G.C.BUNCO_VIRTUAL_DARK,
     bunco_exotic = G.C.BUNCO_EXOTIC,
+    poke_safari = G.C.RARITY['poke_safari'],
     enhanced = G.C.SECONDARY_SET.Enhanced
+    ,
+        playable = G.C.PLAYABLE
   }
       for _, v in ipairs(SMODS.Rarity.obj_buffer) do
           G.ARGS.LOC_COLOURS[v:lower()] = G.C.RARITY[v]
@@ -1917,10 +1962,17 @@ function localize(args, misc_cat)
         
         local function add_symbol(text, symbol)
             local leading_spaces = string.match(text, "^%s*")
-            if #leading_spaces > 0 then
-                return leading_spaces..symbol..string.sub(text, #leading_spaces + 1)
+        
+            _, word_amount = text:gsub("%S+","")
+        
+            if word_amount == 1 then
+                if #leading_spaces > 0 then
+                    return leading_spaces..symbol..string.sub(text, #leading_spaces + 1)
+                else
+                    return symbol..text
+                end
             else
-                return symbol..text
+                return text
             end
         end
         

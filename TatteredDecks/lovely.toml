@@ -1,0 +1,141 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 10
+
+# T.Red Deck
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+            G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))'''
+position = 'at'
+match_indent = true
+payload = '''
+if not G.GAME.selected_back.effect.config.static_plays or (G.GAME.round_resets.ante)%G.GAME.win_ante == 0 and G.GAME.round_resets.ante >= 2 then
+    G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+    G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+end'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+            G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))'''
+position = 'at'
+match_indent = true
+payload = '''
+if not G.GAME.selected_back.effect.config.static_plays or (G.GAME.round_resets.ante)%G.GAME.win_ante == 0 and G.GAME.round_resets.ante >= 2 then
+    G.GAME.current_round.discards_left = math.max(0, G.GAME.round_resets.discards + G.GAME.round_bonus.discards)
+    G.GAME.current_round.hands_left = (math.max(1, G.GAME.round_resets.hands + G.GAME.round_bonus.next_hands))
+end'''
+
+# T.Blue Deck
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''G.STATE = G.STATES.NEW_ROUND'''
+position = 'at'
+match_indent = true
+payload = '''
+if  G.GAME.selected_back.effect.config.infinite_hands and not (G.GAME.chips >= G.GAME.blind.chips) then
+    ease_chips(0)
+    ease_hands_played(1)
+else
+    G.STATE = G.STATES.NEW_ROUND
+end
+''' # Sketch?
+
+# T.Yellow Deck
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''{n=G.UIT.T, config={text = localize('$')..format_ui_value(config.dollars), scale = 1.2*scale, colour = G.C.WHITE, shadow = true, juice = true}}'''
+position = 'at'
+match_indent = true
+payload = '''
+{n=G.UIT.T, config={text = (not G.GAME.selected_back.effect.config.money_mult) and (localize('$')..format_ui_value(config.dollars)) or (format_ui_value(config.dollars * G.GAME.selected_back.effect.config.money_mult + G.GAME.selected_back.effect.config.money_mult_min) .. "X" .. localize('$')) , scale = 1.2*scale, colour = G.C.WHITE, shadow = true, juice = true}}
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.FUNCS.cash_out = function(e)'''
+position = 'after'
+match_indent = true
+payload = '''
+if G.GAME.selected_back.effect.config.money_mult then
+    G.GAME.current_round.dollars = math.ceil((G.GAME.current_round.dollars * G.GAME.selected_back.effect.config.money_mult + G.GAME.selected_back.effect.config.money_mult_min) * G.GAME.dollars) - G.GAME.dollars
+end
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''if not skip_increment then G.GAME.current_round.reroll_cost_increase = G.GAME.current_round.reroll_cost_increase + 1 end'''
+position = 'after'
+match_indent = true
+payload = '''
+if not skip_increment and G.GAME.selected_back.effect.config.reroll_gain then 
+    G.GAME.current_round.reroll_cost_increase = G.GAME.current_round.reroll_cost_increase + G.GAME.selected_back.effect.config.reroll_gain
+end
+'''
+
+#T. Black Deck
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end'''
+position = 'after'
+match_indent = true
+payload = '''
+if G.GAME.selected_back and G.GAME.selected_back.effect.config.free_jokers and (self.ability.set == "Joker" or (self.ability.set == "Booster" and self.ability.name:find("Buffoon"))) then
+    self.cost = 0
+end
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''local hand_text_set = false''' # Above joker context
+position = 'after'
+match_indent = true
+payload = '''
+G.GAME.selected_back:trigger_effect({context = 'before_hand'})
+'''
+
+# T.Magic Deck
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''G.jokers.cards[i]:calculate_joker({setting_blind = true, blind = G.GAME.round_resets.blind})
+            end'''
+position = 'after'
+match_indent = true
+payload = '''
+G.GAME.selected_back:trigger_effect({context = 'setting_blind'})
+'''
+
+# T.Nebula Deck
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''level_up_hand(used_tarot, self.ability.consumeable.hand_type)'''
+position = 'at'
+match_indent = true
+payload = '''
+level_up_hand(used_tarot, self.ability.consumeable.hand_type, nil, G.GAME.selected_back.effect.config.alt_planet_levels or 1)
+if G.GAME.selected_back.effect.config.negative_planet_levels then
+    local valid_hands = {}
+    for hand_key, hand in pairs(G.GAME.hands) do 
+        if hand.visible and hand.level > 0 then
+            valid_hands[#valid_hands+1] = hand_key
+        end 
+    end
+    if valid_hands then
+        local random_hand = pseudorandom_element(valid_hands, pseudoseed('rand_level_down'))
+        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(random_hand, 'poker_hands'),chips = G.GAME.hands[random_hand].chips, mult = G.GAME.hands[random_hand].mult, level=G.GAME.hands[random_hand].level})
+        level_up_hand(used_tarot, random_hand, nil, -G.GAME.selected_back.effect.config.negative_planet_levels)
+    end
+end
+'''

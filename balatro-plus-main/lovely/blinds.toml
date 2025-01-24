@@ -1,0 +1,88 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# The Brake allow play/discard logic
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.GAME.current_round.discards_left <= 0 or #G.hand.highlighted <= 0 then"
+position = "at"
+match_indent = true
+payload = """
+local allowed = G.GAME.current_round.discards_left > 0 and #G.hand.highlighted > 0
+
+if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+  local last_act = G.GAME.current_round.bplus_the_brake_last_act
+  allowed = allowed and (last_act ~= "discard")
+end
+
+if not allowed then
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.GAME.round_scores.cards_discarded.amt = G.GAME.round_scores.cards_discarded.amt + #cards"
+position = "before"
+match_indent = true
+payload = """
+if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+  G.GAME.current_round.bplus_the_brake_last_act = "discard"
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.GAME.current_round.hands_played = G.GAME.current_round.hands_played + 1"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.blind.name == "bl_bplus_brake" and not G.GAME.blind.disabled then
+  G.GAME.current_round.bplus_the_brake_last_act = "play"
+end
+"""
+
+# The Lazy disable all retrigger effects
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if reps[j] ~= 1 then"
+position = "after"
+match_indent = true
+payload = """
+if G.GAME.blind.name == "bl_bplus_lazy" and not G.GAME.blind.disabled then
+  local already = {}
+  for i = 2, #reps do
+    if not already[reps[i]] then
+      already[reps[i]] = true
+      bplus_bl_lazy_trigger((reps[i].jokers or reps[i].seals).card)
+    end
+  end
+  break
+end
+"""
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if reps[j] ~= 1 then card_eval_status_text((reps[j].jokers or reps[j].seals).card, 'jokers', nil, nil, nil, (reps[j].jokers or reps[j].seals)) end"
+position = "at"
+match_indent = true
+payload = """
+if reps[j] ~= 1 then
+  if G.GAME.blind.name == "bl_bplus_lazy" and not G.GAME.blind.disabled then
+    local already = {}
+    for i = 2, #reps do
+      if not already[reps[i]] then
+        already[reps[i]] = true
+        bplus_bl_lazy_trigger((reps[i].jokers or reps[i].seals).card)
+      end
+    end
+    break
+  end
+  card_eval_status_text((reps[j].jokers or reps[j].seals).card, 'jokers', nil, nil, nil, (reps[j].jokers or reps[j].seals))
+end
+"""

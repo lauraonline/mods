@@ -1,0 +1,1 @@
+return {["shiny_playing_cards"]=false,["precise_energy"]=true,["pokeballs"]=true,["no_evos"]=false,["pokemon_only"]=false,["pokemon_splash"]=true,["unlimited_energy"]=false,["gen_one"]=false,["jokers_only"]=false,["pokemon_num"]=true,}

@@ -1,0 +1,128 @@
+INFO - [♥] Lovely 0.7.1
+INFO - [♥] Game directory is at "C:\\Users\\ramosalves\\Desktop\\laura\\Balatro"
+INFO - [♥] Writing logs to "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods"
+WARN - [♥] Unknown key `patches.15.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco\\lovely.toml", ignoring it
+WARN - [♥] Unknown key `patches.156.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco\\lovely.toml", ignoring it
+WARN - [♥] Unknown key `patches.46.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\fixes.toml", ignoring it
+WARN - [♥] Unknown key `patches.3.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\smods-main\\lovely\\rarity.toml", ignoring it
+INFO - [♥] Cleaning up dumps directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 50ms
+INFO - [♥] Applied 1 patch to 'conf.lua'
+WARN - [♥] Pattern 'function love.errhand(msg)' on target 'main.lua' for pattern patch from Steamodded\lovely\crash_handler.toml resulted in no matches
+WARN - [♥] Pattern 'if os == \'OS X\' or os == \'Windows\' then' on target 'main.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Pattern 'if os == \'OS X\' then' on target 'main.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Pattern 'st = require \'luasteam\'' on target 'main.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Regex '(?<indent>[\t ]*)if not \\(st.init and st:init\\(\\)\\) then\n[\t ]*(?<quit>love.event.quit\\(\\))' on target 'main.lua' for regex patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Pattern 'G.ARGS.score_intensity.organ = G.video_organ or G.ARGS.score_intensity.required_score > 0 and math.max(math.min(0.4, 0.1*math.log(G.ARGS.score_intensity.earned_score/(G.ARGS.score_intensity.required_score+1), 5)),0.) or 0' on target 'main.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if type(G.GAME.current_round.current_hand.chips) ~= \'number\' or type(G.GAME.current_round.current_hand.mult) ~= \'number\' then' on target 'main.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'not c.ending_shop and not c.reroll_shop and not c.selling_card and not c.selling_self and not c.buying_card and' on target 'main.lua' for pattern patch from Tetrapak\lovely\StoreJokerCreate.toml resulted in no matches
+WARN - [♥] Pattern 'modded and {' on target 'main.lua' for pattern patch from Cartomancer\lovely\stackable-deck-steamodded-0.9.8.toml resulted in no matches
+INFO - [♥] Applied 51 patches to 'main.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+WARN - [♥] Regex '(?<indent>[\\t ]*)local _edition = \\{\n[\\t ]*foil = not _card\\.edition,\n[\\t ]*holo = _card\\.edition and _card\\.edition\\.foil,\n[\\t ]*polychrome = _card\\.edition and _card\\.edition\\.holo,\n[\\t ]*negative = _card\\.edition and _card\\.edition\\.polychrome,\n[\\t ]*\\}' on target 'engine/controller.lua' for regex patch from Steamodded\lovely\edition.toml resulted in no matches
+INFO - [♥] Applied 20 patches to 'engine/controller.lua'
+WARN - [♥] Pattern 'loc_args = {other_name}' on target 'back.lua' for pattern patch from Steamodded\lovely\back.toml resulted in no matches
+WARN - [♥] Pattern 'loc_args = {tostring(back_config.unlock_condition.amount)}' on target 'back.lua' for pattern patch from Steamodded\lovely\back.toml resulted in no matches
+WARN - [♥] Pattern 'loc_args = {other_name, colours = {get_stake_col(back_config.unlock_condition.stake)}}' on target 'back.lua' for pattern patch from Steamodded\lovely\back.toml resulted in no matches
+WARN - [♥] Pattern 'if name_to_check == \'Blue Deck\'*' on target 'back.lua' for pattern patch from Steamodded\lovely\back.toml resulted in no matches
+WARN - [♥] Regex 'key = back_config\\.key' on target 'back.lua' for regex patch from Steamodded\lovely\back.toml resulted in no matches
+INFO - [♥] Applied 27 patches to 'back.lua'
+WARN - [♥] Pattern 'function Tag:get_uibox_table(tag_sprite)' on target 'tag.lua' for pattern patch from Steamodded\lovely\tag.toml resulted in no matches
+WARN - [♥] Pattern 'tag_sprite.ability_UIBox_table = generate_card_ui(G.P_TAGS[self.key], nil, loc_vars, (self.hide_ability) and \'Undiscovered\' or \'Tag\', nil, (self.hide_ability))' on target 'tag.lua' for pattern patch from Steamodded\lovely\tag.toml resulted in no matches
+WARN - [♥] Pattern '_self.config.h_popup_config ={align = \'cl\', offset = {x=-0.1,y=0},parent = _self}' on target 'tag.lua' for pattern patch from Steamodded\lovely\ui.toml resulted in no matches
+WARN - [♥] Regex 'G.ASSET_ATLAS\\[\"tags\"\\]' on target 'tag.lua' for regex patch from Steamodded\lovely\tag.toml resulted in no matches
+INFO - [♥] Applied 15 patches to 'tag.lua'
+INFO - [♥] Applied 3 patches to 'engine/node.lua'
+WARN - [♥] Regex '(?<indent>[\\t ]*)if +self\\.alignment\\.prev_offset\\.x == self\\.alignment\\.offset\\.x[\\s\\S]*?return end\n' on target 'engine/moveable.lua' for regex patch from Steamodded\lovely\fixes.toml resulted in no matches
+INFO - [♥] Applied 3 patches to 'engine/moveable.lua'
+WARN - [♥] Pattern 'if _send then G.SHADERS[_shader or \'dissolve\']:send(_shader,_send) end' on target 'engine/sprite.lua' for pattern patch from Steamodded\lovely\edition.toml resulted in no matches
+INFO - [♥] Applied 5 patches to 'engine/sprite.lua'
+WARN - [♥] Pattern 'for _, v in pairs(G.ANIMATIONS) do' on target 'engine/animatedsprite.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Pattern 'for _, v in pairs(G.I.SPRITE) do' on target 'engine/animatedsprite.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+INFO - [♥] Applied 2 patches to 'engine/animatedsprite.lua'
+WARN - [♥] Pattern 'return G.ASSET_ATLAS[_front.atlas] or G.ASSET_ATLAS[\"cards_\"..(G.SETTINGS.colourblind_option and 2 or 1)], _front.pos' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\atlas.toml resulted in no matches
+WARN - [♥] Pattern 'if win_ante and (win_ante >= 8) then' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\fixes.toml resulted in no matches
+WARN - [♥] Pattern 'function number_format(num)' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\number_formatting.toml resulted in no matches
+WARN - [♥] Pattern 'return string.format(\"%.3f\",x/(10^fac))..\'e\'..fac' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\number_formatting.toml resulted in no matches
+WARN - [♥] Pattern 'return string.format(num ~= math.floor(num) and (num >= 100 and \"%.0f\" or num >= 10 and \"%.1f\" or \"%.2f\") or \"%.0f\", num):reverse():gsub(\"(%d%d%d)\", \"%1,\"):gsub(\",$\", \"\"):reverse()' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\number_formatting.toml resulted in no matches
+WARN - [♥] Pattern 'local vals = {{},{},{},{},{},{},{},{},{},{},{},{},{},{}}' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'function get_X_same(num, hand)' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'if #curr == num then' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'function pseudorandom_element(_t, seed)' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\pool.toml resulted in no matches
+WARN - [♥] Pattern 'if G.GAME.stake >= 8 then' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'if _stake == 8 then' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'for i = 1, G.GAME.stake do' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'local stake_sprite = Sprite(0,0,_scale*1,_scale*1,G.ASSET_ATLAS[\"chips\"], G.P_CENTER_POOLS.Stake[_stake].pos)' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'G.PROFILES[G.SETTINGS.profile].joker_usage[v.config.center_key] = {count = 1, order = v.config.center.order, wins = {}, losses = {}}' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'G.PROFILES[G.SETTINGS.profile].joker_usage[v.config.center_key] = G.PROFILES[G.SETTINGS.profile].joker_usage[v.config.center_key] or {count = 1, order = v.config.center.order, wins = {}, losses = {}}' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'G.PROFILES[G.SETTINGS.profile].deck_usage[deck_key] = {count = 1, order = G.GAME.selected_back.effect.center.order, wins = {}, losses = {}}' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'if not G.PROFILES[G.SETTINGS.profile].deck_usage[deck_key] then G.PROFILES[G.SETTINGS.profile].deck_usage[deck_key] = {count = 1, order = G.GAME.selected_back.effect.center.order, wins = {}, losses = {}} end' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\stake.toml resulted in no matches
+WARN - [♥] Pattern 'if not v.omit then' on target 'functions/misc_functions.lua' for pattern patch from Steamodded\lovely\ui.toml resulted in no matches
+WARN - [♥] Regex '(?<indent>[\t ]*)if v.set == \'Planet\' then(\n[\t ]*.*){15}' on target 'functions/misc_functions.lua' for regex patch from Steamodded\lovely\center.toml resulted in no matches
+WARN - [♥] Regex '[\t ]*tarots = \\{tally = 0, of = 0\\},\n(.*\n){2}' on target 'functions/misc_functions.lua' for regex patch from Steamodded\lovely\center.toml resulted in no matches
+WARN - [♥] Regex 'if _front and _front.suit and \\(_front.value == \'Jack\' or _front.value == \'Queen\' or _front.value == \'King\'\\) then([\\s\\S]*?)end([\\s\\S]*?)end([\\s\\S]*?)end' on target 'functions/misc_functions.lua' for regex patch from Steamodded\lovely\deck_skins.toml resulted in no matches
+WARN - [♥] Regex 'num >= G\\.E_SWITCH_POINT' on target 'functions/misc_functions.lua' for regex patch from Steamodded\lovely\number_formatting.toml resulted in no matches
+WARN - [♥] Regex '(?<indent>[\\t ]*)local suits = \\{\\n[\\t ]*\"Spades\",\\n[\\t ]*\"Hearts\",\\n[\\t ]*\"Clubs\",\\n[\\t ]*\"Diamonds\"\\n[\\t ]*\\}\\n[\\t ]*if #hand > 5 or (?<restcond>#hand < \\(5 - \\(four_fingers and 1 or 0\\)\\) then return ret else)' on target 'functions/misc_functions.lua' for regex patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'assembled_string = assembled_string..(type(subpart) == \'string\' and subpart or args.vars[tonumber(subpart[1])] or \'ERROR\')' on target 'functions/misc_functions.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+INFO - [♥] Applied 75 patches to 'functions/misc_functions.lua'
+WARN - [♥] Pattern 'config = {major = G.HUD:get_UIE_by_ID(\'row_blind\'), align = \'cm\', offset = {x=0,y=-10}, bond = \'Weak\'}' on target 'game.lua' for pattern patch from Steamodded\lovely\blind_ui.toml resulted in no matches
+WARN - [♥] Pattern 'if not (love.filesystem.read(\'localization/\'..G.SETTINGS.language..\'.lua\')) or G.F_ENGLISH_ONLY then' on target 'game.lua' for pattern patch from Steamodded\lovely\language.toml resulted in no matches
+WARN - [♥] Pattern 'local localization = love.filesystem.getInfo(\'localization/\'..G.SETTINGS.language..\'.lua\')' on target 'game.lua' for pattern patch from Steamodded\lovely\language.toml resulted in no matches
+WARN - [♥] Pattern 'self.localization = assert(loadstring(love.filesystem.read(\'localization/\'..G.SETTINGS.language..\'.lua\')))()' on target 'game.lua' for pattern patch from Steamodded\lovely\language.toml resulted in no matches
+WARN - [♥] Pattern 'self.LANG = self.LANGUAGES[self.SETTINGS.language] or self.LANGUAGES[\'en-us\']' on target 'game.lua' for pattern patch from Steamodded\lovely\language.toml resulted in no matches
+WARN - [♥] Pattern 'if self.GAME.starting_params.erratic_suits_and_ranks then _, k = pseudorandom_element(G.P_CARDS, pseudoseed(\'erratic\')) end' on target 'game.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'local _r, _s = string.sub(k, 3, 3), string.sub(k, 1, 1)' on target 'game.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern 'if self.GAME.starting_params.no_faces and (_r == \'K\' or _r == \'Q\' or _r == \'J\') then keep = false end' on target 'game.lua' for pattern patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Regex '(?<indent>[\\t ]*)cards_played = \\{\\n(.*\\n){13}[\\t ]*\\},' on target 'game.lua' for regex patch from Steamodded\lovely\playing_card.toml resulted in no matches
+WARN - [♥] Pattern '    for i = 1, #G.jokers.cards do\n        G.jokers.cards[i]:calculate_joker({first_hand_drawn = true})\n    end\nend\n' on target 'game.lua' for pattern patch from smods-main\lovely\better_calc.toml resulted in no matches
+WARN - [♥] Regex '[ \\t]*for i = 1, 2 do\n[ \\t]*G\\.GAME\\.current_round\\.used_packs = G\\.GAME\\.current_round\\.used_packs or \\{\\}\n' on target 'game.lua' for regex patch from balatro-plus-main\lovely\decks.toml resulted in no matches
+WARN - [♥] Pattern 'for i = 1, 2 do' on target 'game.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+INFO - [♥] Applied 106 patches to 'game.lua'
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] file not found: main.lua: No such file or directory
+INFO - [G] Oops! The game crashed
+Syntax error: game.lua:2608: duplicate label 'continue'
+
+Stack Traceback
+===============
+(1) Lua local 'handler' at file 'main.lua:1612'
+	Local variables:
+	 msg = string: "Syntax error: game.lua:2608: duplicate label 'continue'\
+"
+	 (*temporary) = Lua function '?' (defined at line 1602 of chunk main.lua)
+	 (*temporary) = string: "Oops! The game crashed\
+"
+(2) LÖVE function at file 'boot.lua:352' (best guess)
+	Local variables:
+	 errhand = Lua function '?' (defined at line 1598 of chunk main.lua)
+	 handler = Lua function '?' (defined at line 1598 of chunk main.lua)
+(3)  C function 'function: 0x21abcee8'
+(4) global C function 'require'
+(5) main chunk of file 'main.lua' at line 1876
+(6) global C function 'require'
+(7) LÖVE function at file 'boot.lua:323' (best guess)
+	Local variables:
+	 c = table: 0x21aba538  {identity:false, version:11.5, accelerometerjoystick:true, modules:table: 0x21aba588 (more...)}
+	 openedconsole = boolean: false
+	 confok = boolean: true
+	 conferr = nil
+(8) global C function 'xpcall'
+(9) LÖVE function at file 'boot.lua:362' (best guess)
+	Local variables:
+	 result = boolean: true
+(10) global C function 'xpcall'
+(11) LÖVE function at file 'boot.lua:377' (best guess)
+	Local variables:
+	 func = Lua function '(LÖVE Function)' (defined at line 355 of chunk [love "boot.lua"])
+	 inerror = boolean: true
+	 deferErrhand = Lua function '(LÖVE Function)' (defined at line 348 of chunk [love "boot.lua"])
+	 earlyinit = Lua function '(LÖVE Function)' (defined at line 355 of chunk [love "boot.lua"])
+ 
+INFO - [G] Additional Context:
+Balatro Version: 1.0.1n-FULL (best guess)
+Modded Version: 1.0.0~ALPHA-1324a-STEAMODDED
+LÖVE Version: 11.5.0
+Lovely Version: 0.7.1
+Platform: Windows 

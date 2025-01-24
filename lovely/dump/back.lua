@@ -1,7 +1,15 @@
-LOVELY_INTEGRITY = 'dd69f5bc08a3d5c32d2f975264fbfd25fd9cef34de8c698ba32d9793a0e53525'
+LOVELY_INTEGRITY = 'c720b868891b8a419dfd5a0fb69d96a22ff9576d033564a49337c56e51256603'
 
 --Class
 Back = Object:extend()
+calculate_balance = function()
+    for _, joker in ipairs(G.jokers.cards) do
+        if joker.config.center.key == "j_itro_spoonbender" then
+            return true
+        end
+    end
+    return false
+end
 
 --Class Methods
 function Back:init(selected_back)
@@ -156,7 +164,15 @@ function Back:trigger_effect(args)
         return 
     end
 
-    if self.name == 'Plasma Deck' and args.context == 'final_scoring_step' then
+    if (self.name == 'Plasma Deck' or calculate_balance()) and args.context == 'final_scoring_step' then
+    -- check if plasma birthright is held
+    for _, joker in ipairs(G.jokers.cards) do
+        if joker.config.center.key == "j_itro_birthright_plasma" then
+            -- call birthright calculate to see if it needs to upgrade
+            joker:calculate_joker({before_plasma = true, current_mult = args.mult, current_chips = args.chips})
+            break
+        end
+    end
         local tot = args.chips + args.mult
         args.chips = math.floor(tot/2)
         args.mult = math.floor(tot/2)
@@ -214,7 +230,12 @@ function Back:apply_to_run()
     if self.effect.config.voucher then
         G.GAME.used_vouchers[self.effect.config.voucher] = true
         G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
-        Card.apply_to_run(nil, G.P_CENTERS[self.effect.config.voucher])
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                Card.apply_to_run(nil, G.P_CENTERS[self.effect.config.voucher])
+                return true
+            end
+        }))
     end
     if self.effect.config.hands then 
         G.GAME.starting_params.hands = G.GAME.starting_params.hands + self.effect.config.hands
@@ -271,7 +292,12 @@ function Back:apply_to_run()
         for k, v in pairs(self.effect.config.vouchers) do
             G.GAME.used_vouchers[v ] = true
             G.GAME.starting_voucher_count = (G.GAME.starting_voucher_count or 0) + 1
-            Card.apply_to_run(nil, G.P_CENTERS[v])
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    Card.apply_to_run(nil, G.P_CENTERS[v])
+                    return true
+                end
+            }))
         end
     end
     if self.name == 'Checkered Deck' then

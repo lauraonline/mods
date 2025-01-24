@@ -1,0 +1,9 @@
+{
+	"id": "CrashAvoider",
+	"name": "CrashAvoider",
+	"author": ["WilsontheWolf`"],
+	"description": "Attempts to prevent the game from crashing.",
+	"prefix": "CrashAvoider",
+	"main_file": "main.lua",
+	"version": "0.1.0~dev"
+}
