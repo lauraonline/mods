@@ -1,0 +1,604 @@
+INFO - [♥] Lovely 0.7.1
+INFO - [♥] Game directory is at "C:\\Users\\ramosalves\\Desktop\\laura\\Balatro"
+INFO - [♥] Writing logs to "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\log"
+INFO - [♥] Using mod directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods"
+WARN - [♥] Unknown key `patches.15.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco\\lovely.toml", ignoring it
+WARN - [♥] Unknown key `patches.156.?.match_indent` found in patch file at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\Bunco\\lovely.toml", ignoring it
+INFO - [♥] Cleaning up dumps directory at "C:\\Users\\ramosalves\\AppData\\Roaming\\Balatro\\Mods\\lovely\\dump"
+INFO - [♥] Initialization complete in 41ms
+INFO - [♥] Applied 1 patch to 'conf.lua'
+WARN - [♥] Pattern 'G.ARGS.score_intensity.organ = G.video_organ or G.ARGS.score_intensity.required_score > 0 and math.max(math.min(0.4, 0.1*math.log(G.ARGS.score_intensity.earned_score/(G.ARGS.score_intensity.required_score+1), 5)),0.) or 0' on target 'main.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if type(G.GAME.current_round.current_hand.chips) ~= \'number\' or type(G.GAME.current_round.current_hand.mult) ~= \'number\' then' on target 'main.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'not c.ending_shop and not c.reroll_shop and not c.selling_card and not c.selling_self and not c.buying_card and' on target 'main.lua' for pattern patch from Tetrapak\lovely\StoreJokerCreate.toml resulted in no matches
+WARN - [♥] Pattern 'modded and {' on target 'main.lua' for pattern patch from Cartomancer\lovely\stackable-deck-steamodded-0.9.8.toml resulted in no matches
+INFO - [♥] Applied 44 patches to 'main.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [♥] Applied 16 patches to 'engine/controller.lua'
+INFO - [♥] Applied 21 patches to 'back.lua'
+INFO - [♥] Applied 13 patches to 'tag.lua'
+INFO - [♥] Applied 3 patches to 'engine/node.lua'
+INFO - [♥] Applied 3 patches to 'engine/moveable.lua'
+INFO - [♥] Applied 4 patches to 'engine/sprite.lua'
+INFO - [♥] Applied 2 patches to 'engine/animatedsprite.lua'
+WARN - [♥] Pattern 'assembled_string = assembled_string..(type(subpart) == \'string\' and subpart or args.vars[tonumber(subpart[1])] or \'ERROR\')' on target 'functions/misc_functions.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+INFO - [♥] Applied 58 patches to 'functions/misc_functions.lua'
+WARN - [♥] Regex '[ \\t]*for i = 1, 2 do\n[ \\t]*G\\.GAME\\.current_round\\.used_packs = G\\.GAME\\.current_round\\.used_packs or \\{\\}\n' on target 'game.lua' for regex patch from balatro-plus-main\lovely\decks.toml resulted in no matches
+WARN - [♥] Pattern 'for i = 1, 2 do' on target 'game.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+INFO - [♥] Applied 95 patches to 'game.lua'
+INFO - [♥] Applied 5 patches to 'globals.lua'
+WARN - [♥] Pattern 'self.config.chosen = true' on target 'engine/ui.lua' for pattern patch from Cartomancer\lovely\vanilla-ui.toml resulted in no matches
+INFO - [♥] Applied 7 patches to 'engine/ui.lua'
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].chips, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}},' on target 'functions/UI_definitions.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern '{n=G.UIT.T, config={text = G.GAME.hands[handname].mult, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}' on target 'functions/UI_definitions.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local loc_target = localize{type = \'raw_descriptions\', key = blind_choice.config.key, set = \'Blind\', vars = loc_vars or blind_choice.config.vars}' on target 'functions/UI_definitions.lua' for pattern patch from Ortalab-Demo\lovely\blinds.toml resulted in no matches
+WARN - [♥] Pattern 'local loc_target = localize{type = \'raw_descriptions\', key = blind.key, set = \'Blind\', vars = loc_vars or vars or blind.vars}' on target 'functions/UI_definitions.lua' for pattern patch from Ortalab-Demo\lovely\blinds.toml resulted in no matches
+INFO - [♥] Applied 114 patches to 'functions/UI_definitions.lua'
+WARN - [♥] Pattern 'if reps[j] ~= 1 then' on target 'functions/state_events.lua' for pattern patch from balatro-plus-main\lovely\blinds.toml resulted in no matches
+WARN - [♥] Pattern 'if reps[j] ~= 1 then card_eval_status_text((reps[j].jokers or reps[j].seals).card, \'jokers\', nil, nil, nil, (reps[j].jokers or reps[j].seals)) end' on target 'functions/state_events.lua' for pattern patch from balatro-plus-main\lovely\blinds.toml resulted in no matches
+WARN - [♥] Pattern 'level_up_hand(G.jokers.cards[i], text)' on target 'functions/state_events.lua' for pattern patch from balatro-plus-main\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'reset_idol_card()\nreset_mail_rank()\nreset_ancient_card()\nreset_castle_card()\n' on target 'functions/state_events.lua' for pattern patch from ExtraCredit\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if SMODS.has_enhancement(scoring_hand[i], \'m_glass\') and not scoring_hand[i].debuff and pseudorandom(\'glass\') < G.GAME.probabilities.normal/(scoring_hand[i].ability.name == \'Glass Card\' and scoring_hand[i].ability.extra or G.P_CENTERS.m_glass.config.extra) then\n    destroyed = true\nend\n' on target 'functions/state_events.lua' for pattern patch from Holotro-master\lovely\Ceci_durablility.toml resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].card then' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if effects.jokers.Xmult_mod then mult = mod_mult(mult*effects.jokers.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if effect.Xmult_mod then mult = mod_mult(mult*effect.Xmult_mod);extras.mult = true  end' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].message then' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern '--calculate the card edition effects' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].edition.p_dollars_mod then' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if edition_effects.jokers.x_mult_mod then' on target 'functions/state_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if destroyed then' on target 'functions/state_events.lua' for pattern patch from UnStable-main\lovely\Enhancement.toml resulted in no matches
+WARN - [♥] Regex '[ \\t]*G\\.jokers\\.cards\\[i\\]:calculate_joker\\(\\{setting_blind = true, blind = G\\.GAME\\.round_resets\\.blind\\}\\)\n(?<indent>[ \\t])*end' on target 'functions/state_events.lua' for regex patch from balatro-plus-main\lovely\jokers.toml resulted in no matches
+WARN - [♥] Regex 'G.GAME.probabilities\\.(?<key>[a-zA-Z0-9_]+)' on target 'functions/state_events.lua' for regex patch from balatro-plus-main\lovely\misc.toml resulted in no matches
+WARN - [♥] Regex '[ \\t]*G\\.jokers\\.cards\\[i\\]:calculate_joker\\(\\{setting_blind = true, blind = G\\.GAME\\.round_resets\\.blind\\}\\)\n(?<indent>[ \\t])*end' on target 'functions/state_events.lua' for regex patch from balatro-plus-main\lovely\tags.toml resulted in no matches
+WARN - [♥] Regex 'if eval.saved then\n  game_over = false\nend' on target 'functions/state_events.lua' for regex patch from Pokermon-main\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' for pattern patch from Cosmos\lovely\no_status.toml resulted in no matches
+WARN - [♥] Pattern 'card_eval_status_text(scoring_hand[i], \'extra\', nil, percent, nil, effects[ii].extra)' on target 'functions/state_events.lua' for pattern patch from Cosmos\lovely\no_status.toml resulted in no matches
+WARN - [♥] Pattern 'local effects = {eval_card(scoring_hand[i],*' on target 'functions/state_events.lua' for pattern patch from KCVanilla\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if destroyed then break end' on target 'functions/state_events.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local destroyed = nil' on target 'functions/state_events.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if scoring_hand[i].will_shatter then destroyed = true end' on target 'functions/state_events.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local percent_delta = 0.08' on target 'functions/state_events.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local eval = eval_card(G.jokers.cards[j], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], repetition = true, callback = function(card, ret) eval = {jokers = ret}' on target 'functions/state_events.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if effects[ii].message then' on target 'functions/state_events.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}' on target 'functions/state_events.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'local effects = {eval_card(G.hand.cards[i], {cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})}' on target 'functions/state_events.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'G.GAME.current_round.hands_left = G.GAME.round_resets.hands' on target 'functions/state_events.lua' for pattern patch from Ortalab-Demo\lovely\zodiac.toml resulted in no matches
+WARN - [♥] Pattern 'ease_to = G.GAME.chips + math.floor(hand_chips*mult),' on target 'functions/state_events.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'for i=1, #G.jokers.cards + #G.consumeables.cards do' on target 'functions/state_events.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'G.jokers.cards[i]:calculate_joker({setting_blind = true, blind = G.GAME.round_resets.blind})\n            end' on target 'functions/state_events.lua' for pattern patch from TatteredDecks\lovely.toml resulted in no matches
+INFO - [♥] Applied 113 patches to 'functions/state_events.lua'
+WARN - [♥] Pattern 'func = (function() if eval_func(card) then if not first or first then card:juice_up(0.1, 0.1) end;juice_card_until(card, eval_func, nil, 0.8) end return true end)' on target 'functions/common_events.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1' on target 'functions/common_events.lua' for pattern patch from Tetrapak\lovely\CursePatches.toml resulted in no matches
+WARN - [♥] Pattern 'elseif _c.effect == \'Lucky Card\' then loc_vars = {G.GAME.probabilities.normal, cfg.mult, 5, cfg.p_dollars, 15}' on target 'functions/common_events.lua' for pattern patch from KCVanilla\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local _pool, _pool_key = get_current_pool(_type, _rarity, legendary, key_append)' on target 'functions/common_events.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'info_queue[#info_queue + 1] = G.P_CENTERS[\'e_\'..v]' on target 'functions/common_events.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+INFO - [♥] Applied 169 patches to 'functions/common_events.lua'
+WARN - [♥] Pattern 'G.GAME.round_resets.boss_rerolled = false' on target 'functions/button_callbacks.lua' for pattern patch from HeyListen\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if (#G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5) and not (group_size > 5) then' on target 'functions/button_callbacks.lua' for pattern patch from ModPackFixes\lovely.toml resulted in no matches
+WARN - [♥] Regex '(?<indent>[\\t ]*)voucher_pool\\[i\\+\\(j-1\\)\\*4 \\+ \\(8\\*\\(args\\.cycle_config\\.current_option - 1\\)\\)\\]\\n[\\s\\S]{6}if not center then break end\\n[\\s\\S]{6}local card = Card\\(G\\.your_collection\\[j\\]\\.T\\.x \\+ G\\.your_collection\\[j\\]\\.T\\.w\\/2, G\\.your_collection\\[j\\]\\.T\\.y, G\\.CARD_W, G\\.CARD_H, G\\.P_CARDS\\.empty, center\\)' on target 'functions/button_callbacks.lua' for regex patch from Flower-Pot\lovely\stat_type.toml resulted in no matches
+WARN - [♥] Pattern 'if not nc and card.area then card.area:remove_card(card) end' on target 'functions/button_callbacks.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'if not nc and card.area then card.area:remove_card(card) end' on target 'functions/button_callbacks.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'if G.GAME.current_round.discards_left <= 0 or #G.hand.highlighted <= 0 then' on target 'functions/button_callbacks.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if #G.hand.highlighted <= 0 or G.GAME.blind.block_play or #G.hand.highlighted > 5 then' on target 'functions/button_callbacks.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+INFO - [♥] Applied 76 patches to 'functions/button_callbacks.lua'
+WARN - [♥] Pattern 'bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,\n' on target 'card.lua' for pattern patch from Isaactro\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if not SMODS.UndiscoveredSprites[self.ability.set].no_overlay then' on target 'card.lua' for pattern patch from ModPackFixes\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'elseif G.consumeables.cards[1] then' on target 'card.lua' for pattern patch from ModPackFixes\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if G.GAME.blind then G.E_MANAGER:add_event(Event({ func = function() G.GAME.blind:set_blind(nil, true, nil); return true end })) end' on target 'card.lua' for pattern patch from Talisman\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if pseudorandom(\'lucky_mult\') < G.GAME.probabilities.normal/5 then' on target 'card.lua' for pattern patch from KCVanilla\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'if pseudorandom(\'lucky_money\') < G.GAME.probabilities.normal/15 then' on target 'card.lua' for pattern patch from KCVanilla\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'G.GAME.chips/G.GAME.blind.chips >= 0.25 then' on target 'card.lua' for pattern patch from ExtendedBlueprint\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'function Card:generate_UIBox_ability_table()' on target 'card.lua' for pattern patch from Ortalab-Demo\lovely\jokers.toml resulted in no matches
+WARN - [♥] Pattern 'if (self.edition and (self.edition.negative or self.edition.cry_oversat)) or (self.ability.name == \'Antimatter\' and (self.config.center.discovered or self.bypass_discovery_center)) then' on target 'card.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+WARN - [♥] Pattern 'local currentBack = self.params.viewed_back and G.GAME.viewed_back or G.GAME.selected_back' on target 'card.lua' for pattern patch from Galdur\lovely.toml resulted in no matches
+WARN - [♥] Regex 'self.params.viewed_back and G.GAME.viewed_back or G.GAME.selected_back' on target 'card.lua' for regex patch from CardSleeves\lovely.toml resulted in no matches
+INFO - [♥] Applied 283 patches to 'card.lua'
+WARN - [♥] Pattern 'table.sort(self.cards, function (a, b) return a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or 0) < b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or 0) end)' on target 'cardarea.lua' for pattern patch from Tetrapak\lovely\PinnedRight.toml resulted in no matches
+INFO - [♥] Applied 27 patches to 'cardarea.lua'
+WARN - [♥] Pattern 'local loc_target = localize{type = \'raw_descriptions\', key = self.config.blind.key, set = \'Blind\', vars = loc_vars or self.config.blind.vars}' on target 'blind.lua' for pattern patch from Ortalab-Demo\lovely\blinds.toml resulted in no matches
+WARN - [♥] Pattern 'if self.name == \'The Wheel\' and pseudorandom(pseudoseed(\'wheel\')) < G.GAME.probabilities.normal/7 then' on target 'blind.lua' for pattern patch from Bunco\lovely.toml resulted in no matches
+INFO - [♥] Applied 39 patches to 'blind.lua'
+INFO - [♥] Applied 5 patches to 'engine/text.lua'
+INFO - [G] Totally applied 4 replacements to overrides.lua 
+INFO - [G] Failed to connect to the debug server 
+INFO - [G] 2025-01-24 10:33:59 :: DEBUG :: DebugConsole :: Steamodded Debug Socket started ! 
+INFO - [G] [Blueprint] Starting to load config 
+INFO - [G] [Blueprint] Reading config file:  
+INFO - [G] [Blueprint] return {
+	["INTERNAL_debug"] = false,
+	["hello"] = true,
+} 
+INFO - [♥] Applied 9 patches to 'engine/sound_manager.lua'
+INFO - [♥] Applied 2 patches to 'engine/string_packer.lua'
+INFO - [G] Loaded all Blueprint mod shaders successfully 
+INFO - [G] {
+  [1] = table: 0x140e3cf8   {
+     [1] = 0.70588235294118,
+     [2] = 0.92549019607843,
+     [3] = 1,
+     [4] = 1,
+   },
+  [2] = table: 0x140e3db0   {
+     [1] = 0.44705882352941,
+     [2] = 0.75294117647059,
+     [3] = 0.85490196078431,
+     [4] = 1,
+   },
+} 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: fiveceb 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Aure Spectral.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: aure_spectral 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): BBBalatro_code.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: BBBalatro 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Balatro-Aikoyoris-Shenanigans-main/.luarc.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Balatro-Aikoyoris-Shenanigans-main/.vscode/settings.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): BalatroJokersPlus.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: BalatroJokersPLUS 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): JokerAPI.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Balatro451 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): olympus.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Olympus 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: blueprint 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): bossjokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: BossJokers 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): challenges.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: BossJokersChallenges 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Bunco.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Bunco 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): CardSleeves.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: CardSleeves 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): mod.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: cartomancer 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): TarotDx.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: JeffDeluxeConsumablesPack 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): datealive.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: datealive 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): DiscoveryManager.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ResetDiscovered 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): DiscoveryManager.lua 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod ID: ResetDiscovered 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod prefix rese used by ResetDiscovered, ResetDiscovered 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Distro.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Distro 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): EscapeExitButton.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: EscapeExitButton 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ExtendedBlueprint 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): FoldButton.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: FoldButton 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): FusionJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: FusionJokers 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): GamepadStyleKeyboardControls.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: GamepadStyleKeyboardControls 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded.lua 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod ID: Handy 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: HeyListen 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Found lone Lua file HoldForFinalHandScore.lua in Mods directory :: Please place the files for each mod in its own subdirectory. 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): HoldForFinalHandScore.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: HoldForFinalHandScore 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): hollowknightskin2.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: hk2_deckall 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): HouseRules.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: HouseRules 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): IncreaseJokerCap.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: IncreaseJokerCap 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): jimbo.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ItemRemover 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankChallenges.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: JankChallenges 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): JankJonklers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: JankJonklersMod 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/JankJonklers/manifest.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Aurinko.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: aurinko 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Incantation.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: incantation 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): JenLib.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: JenLib 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Loop.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: loop 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Nopeus.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: nopeus 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): JestersPrivilege.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: JestersPrivilege 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Jestobiology.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Jestobiology 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: joker_evolution 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Loop.lua 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod ID: loop 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod prefix loop used by loop, loop 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): EnhancedEnhancements.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: EnhancedEnhancements 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): InscrybedJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: InscrybedJokers 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): RecastContrast.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: RecastContrast 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Jokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: LushMod2 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoarJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: MJOK 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Matchbox.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Matchbox 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ModPackFixes.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: modpackfixes 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ModpackDecks.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ModpackDecks 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ModpackUtil.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Modpack_Util 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): MoreJokerPacks.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: MoreJokerPacks 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Morjokers/manifest.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): morjokerTarots.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: morjokerTarots 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): morjokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: morjkrs 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): MultiJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: MultiJokersMod 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): MystBlinds.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: MystBlinds 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): MystesMod.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: MystesMod 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): no_laughing_matter.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: no_laughing_matter 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Nopeus.lua 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod ID: nopeus 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Duplicate Mod prefix nopeus used by nopeus, nopeus 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): PampaJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: mtl_jkr2 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Paperback/.vscode/settings.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: sdm0sstuff 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): SeedUnlocker.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: SeedUnlocker 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): sevendeadlysins.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: 7deadlysins 
+INFO - [G] 2025-01-24 10:34:00 :: WARN  :: Loader :: Found lone Lua file ShopStake.lua in Mods directory :: Please place the files for each mod in its own subdirectory. 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ShopStake.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ShopStakeMod 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): SilverSeal.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: SilverSeal 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/SnoresvilleTurbulentJokers/SnoresvilleTurbulentJokers.json, ignoring: [SMODS _ "src/loader.lua"]:105: attempt to call method 'gmatch' (a nil value) 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): SnowMods.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: SnowMods 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): SpicyJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: SpicyJokers 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Taikomochi.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Taikomochi 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded_metadata.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Talisman 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Tetrapak.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: tetraminus_tetrapak 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): TheBuffoonPack.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Me_TheBuffoonPack 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedDecks.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ThemedDecks 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedJokers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ThemedJokers 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): ThemedTarots.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: ThemedTarots 
+INFO - [G] 2025-01-24 10:34:00 :: ERROR :: Loader :: Found invalid metadata JSON file at C:\Users\ramosalves\AppData\Roaming\Balatro\Mods/Themed.Jokers/manifest.json, ignoring: [SMODS _ "src/loader.lua"]:226: id 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): T3Vouchers.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Tier3Sub 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): steamodded.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: toomanyjokers 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): Virtues.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: Virtues 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Processing Mod file (Legacy header): main.lua 
+INFO - [G] 2025-01-24 10:34:00 :: TRACE :: Loader :: Saving Mod Info: wheelofpurchase 
+INFO - [G] 2025-01-24 10:34:00 :: INFO  :: DefaultLogger :: Valid JSON file found 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: CardSleeves :: CardSleeves v1.5.5 loaded~! 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Challenge :: Detected duplicate register call on object c_mad_world_1 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: The field `raw_key` on centers is deprecated.
+Set `prefix_config.key = false` on your object instead. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object exb_modicon 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_EN1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_EN2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_EN3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_EN4.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_ID1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_ID2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_ID3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP0.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP1G.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP4.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP5.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Memes_JP6.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Relics/Relic_ID1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Relics/Relic_EN2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Relics/Relic_EN3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: Relics/Relic_EN4.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: Loaded HouseRules~ 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: DefaultLogger :: Loaded MystBlinds~ 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: Pawlatro :: Initializing Pawlatro... 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex1 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex1 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex2 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex2 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex3 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex3 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex4 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex4 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex5 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex5 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex6 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex6 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex7 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex7 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex8 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex8 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Pokedex9 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinydex9 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Mart 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pokepack 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pinkseal 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pokevouchers 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_others 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_Shinyothers 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pokeboss 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_poketag 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pokedeck 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_pokesleeves 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_shinyjoker 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object poke_placeholder_item 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Sound :: Detected duplicate register call on object poke_e_shiny 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_4.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_5.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_6.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_7.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_8.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokejokers_9.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_10.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_11.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_12.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_13.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_14.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_15.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_16.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_17.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_18.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: wpokejokers_19.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_20.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_21.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_22.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_23.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_24.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_25.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_26.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_27.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_28.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: xpokejokers_29.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_30.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_31.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_32.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_33.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_34.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: ypokejokers_35.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: zmissingno.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: zotherjokers.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: type1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: mart1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: mart2.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: mart3.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: packs1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: seals1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: stickers.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: editions1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokevouchers.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: pokebossblind.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: tags1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: The file is: backs1.lua 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: the file is: sleeve.lua 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: The field `raw_key` on cards_2 is deprecated.
+Set `prefix_config.key = false` on your object instead. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object cards_2 has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: The field `raw_key` on ui_2 is deprecated.
+Set `prefix_config.key = false` on your object instead. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object ui_2 has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Undiscovered Sprite :: Object Item has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Undiscovered Sprite :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Undiscovered Sprite :: Object Energy has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Undiscovered Sprite :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] checking p_voucher_pack 
+INFO - [G] checking p_uncommon_voucher_pack 
+INFO - [G] checking p_fusion_voucher_pack 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_AikoyoriJokers has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_lettersStickers has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_cardUpgrades has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_deckBacks has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_consumablesAlphabetPacks has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_aikoyoriBlindsChips has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_AikoyoriJokers has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_lettersStickers has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_cardUpgrades has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_deckBacks has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_consumablesAlphabetPacks has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object akyrs_aikoyoriBlindsChips has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Object centers has the same key as an existing object, not registering. 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: If you want to modify an existing object, use take_ownership() 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object itro_IsaactroJokers 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object itro_IsaactroTags 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: calling_card 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: quick_fix 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: sacrificial_lamb 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: wish_you_were_here 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: stamp 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: solar_system 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: furioso 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: pride_flag 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: pool_table 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: summoning_circle 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: hole_in_one 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: derecho 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: skydiver 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: solemn_lament 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: ghost_cola 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: mismatched_sock 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: shopping_center 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: union_card 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: nachos 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: complete_breakfast 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: reference_card 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: crispy_taco 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: soft_taco 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: prince_of_darkness 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: black_rainbows 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: emergency_broadcast 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: triple_moon_goddess 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: wild_prize 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: bicycle 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: grand_strategy 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: great_wave 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: let_it_happen 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: dreamsicle 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: popsicle_stick 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: cakepop 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: pop_stick 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: caramel_apple 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: pointy_stick 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: charred_marshmallow 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: sticky_stick 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: paranoia 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: subterfuge 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: unholy_alliance 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: cherry_blossoms 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: blue_bonnets 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: autumn_leaves 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: evergreens 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: river 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: moribund 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: jimbo_adventure 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: joker_cookie 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: meeple 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: basic_energy 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: coffee 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: cream_liqueur 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: big_misser 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: jestrica 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: Paperback :: Loaded joker: apple 
+INFO - [G] Loaded sprite: big_red_button.png 
+INFO - [G] Loaded sprite: blast_shower.png 
+INFO - [G] Loaded sprite: bound.png 
+INFO - [G] Loaded sprite: echoing_joker.png 
+INFO - [G] Loaded sprite: fusion_joker.png 
+INFO - [G] Loaded sprite: gamblin_man.png 
+INFO - [G] Loaded sprite: mirrored_joker.png 
+INFO - [G] Loaded sprite: misery.png 
+INFO - [G] Loaded sprite: spoiled_spaghetti.png 
+INFO - [G] Loaded sprite: swordswallower.png 
+INFO - [G] Loaded sprite: torn_pocket.png 
+INFO - [G] Loaded sprite: apotheosis.png 
+INFO - [G] Loaded sprite: cleanse.png 
+INFO - [G] Loaded sprite: spirits.png 
+INFO - [G] Loaded sprite: demonprison.png 
+INFO - [G] Loaded sprite: emptycage.png 
+INFO - [G] Loaded sprite: theunseen.png 
+INFO - [G] aligned 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object ExtraCredit_ECjokers 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: [UnStable] - Starting Unstable 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: [Unstable_Suit] - Registering suit: Spades with the type suit_black 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: [Unstable_Suit] - Registering suit: Clubs with the type suit_black 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: [Unstable_Suit] - Registering suit: Hearts with the type suit_red 
+INFO - [G] 2025-01-24 10:34:01 :: DEBUG :: DefaultLogger :: [Unstable_Suit] - Registering suit: Diamonds with the type suit_red 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: DX :: Deluxe Consumables Cards Loaded 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: DX :: Bunco Loaded 
+INFO - [G] 2025-01-24 10:34:01 :: WARN  :: Atlas :: Detected duplicate register call on object draft_modicon 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: TIMER :: [0000] Injected Language in 0.001 ms 
+INFO - [G] 2025-01-24 10:34:01 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 0.975 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0370] Injected Atlas in 4283.914 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0030] Injected Sound in 14.871 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0014] Injected Stake in 1.188 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0008] Injected Rarity in 0.117 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0016] Injected ObjectType in 0.912 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [1900] Injected Center in 13.075 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0017] Injected Undiscovered Sprite in 0.075 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0086] Injected Blind in 0.496 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0013] Injected Seal in 1.473 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0006] Injected Suit in 1.090 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0026] Injected Rank in 8.528 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0020] Injected DeckSkin in 0.113 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0047] Injected PokerHand in 4.245 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0035] Injected Challenge in 0.282 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0065] Injected Tag in 0.748 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0019] Injected Sticker in 1.707 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0012] Injected Shader in 159.356 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0003] Injected Keybind in 0.014 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0000] Injected Achievement in 0.088 ms 
+INFO - [G] 2025-01-24 10:34:06 :: INFO  :: TIMER :: [0000] Injected [INTERNAL] in 51.061 ms 
+INFO - [G] PREPPING STICKERS a  THE LETTER IS NUMBER 1should be index x y  0 0 
+INFO - [G] PREPPING STICKERS b  THE LETTER IS NUMBER 2should be index x y  1 0 
+INFO - [G] PREPPING STICKERS c  THE LETTER IS NUMBER 3should be index x y  2 0 
+INFO - [G] PREPPING STICKERS d  THE LETTER IS NUMBER 4should be index x y  3 0 
+INFO - [G] PREPPING STICKERS e  THE LETTER IS NUMBER 5should be index x y  4 0 
+INFO - [G] PREPPING STICKERS f  THE LETTER IS NUMBER 6should be index x y  5 0 
+INFO - [G] PREPPING STICKERS g  THE LETTER IS NUMBER 7should be index x y  6 0 
+INFO - [G] PREPPING STICKERS h  THE LETTER IS NUMBER 8should be index x y  7 0 
+INFO - [G] PREPPING STICKERS i  THE LETTER IS NUMBER 9should be index x y  8 0 
+INFO - [G] PREPPING STICKERS j  THE LETTER IS NUMBER 10should be index x y  9 0 
+INFO - [G] PREPPING STICKERS k  THE LETTER IS NUMBER 11should be index x y  0 1 
+INFO - [G] PREPPING STICKERS l  THE LETTER IS NUMBER 12should be index x y  1 1 
+INFO - [G] PREPPING STICKERS m  THE LETTER IS NUMBER 13should be index x y  2 1 
+INFO - [G] PREPPING STICKERS n  THE LETTER IS NUMBER 14should be index x y  3 1 
+INFO - [G] PREPPING STICKERS o  THE LETTER IS NUMBER 15should be index x y  4 1 
+INFO - [G] PREPPING STICKERS p  THE LETTER IS NUMBER 16should be index x y  5 1 
+INFO - [G] PREPPING STICKERS q  THE LETTER IS NUMBER 17should be index x y  6 1 
+INFO - [G] PREPPING STICKERS r  THE LETTER IS NUMBER 18should be index x y  7 1 
+INFO - [G] PREPPING STICKERS s  THE LETTER IS NUMBER 19should be index x y  8 1 
+INFO - [G] PREPPING STICKERS t  THE LETTER IS NUMBER 20should be index x y  9 1 
+INFO - [G] PREPPING STICKERS u  THE LETTER IS NUMBER 21should be index x y  0 2 
+INFO - [G] PREPPING STICKERS v  THE LETTER IS NUMBER 22should be index x y  1 2 
+INFO - [G] PREPPING STICKERS w  THE LETTER IS NUMBER 23should be index x y  2 2 
+INFO - [G] PREPPING STICKERS x  THE LETTER IS NUMBER 24should be index x y  3 2 
+INFO - [G] PREPPING STICKERS y  THE LETTER IS NUMBER 25should be index x y  4 2 
+INFO - [G] PREPPING STICKERS z  THE LETTER IS NUMBER 26should be index x y  5 2 
+INFO - [G] PREPPING STICKERS #  THE LETTER IS NUMBER 27should be index x y  6 2 
+INFO - [G] 2025-01-24 10:34:06 :: WARN  :: Joker :: Cannot take ownership of j_jesto_typography: Does not exist. 
+INFO - [G] 2025-01-24 10:34:06 :: WARN  :: Joker :: Cannot take ownership of j_Themed_CA-Recruiter: Does not exist. 
+INFO - [G] 2025-01-24 10:34:06 :: DEBUG :: DefaultLogger :: [UnStable] - Initialize Remaining Previous Rank Data 
+INFO - [G] 2025-01-24 10:34:06 :: DEBUG :: DefaultLogger :: [UnStable] - Start initializing localization-independent info 
+INFO - [G] 2025-01-24 10:34:06 :: DEBUG :: DefaultLogger :: [UnStable] - Finished initializing localization-independent info 
+INFO - [G] [DebugPlus] Press [/] to toggle console and press [shift] + [/] to toggle new log previews 
+INFO - [G] Distro :: Connected to Discord IPC (pipe 0) 
+INFO - [G] Distro :: Received 1 - {"cmd":"DISPATCH","data":{"v":1,"config":{"cdn_host":"cdn.discordapp.com","api_endpoint":"//discord.com/api","environment":"production"},"user":{"id":"650965599316475931","username":"zlaura.xyz","discriminator":"0","global_name":"Laura ⚸","avatar":"9d6ceab675e8a29dfa3f3daf9addd1c7","avatar_decoration_data":null,"bot":false,"flags":96,"premium_type":0}},"evt":"READY","nonce":null} 
+INFO - [G] Distro :: Disconnected from Discord IPC 
