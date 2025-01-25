@@ -1,4 +1,4 @@
-LOVELY_INTEGRITY = 'bf70ae91dd66e1b3d7ad28c2ca95521e53272f8918d5ceec678f52c8fc6c48e7'
+LOVELY_INTEGRITY = '49e1b3c57d7ec8ae614d9ad5e1f76b29c2b9cfb9f4f1a02648e9103a539df90a'
 
 
 local Cartomancer_replacements = {
@@ -1129,9 +1129,6 @@ function love.load()
 end
 
 function love.quit()
-if DiscordIPC then
-    DiscordIPC.close()
-end
 	--Steam integration
 	if G.SOUND_MANAGER then G.SOUND_MANAGER.channel:push({type = 'stop'}) end
 	if G.STEAM then G.STEAM:shutdown() end
